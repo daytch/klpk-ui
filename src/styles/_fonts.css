@@ -1,0 +1,48 @@
+@font-face {
+  font-family: SF Pro;
+  font-weight: 400 ;
+  src: url('../assets/fonts/SF_Pro/SFPRODISPLAYREGULAR.OTF');
+  font-display: swap;
+}
+@font-face {
+  font-family: SF Pro;
+  font-weight: 500;
+  src: url('../assets/fonts/SF_Pro/SFPRODISPLAYMEDIUM.OTF');
+  font-display: swap;
+}
+@font-face {
+  font-family: SF Pro;
+  font-weight: 700;
+  src: url('../assets/fonts/SF_Pro/SFPRODISPLAYBOLD.OTF');
+  font-display: swap;
+}
+@font-face {
+  font-family: Gotham;
+  font-weight: 100;
+  src: url('../assets/fonts/Gotham/Gotham-XLight.otf');
+  font-display: swap;
+}
+@font-face {
+  font-family: Gotham;
+  font-weight: 200;
+  src: url('../assets/fonts/Gotham/Gotham-Thin.otf');
+  font-display: swap;
+}
+@font-face {
+  font-family: Gotham;
+  font-weight: 300;
+  src: url('../assets/fonts/Gotham/Gotham-Light.otf');
+  font-display: swap;
+}
+@font-face {
+font-family: Gotham;
+font-weight: 400;
+src: url('../assets/fonts/Gotham/Gotham-Bold.otf');
+font-display: swap;
+}
+@font-face {
+  font-family: Gotham;
+  font-weight: 500;
+  src: url('../assets/fonts/Gotham/Gotham-Black.otf');
+  font-display: swap;
+}

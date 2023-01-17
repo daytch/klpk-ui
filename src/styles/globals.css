@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* fonts */
+@import url('./_fonts.css');
+
+input:-internal-autofill-selected {
+  background-color: transparent!important;
+}
+
+#toast-container {
+  @apply fixed top-4 left-0 right-0 flex justify-center;
+}
+
+.bg-auth {
+  background-image: url('../../public/assets/images/bg-auth.webp');
+  background-size: 100% auto;
+  background-position: center center;
+}
