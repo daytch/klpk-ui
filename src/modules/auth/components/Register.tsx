@@ -37,7 +37,7 @@ const validationSchema = object({
   confirm_password: string()
     .label('confirm password')
     .required()
-    .oneOf([ref('password')], 'Tidak sama'),
+    .oneOf([ref('password')], 'Password tidak sama.'),
 })
 
 const Register = () => {

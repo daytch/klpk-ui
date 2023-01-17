@@ -3,6 +3,7 @@ import Link from '@/common/components/general/Link'
 import TextField from '@/common/components/general/TextField'
 import AuthLayout from '@/common/layouts/auth'
 import { useToast } from '@/hooks/useToast'
+import { passwordPattern } from '@/utils/regex'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -14,11 +15,16 @@ import {
 } from '../services/mutation'
 
 const validationSchema = object({
-  password: string().required(),
+  password: string()
+    .required('Password tidak boleh kosong.')
+    .matches(
+      passwordPattern,
+      'Password harus mengandung 8-32 karekter, nomor, alfabet, dan spesial karakter.'
+    ),
   confirm_password: string()
     .label('confirm password')
-    .required()
-    .oneOf([ref('password'), null], 'Passwords must match'),
+    .required('Konfirm password tidak boleh kosong.')
+    .oneOf([ref('password')], 'Password tidak sama.'),
 })
 
 const RecoverPassword = () => {
@@ -91,6 +97,7 @@ const RecoverPassword = () => {
                   isInvalid: Boolean(errors?.password?.message),
                   placeholder: 'Password Baru',
                   type: 'password',
+                  errormessage: errors?.password?.message,
                 }}
               />
               <TextField
@@ -102,6 +109,7 @@ const RecoverPassword = () => {
                   isInvalid: Boolean(errors?.confirm_password?.message),
                   placeholder: 'Konfirm Password Baru',
                   type: 'password',
+                  errormessage: errors?.confirm_password?.message,
                 }}
               />
 
