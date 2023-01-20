@@ -1,6 +1,6 @@
 import React from 'react'
-import Label, { IProps as ILabelProps } from '../Label'
-import Input, { IProps as IInputProps } from '../Input'
+import Label, { ILabelProps } from '@/components/atoms/Label'
+import Input, { IInputProps as IInputProps } from '@/components/atoms/Input'
 import { joinClass } from '@/utils/common'
 
 interface IProps {

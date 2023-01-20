@@ -1,7 +1,7 @@
-import Button from '@/common/components/general/Button'
-import Link from '@/common/components/general/Link'
-import TextField from '@/common/components/general/TextField'
-import AuthLayout from '@/common/layouts/auth'
+import Button from '@/components/atoms/Button'
+import Link from '@/components/atoms/Link'
+import TextField from '@/components/molecules/TextField'
+import AuthLayout from '@/components/layouts/auth'
 import { useToast } from '@/hooks/useToast'
 import { changePhoneNumberFormat } from '@/utils/common'
 import {
@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { string, ref, object, InferType } from 'yup'
-import { useRegister } from '../services/mutation'
+import { useRegister } from '@/services/auth/mutation'
 
 const validationSchema = object({
   fullName: string().required('Nama tidak boleh kosong.'),
@@ -40,7 +40,7 @@ const validationSchema = object({
     .oneOf([ref('password')], 'Password tidak sama.'),
 })
 
-const Register = () => {
+const RegisterTemplate = () => {
   const { mutate } = useRegister()
   const toast = useToast()
   const router = useRouter()
@@ -175,4 +175,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default RegisterTemplate

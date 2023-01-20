@@ -18,3 +18,11 @@ input:-internal-autofill-selected {
   background-size: 100% auto;
   background-position: center center;
 }
+
+body {
+  @apply overflow-x-hidden
+}
+
+.container {
+  @apply max-w-[959px] mx-auto px-4
+}

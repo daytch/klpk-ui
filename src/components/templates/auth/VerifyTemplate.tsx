@@ -1,10 +1,10 @@
-import Link from '@/common/components/general/Link'
-import AuthLayout from '@/common/layouts/auth'
-import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { useRegisterVerify } from '../services/mutation'
+import Link from '@/components/atoms/Link'
+import AuthLayout from '@/components/layouts/auth'
+import { useRouter } from 'next/router'
+import { useRegisterVerify } from '@/services/auth/mutation'
 
-const Verify = () => {
+const VerifyTemplate = () => {
   const router = useRouter()
   const { mutate } = useRegisterVerify()
   const [success, setSuccess] = useState<boolean>(false)
@@ -45,4 +45,4 @@ const Verify = () => {
   )
 }
 
-export default Verify
+export default VerifyTemplate

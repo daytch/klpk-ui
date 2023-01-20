@@ -2,8 +2,7 @@
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
-    './src/common/**/*.{js,ts,jsx,tsx}',
-    './src/modules/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -17,6 +16,7 @@ module.exports = {
           100: '#141519',
           200: '#0D0E10',
           300: '#1B1C21',
+          400: '#090909',
         },
         primary: '#4F9DFF',
         success: '#00C008',

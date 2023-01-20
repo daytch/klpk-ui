@@ -1,4 +1,4 @@
-import RecoverPassword from '@/modules/auth/components/RecoverPassword'
+import RecoverPasswordTemplate from '@/components/templates/auth/RecoverPasswordTemplate'
 import Head from 'next/head'
 import React from 'react'
 
@@ -8,7 +8,7 @@ const RecoverPasswordPage = () => {
       <Head>
         <title>KLPK Buat Password Baru</title>
       </Head>
-      <RecoverPassword />
+      <RecoverPasswordTemplate />
     </div>
   )
 }

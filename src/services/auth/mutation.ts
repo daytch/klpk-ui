@@ -1,10 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
 import {
-  ILoginPayload,
-  IRegisterPayload,
-  IVerificationPayload,
-} from '../interface'
-import {
   login,
   recoverPassword,
   registerPost,
@@ -12,19 +7,24 @@ import {
   verifyRegister,
   verifyResetPasswordToken,
 } from './api'
+import {
+  LoginPayloadProps,
+  RegisterPayloadProps,
+  VerifyPayloadProps,
+} from '@/interfaces/auth'
 
 export function useLogin() {
-  return useMutation(['login'], (payload: ILoginPayload) => login(payload))
+  return useMutation(['login'], (payload: LoginPayloadProps) => login(payload))
 }
 
 export function useRegister() {
-  return useMutation(['login'], (payload: IRegisterPayload) =>
+  return useMutation(['login'], (payload: RegisterPayloadProps) =>
     registerPost(payload)
   )
 }
 
 export function useRegisterVerify() {
-  return useMutation(['verify-register'], (payload: IVerificationPayload) =>
+  return useMutation(['verify-register'], (payload: VerifyPayloadProps) =>
     verifyRegister(payload)
   )
 }

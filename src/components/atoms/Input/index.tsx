@@ -1,14 +1,14 @@
 import { joinClass } from '@/utils/common'
 import React, { ComponentPropsWithRef, forwardRef } from 'react'
 
-export interface IProps extends ComponentPropsWithRef<'input'> {
+export interface IInputProps extends ComponentPropsWithRef<'input'> {
   errormessage?: string
   isInvalid?: boolean
   isDisabled?: boolean
   className?: string
 }
 
-const Input: React.FC<IProps> = forwardRef(
+const Input: React.FC<IInputProps> = forwardRef(
   ({ className, isInvalid = false, isDisabled = false, ...props }, ref) => {
     return (
       <input

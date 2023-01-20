@@ -1,12 +1,12 @@
-import Button from '@/common/components/general/Button'
-import TextField from '@/common/components/general/TextField'
-import AuthLayout from '@/common/layouts/auth'
+import Button from '@/components/atoms/Button'
+import TextField from '@/components/molecules/TextField'
+import AuthLayout from '@/components/layouts/auth'
 import { useToast } from '@/hooks/useToast'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { string, object, InferType } from 'yup'
-import { useRecoverPassword } from '../services/mutation'
+import { useRecoverPassword } from '@/services/auth/mutation'
 
 const validationSchema = object({
   email: string()
@@ -14,7 +14,7 @@ const validationSchema = object({
     .required('Email tidak boleh kosong.'),
 })
 
-const ForgotPassword = () => {
+const ForgotPasswordTemplate = () => {
   const toast = useToast()
   const { mutate } = useRecoverPassword()
 
@@ -74,4 +74,4 @@ const ForgotPassword = () => {
   )
 }
 
-export default ForgotPassword
+export default ForgotPasswordTemplate

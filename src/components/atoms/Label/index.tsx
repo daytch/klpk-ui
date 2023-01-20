@@ -1,12 +1,12 @@
 import { joinClass } from '@/utils/common'
 import React, { LabelHTMLAttributes } from 'react'
 
-export interface IProps extends LabelHTMLAttributes<HTMLLabelElement> {
+export interface ILabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
   children: React.ReactNode
   isRequired?: boolean
 }
 
-const Label: React.FC<IProps> = ({ children, ...props }) => {
+const Label: React.FC<ILabelProps> = ({ children, ...props }) => {
   return (
     <label
       {...props}

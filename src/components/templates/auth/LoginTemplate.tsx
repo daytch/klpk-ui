@@ -1,25 +1,25 @@
 import React from 'react'
-import TextField from '@/common/components/general/TextField'
+import TextField from '@/components/molecules/TextField'
 import { useForm } from 'react-hook-form'
 import { string, object, InferType } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import Button from '@/common/components/general/Button'
-import Link from '@/common/components/general/Link'
-import AuthLayout from '@/common/layouts/auth'
+import Button from '@/components/atoms/Button'
+import Link from '@/components/atoms/Link'
+import AuthLayout from '@/components/layouts/auth'
 import Image from 'next/image'
 import { useToast } from '@/hooks/useToast'
 import { useGoogleLogin } from '@react-oauth/google'
-import { useLogin } from '../services/mutation'
+import { useLogin } from '../../../services/auth/mutation'
 import { useAuth } from '@/store/useAuth'
 import { useRouter } from 'next/router'
-import { loginGoogle } from '../services/api'
+import { loginGoogle } from '../../../services/auth/api'
 
 const validationSchema = object({
   email: string().required('Email wajib diisi.'),
   password: string().required('Password wajib diisi.'),
 })
 
-const Login = () => {
+const LoginTemplate = () => {
   const toast = useToast()
   const router = useRouter()
   const { mutate } = useLogin()
@@ -132,4 +132,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginTemplate
