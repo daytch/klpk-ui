@@ -1,4 +1,4 @@
-import Verify from '@/modules/auth/components/Verify'
+import VerifyTemplate from '@/components/templates/auth/VerifyTemplate'
 import Head from 'next/head'
 import React from 'react'
 
@@ -8,7 +8,7 @@ const VerifyPage = () => {
       <Head>
         <title>KLPK Verify</title>
       </Head>
-      <Verify />
+      <VerifyTemplate />
     </div>
   )
 }

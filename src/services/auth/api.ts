@@ -1,33 +1,32 @@
 import { httpRequest } from '@/utils/httpRequest'
 import {
-  ILoginPayload,
-  ILoginToken,
-  IRegisterPayload,
-  IRegisterResponse,
-  IVerificationPayload,
-} from '../interface'
+  LoginPayloadProps,
+  RegisterPayloadProps,
+  VerifyPayloadProps,
+  LoginDataModel,
+} from '@/interfaces/auth'
 
 const apiService = httpRequest()
 
-export function login(payload: ILoginPayload) {
-  return apiService.post<ILoginToken>('/auth/login', {
+export function login(payload: LoginPayloadProps) {
+  return apiService.post<LoginDataModel>('/auth/login', {
     ...payload,
   })
 }
 
 export function loginGoogle(token: string) {
-  return apiService.post<ILoginToken>('/auth/login-google', {
+  return apiService.post<LoginDataModel>('/auth/login-google', {
     token,
   })
 }
 
-export function registerPost(payload: IRegisterPayload) {
-  return apiService.post<IRegisterResponse>('/auth/register', {
+export function registerPost(payload: RegisterPayloadProps) {
+  return apiService.post<VerifyPayloadProps>('/auth/register', {
     ...payload,
   })
 }
 
-export function verifyRegister(payload: IVerificationPayload) {
+export function verifyRegister(payload: VerifyPayloadProps) {
   return apiService.post('/auth/verify', {
     ...payload,
   })

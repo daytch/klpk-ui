@@ -1,7 +1,7 @@
-import Button from '@/common/components/general/Button'
-import Link from '@/common/components/general/Link'
-import TextField from '@/common/components/general/TextField'
-import AuthLayout from '@/common/layouts/auth'
+import Button from '@/components/atoms/Button'
+import Link from '@/components/atoms/Link'
+import TextField from '@/components/molecules/TextField'
+import AuthLayout from '@/components/layouts/auth'
 import { useToast } from '@/hooks/useToast'
 import { passwordPattern } from '@/utils/regex'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -12,7 +12,7 @@ import { string, InferType, object, ref } from 'yup'
 import {
   useResetPassword,
   useVerifyResetPasswordToken,
-} from '../services/mutation'
+} from '@/services/auth/mutation'
 
 const validationSchema = object({
   password: string()
@@ -27,7 +27,7 @@ const validationSchema = object({
     .oneOf([ref('password')], 'Password tidak sama.'),
 })
 
-const RecoverPassword = () => {
+const RecoverPasswordTemplate = () => {
   const { mutate } = useResetPassword()
   const router = useRouter()
   const toast = useToast()
@@ -134,4 +134,4 @@ const RecoverPassword = () => {
   )
 }
 
-export default RecoverPassword
+export default RecoverPasswordTemplate

@@ -1,4 +1,4 @@
-import Login from '@/modules/auth/components/Login'
+import LoginTemplate from '@/components/templates/auth/LoginTemplate'
 import Head from 'next/head'
 import React from 'react'
 
@@ -8,7 +8,7 @@ const LoginPage = () => {
       <Head>
         <title>KLPK Login</title>
       </Head>
-      <Login />
+      <LoginTemplate />
     </div>
   )
 }

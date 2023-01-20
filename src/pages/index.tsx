@@ -1,12 +1,7 @@
-import Header from '@/common/components/general/Header'
 import React from 'react'
 
-const Homepage = () => {
-  return (
-    <>
-      <Header />
-    </>
-  )
+const Homapage = () => {
+  return <div>Homapage</div>
 }
 
-export default Homepage
+export default Homapage
