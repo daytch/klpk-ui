@@ -27,3 +27,9 @@ export interface PayloadBook {
   categoryId: string
   synopsis: string
 }
+
+export interface TestimonyDataModel {
+  photo: string
+  name: string
+  description: string
+}

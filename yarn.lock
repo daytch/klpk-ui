@@ -192,6 +192,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tailwindcss/line-clamp@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/line-clamp/-/line-clamp-0.4.2.tgz#f353c5a8ab2c939c6267ac5b907f012e5ee130f9"
+  integrity sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==
+
 "@tanstack/match-sorter-utils@^8.7.0":
   version "8.7.6"
   resolved "https://registry.yarnpkg.com/@tanstack/match-sorter-utils/-/match-sorter-utils-8.7.6.tgz#ccf54a37447770e0cf0fe49a579c595fd2655b16"
@@ -803,6 +808,18 @@ electron-to-chromium@^1.4.251:
   version "1.4.284"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.284.tgz#61046d1e4cab3a25238f6bf7413795270f125592"
   integrity sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==
+
+embla-carousel-react@^7.0.8:
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/embla-carousel-react/-/embla-carousel-react-7.0.8.tgz#704916a3a09c32b208dd90e87e289fd51edd38bd"
+  integrity sha512-Bkc3RtDH5HONtE+YyRTlrBQklKRaDdmiO/waT7n6XaSNzswvg3z1v/yJuNof4dv5O6U38WFOmufepvVsS58uVw==
+  dependencies:
+    embla-carousel "7.0.8"
+
+embla-carousel@7.0.8:
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/embla-carousel/-/embla-carousel-7.0.8.tgz#cf31bb06a5023e97ad59b2aff525c988c9e6528f"
+  integrity sha512-ImYLiRORMOsx4KgJlaGbg/h8EEKu44asQ9c8R24sJrrFkERO6EJNlfN1h7TUooGeLGoj8+F4Jnr6Dj8gqFQWkw==
 
 emoji-regex@^9.2.2:
   version "9.2.2"

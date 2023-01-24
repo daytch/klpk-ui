@@ -1,8 +1,8 @@
 import React from 'react'
-import IconCheck from '@/components/icons/IconCheck'
-import IconClose from '@/components/icons/IconClose'
-import IconDanger from '@/components/icons/IconDanger'
 import { joinClass } from '@/utils/common'
+import IconCheck from '@/components/icons/IconCheck'
+import IconDanger from '@/components/icons/IconDanger'
+import IconClose from '@/components/icons/IconClose'
 
 interface IProps {
   type?: 'success' | 'error'
