@@ -1,4 +1,4 @@
-import Register from '@/modules/auth/components/Register'
+import RegisterTemplate from '@/components/templates/auth/RegisterTemplate'
 import Head from 'next/head'
 import React from 'react'
 
@@ -8,7 +8,7 @@ const RegisterPage = () => {
       <Head>
         <title>KLPK Register</title>
       </Head>
-      <Register />
+      <RegisterTemplate />
     </div>
   )
 }

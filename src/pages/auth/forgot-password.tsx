@@ -1,4 +1,4 @@
-import ForgotPassword from '@/modules/auth/components/ForgotPassword'
+import ForgotPasswordTemplate from '@/components/templates/auth/ForgotPasswordTemplate'
 import Head from 'next/head'
 import React from 'react'
 
@@ -8,7 +8,7 @@ const ForgotPasswordPage = () => {
       <Head>
         <title>KLPK Lupa Password</title>
       </Head>
-      <ForgotPassword />
+      <ForgotPasswordTemplate />
     </div>
   )
 }

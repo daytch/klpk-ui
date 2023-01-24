@@ -1,0 +1,12 @@
+@supports not (aspect-ratio: 5/7) {
+  .aspect-5-7::before {
+    float: left;
+    padding-top: calc();
+    content: "";
+  }
+  .aspect-5-7::after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+}

@@ -1,9 +1,9 @@
-import { ILoginToken } from '@/modules/auth/interface'
+import { LoginDataModel } from '@/interfaces/auth'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-interface AuthState extends ILoginToken {
-  login: (auth: ILoginToken) => void
+interface AuthState extends LoginDataModel {
+  login: (auth: LoginDataModel) => void
   logout: () => void
 }
 
@@ -13,7 +13,7 @@ export const useAuth = create<AuthState>()(
       refreshToken: '',
       token: '',
       expirationDate: '',
-      login: (auth: ILoginToken) =>
+      login: (auth: LoginDataModel) =>
         set({
           refreshToken: auth.refreshToken,
           token: auth.token,

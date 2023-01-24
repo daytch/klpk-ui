@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic'
 import { createContext, useContext, useEffect, useState } from 'react'
 
-const Toast = dynamic(() => import('../common/components/general/Toast'))
-const Portal = dynamic(() => import('../common/components/general/Portal'))
+const Toast = dynamic(() => import('../components/atoms/Toast'))
+const Portal = dynamic(() => import('../components/atoms/Portal'))
 
 interface Props {
   children: React.ReactNode
