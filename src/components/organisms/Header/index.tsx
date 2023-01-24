@@ -35,6 +35,7 @@ const Header: React.FC<IProps> = ({ mode = 'normal' }) => {
                 height={62}
               />
             </Link>
+
             {mode === 'normal' && (
               <div className="relative border border-[#726A64] p-2 pr-4 flex-1 lg:flex-none lg:w-80 rounded-[50px] overflow-hidden flex items-center space-x-2">
                 <IconSearch />
