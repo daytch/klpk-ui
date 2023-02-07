@@ -20,6 +20,10 @@ const Portal: React.FC<Props> = (props) => {
   const wrapper: React.RefObject<HTMLElement> = useRef(el)
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+  }, [props.id])
+
+  useEffect(() => {
     const current = wrapper.current as HTMLElement
     if (!current) return
 

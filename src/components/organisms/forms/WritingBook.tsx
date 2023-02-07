@@ -12,6 +12,7 @@ import { SelectOptionsDataModel } from '@/interfaces/common'
 import { useGetCategories } from '@/services/category/query'
 import {
   useCreateNewBook,
+  useMarkBookAsDone,
   useUpdateBookFromId,
   useUploadBookCover,
 } from '@/services/my-book/mutation'
@@ -50,6 +51,9 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
   const createNewBook = useCreateNewBook()
   const uploadBookCover = useUploadBookCover()
   const updateBook = useUpdateBookFromId()
+  const markBookAsDone = useMarkBookAsDone()
+
+  const showPublishButton = detailBook !== undefined
 
   const { data: categories, isLoading, isError } = useGetCategories()
 
@@ -156,16 +160,41 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
     }
   }
 
+  const handleMarkBookAsDone = async () => {
+    await markBookAsDone.mutateAsync(
+      { bookId: detailBook?.id ?? '' },
+      {
+        onSuccess: () => {
+          toast.addToast('success', 'Berhasil mengubah status buku.')
+        },
+        onError: () => {
+          toast.addToast('error', 'Gagal mengubah status buku.')
+        },
+      }
+    )
+  }
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="lg:flex space-y-6 lg:space-y-0 lg:space-x-32">
         <div className="mx-auto lg:mx-0 w-[220px] ">
-          <UploadCover
-            cover={detailBook?.cover ?? ''}
-            control={control}
-            name="cover"
-            className="sticky top-4"
-          />
+          <div className="sticky top-4">
+            <UploadCover
+              cover={detailBook?.cover ?? ''}
+              control={control}
+              name="cover"
+              className="mb-4"
+            />
+            {showPublishButton && (
+              <Button
+                onClick={handleMarkBookAsDone}
+                disabled={markBookAsDone.isLoading}
+                variant="primary"
+              >
+                {markBookAsDone.isLoading ? 'Menyimpan' : 'Publish'}
+              </Button>
+            )}
+          </div>
         </div>
         <div className="flex-1">
           <div className="p-4 lg:p-8 bg-dark-300 rounded-xl overflow-hidden">

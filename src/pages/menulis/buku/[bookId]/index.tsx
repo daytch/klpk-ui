@@ -13,8 +13,6 @@ const UpdateBookPage = () => {
     query.bookId !== undefined
   )
 
-  console.log(detailBook)
-
   return (
     <>
       <Head>
