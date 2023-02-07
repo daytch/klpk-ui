@@ -11,7 +11,7 @@ input:-internal-autofill-selected {
 }
 
 #toast-container {
-  @apply fixed top-4 left-0 right-0 flex justify-center;
+  @apply fixed top-4 left-0 right-0 flex justify-center z-30;
 }
 
 .bg-auth {
@@ -22,6 +22,10 @@ input:-internal-autofill-selected {
 
 body {
   @apply overflow-x-hidden bg-dark-400
+}
+
+body.writing-page {
+  @apply !bg-dark-100
 }
 
 .container {
@@ -59,4 +63,29 @@ body {
   .scrollbar::-webkit-scrollbar-track:active {
     background: #131314;
   }
+}
+
+.tox-statusbar__text-container {
+  display: none!important;
+}
+
+body .tox-tinymce {
+border-color:#AF7F3E
+}
+
+body .tox:not(.tox-tinymce-inline) .tox-editor-header, body .tox .tox-toolbar-overlord, body .tox .tox-toolbar__primary, body .tox .tox-statusbar {
+  background-color: #333333;
+}
+
+body .tox:not(.tox-tinymce-inline) .tox-editor-header {
+  box-shadow: 0 2px 2px -2px rgb(255 255 255 / 10%),
+    0 8px 8px -4px rgb(71 71 71 / 7%);
+}
+
+body .tox .tox-tbtn {
+  color: #F9F7EF;
+}
+
+body .tox .tox-tbtn svg {
+  fill: #F9F7EF;
 }

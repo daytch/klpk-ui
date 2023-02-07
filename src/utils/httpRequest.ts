@@ -1,5 +1,5 @@
 import { useAuth } from '@/store/useAuth'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { BASE_API_URL } from './constants'
 const { getState } = useAuth
 
@@ -8,13 +8,19 @@ export const httpRequest = () => {
     baseURL: BASE_API_URL,
   })
 
-  instance.interceptors.request.use((config: any) => {
-    const accessToken = getState().token
-    if (!!accessToken) {
-      config.headers = `Bearer ${accessToken}`
+  const accessToken = getState().token
+
+  instance.interceptors.request.use(
+    (config: AxiosRequestConfig) => {
+      config.headers = {
+        Authorization: `Bearer ${accessToken}`,
+      }
+      return config
+    },
+    (error) => {
+      return Promise.reject(error)
     }
-    return config
-  })
+  )
 
   return instance
 }

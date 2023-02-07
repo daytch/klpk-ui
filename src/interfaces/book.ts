@@ -8,7 +8,7 @@ export interface BookDataModel {
   title: string
   synopsis: string
   cover: string
-  status: 'Draft' | 'Pending' | 'Live'
+  status: 'draft' | 'pending' | 'live'
   isCompleted: boolean
   category: BookCategoryDataModel
 }
@@ -16,6 +16,7 @@ export interface BookDataModel {
 export interface BookChapterDataModel {
   id: string
   name: string
+  content: string
 }
 
 export interface DetailBookDataModel extends BookDataModel {
@@ -32,4 +33,9 @@ export interface TestimonyDataModel {
   photo: string
   name: string
   description: string
+}
+
+export interface PayloadChapter {
+  name: string
+  content: string
 }
