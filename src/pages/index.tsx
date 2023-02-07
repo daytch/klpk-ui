@@ -133,4 +133,4 @@ const Homepage = () => {
   )
 }
 
-export default Homapage
+export default Homepage
