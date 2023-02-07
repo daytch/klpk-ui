@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { InferType, mixed, object, string } from 'yup'
 import { useRouter } from 'next/router'
-import TextField from '@/components/molecules/TextField'
-import UploadCover from '@/components/molecules/UploadCover'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import TextField from '@/components/molecules/TextField'
+import UploadCover from '@/components/molecules/UploadCover'
 import Button from '@/components/atoms/Button'
 import TextEditorField from '@/components/molecules/TextEditorField'
-import Link from '@/components/atoms/Link'
 import IconArrow from '@/components/icons/IconArrow'
 import { BookChapterDataModel } from '@/interfaces/book'
 import {
@@ -36,7 +35,7 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
   chapter,
   cover,
 }) => {
-  const { asPath, query, push } = useRouter()
+  const { query, push } = useRouter()
   const toast = useToast()
   const isUpdateMode = chapter !== undefined
   const bookId = query.bookId
@@ -149,8 +148,6 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
     }
   }
 
-  const backLink = asPath.replace('/chapter', '')
-
   return (
     <section className="pt-7 pb-28">
       <div className="container">
@@ -162,13 +159,21 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
               </div>
               <div className="flex-1">
                 <div className="p-4 lg:p-8 bg-dark-300 rounded-xl overflow-hidden">
-                  <Link
-                    to={backLink}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      push({
+                        pathname: '/menulis/buku/[bookId]',
+                        query: {
+                          bookId: query.bookId,
+                        },
+                      })
+                    }
                     className="font-gotham font-bold text-base inline-flex items-center space-x-2 text-white mb-6"
                   >
                     <IconArrow className="rotate-180" />
                     <span>Kembali</span>
-                  </Link>
+                  </button>
                   <hr className="border-gold-300" />
                   <div className="space-y-3 py-4">
                     <TextField

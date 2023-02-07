@@ -66,3 +66,13 @@ export async function getChapterFromId(bookId: string, chapterId: string) {
   )
   return response.data
 }
+
+export async function markBookAsDone(bookId: string) {
+  const response = await service.put(`/my-books/${bookId}/toggle-complete`)
+  return response.data
+}
+
+export async function publishBook(bookId: string) {
+  const response = await service.put(`/my-books/${bookId}/publish`)
+  return response.data
+}

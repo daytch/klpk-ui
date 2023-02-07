@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import WritingBookForm from '@/components/organisms/forms/WritingBook'
 import Link from '@/components/atoms/Link'
 import { DetailBookDataModel } from '@/interfaces/book'
 import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import Button from '@/components/atoms/Button'
+import DialogSuccessSaveBook from '@/components/molecules/DialogSuccessSaveBook'
 
 interface WritingBookTemplateProps {
   detailBook?: DetailBookDataModel
@@ -14,6 +15,7 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
   detailBook,
 }) => {
   const { asPath, query } = useRouter()
+  const [showSuccess, setShowSuccess] = useState(false)
 
   const isUpdateMode = query?.bookId !== undefined
   const isDraft = detailBook?.status === 'draft'
@@ -45,13 +47,18 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
                   Simpan
                 </Button>
               )}
-              <Button isFullWidth={false} disabled={isDraft}>
+              <Button isFullWidth={false} onClick={() => setShowSuccess(true)}>
                 Terbitkan
               </Button>
             </div>
           </div>
         </WritingBookForm>
       </div>
+      <DialogSuccessSaveBook
+        isOpen={showSuccess}
+        onConfirm={() => console.log('confirm')}
+        onCloseDialog={() => setShowSuccess(false)}
+      />
     </section>
   )
 }

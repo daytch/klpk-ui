@@ -13,7 +13,7 @@ const datas: BookDataModel[] = [
     title: 'Noda',
     synopsis: 'test',
     cover: 'https://placeimg.com/138/189/any',
-    status: 'Draft',
+    status: 'draft',
     isCompleted: false,
     category: {
       id: '1',
@@ -25,7 +25,7 @@ const datas: BookDataModel[] = [
     title: 'Noda',
     synopsis: 'test',
     cover: 'https://placeimg.com/138/189/any',
-    status: 'Draft',
+    status: 'draft',
     isCompleted: false,
     category: {
       id: '1',
@@ -37,7 +37,7 @@ const datas: BookDataModel[] = [
     title: 'Noda',
     synopsis: 'test',
     cover: 'https://placeimg.com/138/189/any',
-    status: 'Draft',
+    status: 'draft',
     isCompleted: false,
     category: {
       id: '1',
@@ -49,7 +49,7 @@ const datas: BookDataModel[] = [
     title: 'Noda',
     synopsis: 'test',
     cover: 'https://placeimg.com/138/189/any',
-    status: 'Draft',
+    status: 'draft',
     isCompleted: false,
     category: {
       id: '1',
@@ -61,7 +61,7 @@ const datas: BookDataModel[] = [
     title: 'Noda',
     synopsis: 'test',
     cover: 'https://placeimg.com/138/189/any',
-    status: 'Draft',
+    status: 'draft',
     isCompleted: false,
     category: {
       id: '1',
@@ -73,7 +73,7 @@ const datas: BookDataModel[] = [
     title: 'Noda',
     synopsis: 'test',
     cover: 'https://placeimg.com/138/189/any',
-    status: 'Draft',
+    status: 'draft',
     isCompleted: false,
     category: {
       id: '1',
@@ -85,7 +85,7 @@ const datas: BookDataModel[] = [
     title: 'Noda',
     synopsis: 'test',
     cover: 'https://placeimg.com/138/189/any',
-    status: 'Draft',
+    status: 'draft',
     isCompleted: false,
     category: {
       id: '1',
@@ -97,7 +97,7 @@ const datas: BookDataModel[] = [
     title: 'Noda',
     synopsis: 'test',
     cover: 'https://placeimg.com/138/189/any',
-    status: 'Draft',
+    status: 'draft',
     isCompleted: false,
     category: {
       id: '1',

@@ -3,6 +3,8 @@ import { useMutation } from '@tanstack/react-query'
 import {
   createNewBook,
   createNewChapter,
+  markBookAsDone,
+  publishBook,
   updateBookCover,
   updateBookFromId,
   updateChapterFromId,
@@ -48,6 +50,22 @@ export function useUpdateBookFromId() {
   return useMutation({
     mutationFn: (data: { bookId: string; payloadBook: PayloadBook }) => {
       return updateBookFromId(data.bookId, data.payloadBook)
+    },
+  })
+}
+
+export function useMarkBookAsDone() {
+  return useMutation({
+    mutationFn: (data: { bookId: string }) => {
+      return markBookAsDone(data.bookId)
+    },
+  })
+}
+
+export function usePublishBook() {
+  return useMutation({
+    mutationFn: (data: { bookId: string }) => {
+      return publishBook(data.bookId)
     },
   })
 }
