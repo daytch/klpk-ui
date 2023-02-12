@@ -1,8 +1,8 @@
-import { joinClass } from '@/utils/common'
-import Image from 'next/image'
 import React, { useState } from 'react'
 import { Control, Controller } from 'react-hook-form'
+import Image from 'next/image'
 import { AssertsShape } from 'yup/lib/object'
+import { joinClass } from '@/utils/common'
 
 interface UploadCoverProps {
   control: Control<AssertsShape<any>, any>
@@ -48,7 +48,7 @@ const UploadCover: React.FC<UploadCoverProps> = ({
                 height={68}
               />
             )}
-            {!!preview.length && !!cover?.length && (
+            {!!preview.length && !cover?.length && (
               <Image
                 alt=""
                 src={preview}
@@ -61,6 +61,7 @@ const UploadCover: React.FC<UploadCoverProps> = ({
             {!!cover?.length && !preview.length && (
               <Image
                 alt=""
+                priority
                 src={cover}
                 width={68}
                 height={68}

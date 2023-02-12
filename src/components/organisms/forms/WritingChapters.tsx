@@ -154,7 +154,7 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <div className="lg:flex space-y-6 lg:space-y-0 lg:space-x-32">
-              <div className="mx-auto lg:mx-0 w-[220px]">
+              <div className="mx-auto lg:mx-0 w-[220px] lg:sticky top-4">
                 <UploadCover cover={cover} control={control} name="cover" />
               </div>
               <div className="flex-1">
