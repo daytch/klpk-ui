@@ -12,3 +12,14 @@ export function changePhoneNumberFormat(phoneNumber: string) {
   }
   return removePlus
 }
+
+export function formatMoney(amout: number) {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+  }).format(amout)
+}
+
+export function formatNumberWithCommas(number: number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
