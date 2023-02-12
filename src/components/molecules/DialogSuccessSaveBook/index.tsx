@@ -7,12 +7,14 @@ const Portal = dynamic(() => import('../../atoms/Portal'), { ssr: false })
 
 interface DialogSuccessSaveBookProps {
   isOpen: boolean
+  message: string
   onConfirm: () => void
   onCloseDialog: () => void
 }
 
 const DialogSuccessSaveBook: React.FC<DialogSuccessSaveBookProps> = ({
   isOpen,
+  message,
   onCloseDialog,
   onConfirm,
 }) => {
@@ -48,9 +50,14 @@ const DialogSuccessSaveBook: React.FC<DialogSuccessSaveBookProps> = ({
                 Berhasil di Kirim
               </p>
               <p className="text-center font-gotham font-thin text-[14px] leading-6 text-kplkWhite mb-4">
-                Buku anda akan di review oleh Admin
+                {message}
               </p>
-              <Button variant="primary" onClick={onConfirm} isFullWidth={false}>
+              <Button
+                type="button"
+                variant="primary"
+                onClick={onConfirm}
+                isFullWidth={false}
+              >
                 Mengerti
               </Button>
             </div>

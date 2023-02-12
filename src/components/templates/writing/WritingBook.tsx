@@ -55,6 +55,7 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
         </WritingBookForm>
       </div>
       <DialogSuccessSaveBook
+        message="Buku anda akan di review oleh Admin"
         isOpen={showSuccess}
         onConfirm={() => console.log('confirm')}
         onCloseDialog={() => setShowSuccess(false)}
