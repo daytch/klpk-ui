@@ -12,7 +12,10 @@ interface IProps {
 const TextField: React.FC<IProps> = ({ className, labelProps, inputProps }) => {
   return (
     <div className={joinClass('w-full flex flex-col', className ?? '')}>
-      <Label {...labelProps} className="mb-3" />
+      <Label
+        {...labelProps}
+        className={joinClass('mb-3', labelProps.className ?? '')}
+      />
       <Input {...inputProps} className="mb-2" />
       <span
         className={joinClass(
