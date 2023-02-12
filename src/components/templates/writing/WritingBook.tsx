@@ -18,7 +18,6 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
   const [showSuccess, setShowSuccess] = useState(false)
 
   const isUpdateMode = query?.bookId !== undefined
-  const isDraft = detailBook?.status === 'draft'
 
   return (
     <section className="pt-7 pb-28">
@@ -42,12 +41,11 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
                 ))}
             </div>
             <div className="flex justify-center space-x-4">
-              {isDraft && (
-                <Button isFullWidth={false} variant="outlined">
-                  Simpan
-                </Button>
-              )}
-              <Button isFullWidth={false} onClick={() => setShowSuccess(true)}>
+              <Button
+                disabled={!isUpdateMode}
+                isFullWidth={false}
+                onClick={() => setShowSuccess(true)}
+              >
                 Terbitkan
               </Button>
             </div>

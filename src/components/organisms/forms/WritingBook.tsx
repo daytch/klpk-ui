@@ -80,7 +80,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
   const handleUploadCover = async (
     formData: FormData,
     bookId: string,
-    onSuccess: () => void
+    onSuccess?: () => void
   ) => {
     await uploadBookCover.mutateAsync(
       {
@@ -89,7 +89,9 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
       },
       {
         onSuccess: () => {
-          onSuccess()
+          if (onSuccess !== undefined) {
+            onSuccess()
+          }
         },
         onError: () => {
           toast.addToast('error', 'Gagal menyimpan cover buku')
@@ -114,13 +116,20 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
           toast.addToast('error', 'Gagal menyimpan buku baru.')
           return
         },
+        onSuccess: (response) => {
+          if (!values.cover) {
+            toast.addToast('success', 'Berhasil menyimpan buku.')
+            router.push('/menulis/buku/' + response.id)
+          }
+        },
       }
     )
 
     if (!!values.cover && !!data.id) {
-      await handleUploadCover(formData, data.id, () =>
+      await handleUploadCover(formData, data.id, () => {
+        toast.addToast('success', 'Berhasil menyimpan buku.')
         router.push('/menulis/buku/' + data.id)
-      )
+      })
     }
   }
 
@@ -142,13 +151,18 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
         onError: () => {
           toast.addToast('error', 'Gagal menyimpan data buku. Coba lagi.')
         },
+        onSuccess: () => {
+          if (!values.cover) {
+            toast.addToast('success', 'Berhasil menyimpan buku.')
+          }
+        },
       }
     )
 
     if (!!values.cover) {
-      await handleUploadCover(formData, String(router.query.bookId), () =>
-        router.push('/menulis/buku/' + String(router.query.bookId))
-      )
+      await handleUploadCover(formData, String(router.query.bookId), () => {
+        toast.addToast('success', 'Berhasil menyimpan buku.')
+      })
     }
   }
 

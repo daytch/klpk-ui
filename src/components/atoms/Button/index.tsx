@@ -8,7 +8,7 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const buttonType = {
   primary:
-    'bg-gold-200 text-dark-300 hover:bg-gold-200/95 focus:ring-2 focus:ring-gold-200 hover:text-dark-300/95',
+    'bg-gold-200 text-dark-300 hover:bg-gold-200/95 focus:ring-2 focus:ring-gold-200 hover:text-dark-300/95 disabled:bg-gold-300 disabled:cursor-not-allowed',
   secondary:
     'bg-dark-300 text-white hover:bg-dark-300/95 focus:ring-2 focus:ring-dark-300 hover:text-white/95',
   outlined:
