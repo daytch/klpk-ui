@@ -25,7 +25,7 @@ const WritingLayout: React.FC<WritingLayoutProps> = ({ children }) => {
     push({ pathname, query: { writingTab: tab } })
   }
   return (
-    <GeneralLayout>
+    <GeneralLayout headerMode="write">
       <div className="container pt-10 pb-20">
         <div className="w-full bg-dark-300 rounded-xl overflow-hidden px-6 py-4 min-h-[604px]">
           <div className="flex justify-center space-x-8 mb-2">

@@ -18,7 +18,7 @@ const UpdateBookPage = () => {
       <Head>
         <title>{`${APP_NAME} | Menulis`}</title>
       </Head>
-      <WritingBookLayout>
+      <WritingBookLayout headerMode="create">
         <WritingBookTemplate detailBook={detailBook} />
       </WritingBookLayout>
     </>

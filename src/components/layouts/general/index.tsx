@@ -4,12 +4,16 @@ import React from 'react'
 
 interface GeneralLayoutProps {
   children: React.ReactNode
+  headerMode?: 'default' | 'write' | 'create'
 }
 
-const GeneralLayout: React.FC<GeneralLayoutProps> = ({ children }) => {
+const GeneralLayout: React.FC<GeneralLayoutProps> = ({
+  children,
+  headerMode = 'default',
+}) => {
   return (
     <>
-      <Header />
+      <Header mode={headerMode} />
       <main>{children}</main>
       <Footer />
     </>
