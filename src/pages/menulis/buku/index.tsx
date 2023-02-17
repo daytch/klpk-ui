@@ -10,7 +10,7 @@ const StartWritingBookPage = () => {
       <Head>
         <title>{`${APP_NAME} | Menulis`}</title>
       </Head>
-      <WritingBookLayout>
+      <WritingBookLayout headerMode="create">
         <WritingBookTemplate />
       </WritingBookLayout>
     </>

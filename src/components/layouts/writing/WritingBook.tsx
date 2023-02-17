@@ -4,12 +4,16 @@ import React from 'react'
 
 interface WritingBookLayoutProps {
   children: React.ReactNode
+  headerMode: 'write' | 'create'
 }
 
-const WritingBookLayout: React.FC<WritingBookLayoutProps> = ({ children }) => {
+const WritingBookLayout: React.FC<WritingBookLayoutProps> = ({
+  children,
+  headerMode,
+}) => {
   return (
     <>
-      <Header />
+      <Header mode={headerMode} />
       <main>{children}</main>
       <Footer />
     </>

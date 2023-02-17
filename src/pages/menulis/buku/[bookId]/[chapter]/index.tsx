@@ -17,7 +17,7 @@ const ChapterListPage = () => {
       <Head>
         <title>{`${APP_NAME} | Menulis`}</title>
       </Head>
-      <WritingBookLayout>
+      <WritingBookLayout headerMode="create">
         <WritingChapterForm cover={detailBook?.cover ?? ''} />
       </WritingBookLayout>
     </>

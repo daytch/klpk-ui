@@ -20,6 +20,10 @@ input:-internal-autofill-selected {
   background-position: center center;
 }
 
+body.dropdown-open {
+  margin-right: 0!important;
+}
+
 body {
   @apply overflow-x-hidden bg-dark-400
 }
