@@ -20,6 +20,17 @@ input:-internal-autofill-selected {
   background-position: center center;
 }
 
+body {
+  background-image: url('../../public/assets/images/main_background_left.png'), url('../../public/assets/images/main_background_right.png');
+  background-repeat: no-repeat;
+  background-position: left, right;
+  background-attachment: fixed;
+}
+
+body.bg-none {
+  background-image: none;
+}
+
 body.dropdown-open {
   margin-right: 0!important;
 }
@@ -35,6 +46,7 @@ body.writing-page {
 .container {
   @apply md:max-w-xl lg:max-w-3xl xl:max-w-[959px] mx-auto px-4 md:px-0
 }
+
 @layer utilities {
 
   /* Scroll thumb styles */

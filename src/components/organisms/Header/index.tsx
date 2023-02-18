@@ -22,14 +22,14 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
     if (refreshToken?.length) {
       setIsAuthenticated(true)
     } else {
-      setIsAuthenticated(true)
+      setIsAuthenticated(false)
     }
   }, [refreshToken])
 
   return (
     <header
       className={joinClass(
-        'border-b border-gold-300 relative h-[84px] bg-dark-400 flex items-center'
+        'border-b border-gold-300 z-10 h-[84px] bg-dark-400 flex items-center sticky top-0'
       )}
     >
       {showBackButton && (
