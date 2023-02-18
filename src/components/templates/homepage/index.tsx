@@ -19,32 +19,26 @@ interface IHomepageTemplate {
 
 const testimonies: TestimonyDataModel[] = [
   {
-    photo: 'https://placeimg.com/90/90/any',
+    photo: '/assets/images/dummy/writer1.png',
     name: 'Patrick Kellan',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
   },
   {
-    photo: 'https://placeimg.com/90/90/any',
-    name: 'Patrick Kellan',
+    photo: '/assets/images/dummy/writer2.png',
+    name: 'Sri Riahna',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
   },
   {
-    photo: 'https://placeimg.com/90/90/any',
-    name: 'Patrick Kellan',
+    photo: '/assets/images/dummy/writer3.png',
+    name: 'Vindy Ruslianti',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
   },
   {
-    photo: 'https://placeimg.com/90/90/any',
-    name: 'Patrick Kellan',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
-  },
-  {
-    photo: 'https://placeimg.com/90/90/any',
-    name: 'Patrick Kellan',
+    photo: '/assets/images/dummy/writer4.png',
+    name: 'Writer Name',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
   },
@@ -63,11 +57,12 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
           <BannerSlider
             banners={[
               '/assets/images/banner-01.jpg',
-              'https://placeimg.com/959/224/any',
+              '/assets/images/banner-01.jpg',
             ]}
           />
         </div>
       </section>
+
       <section className="">
         <div className="container border-b border-gold-300 pt-11">
           <div className="flex flex-nowrap overflow-auto space-x-3 scrollbar pb-2">
@@ -77,6 +72,7 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
           </div>
         </div>
       </section>
+
       <section className="">
         <div className="container border-b border-gold-300 pt-11 pb-14">
           <BookSlider
@@ -87,11 +83,7 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
           />
         </div>
       </section>
-      <section>
-        <div className="container border-b border-gold-300 pt-11 pb-14">
-          <TestimonySlider testimonies={testimonies} />
-        </div>
-      </section>
+
       <section className="">
         <div className="container border-b border-gold-300 pt-11 pb-14">
           <BookSlider
@@ -101,6 +93,13 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
           />
         </div>
       </section>
+
+      <section>
+        <div className="container border-b border-gold-300 pt-11 pb-14">
+          <TestimonySlider testimonies={testimonies} />
+        </div>
+      </section>
+
       <section className="">
         <div className="container !px-4 pt-11 pb-14">
           <BookSlider
