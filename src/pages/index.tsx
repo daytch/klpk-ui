@@ -1,110 +1,15 @@
 import React from 'react'
 import Head from 'next/head'
+import { dehydrate, QueryClient } from '@tanstack/react-query'
 import HomepageTemplate from '@/components/templates/homepage'
 import { APP_NAME } from '@/utils/constants'
-import { BookDataModel } from '@/interfaces/book'
-import { dehydrate, QueryClient } from '@tanstack/react-query'
 import { getCategories } from '@/services/category/api'
 import { useGetCategories } from '@/services/category/query'
-
-const datas: BookDataModel[] = [
-  {
-    id: '1',
-    title: 'Noda',
-    synopsis: 'test',
-    cover: 'https://placeimg.com/138/189/any',
-    status: 'draft',
-    isCompleted: false,
-    category: {
-      id: '1',
-      name: 'test',
-    },
-  },
-  {
-    id: '2',
-    title: 'Noda',
-    synopsis: 'test',
-    cover: 'https://placeimg.com/138/189/any',
-    status: 'draft',
-    isCompleted: false,
-    category: {
-      id: '1',
-      name: 'test',
-    },
-  },
-  {
-    id: '3',
-    title: 'Noda',
-    synopsis: 'test',
-    cover: 'https://placeimg.com/138/189/any',
-    status: 'draft',
-    isCompleted: false,
-    category: {
-      id: '1',
-      name: 'test',
-    },
-  },
-  {
-    id: '4',
-    title: 'Noda',
-    synopsis: 'test',
-    cover: 'https://placeimg.com/138/189/any',
-    status: 'draft',
-    isCompleted: false,
-    category: {
-      id: '1',
-      name: 'test',
-    },
-  },
-  {
-    id: '5',
-    title: 'Noda',
-    synopsis: 'test',
-    cover: 'https://placeimg.com/138/189/any',
-    status: 'draft',
-    isCompleted: false,
-    category: {
-      id: '1',
-      name: 'test',
-    },
-  },
-  {
-    id: '6',
-    title: 'Noda',
-    synopsis: 'test',
-    cover: 'https://placeimg.com/138/189/any',
-    status: 'draft',
-    isCompleted: false,
-    category: {
-      id: '1',
-      name: 'test',
-    },
-  },
-  {
-    id: '7',
-    title: 'Noda',
-    synopsis: 'test',
-    cover: 'https://placeimg.com/138/189/any',
-    status: 'draft',
-    isCompleted: false,
-    category: {
-      id: '1',
-      name: 'test',
-    },
-  },
-  {
-    id: '8',
-    title: 'Noda',
-    synopsis: 'test',
-    cover: 'https://placeimg.com/138/189/any',
-    status: 'draft',
-    isCompleted: false,
-    category: {
-      id: '1',
-      name: 'test',
-    },
-  },
-]
+import {
+  completedBestSellerDummy,
+  monthlyBestSellerDummy,
+  todayBestSellerDummy,
+} from '@/dummy/homepage'
 
 export async function getServerSideProps() {
   const queryClient = new QueryClient()
@@ -125,9 +30,9 @@ const Homepage = () => {
       </Head>
       <HomepageTemplate
         categories={categories ?? []}
-        todayBestSellers={datas}
-        monthlyBestSellers={datas}
-        completedStories={datas}
+        todayBestSellers={todayBestSellerDummy}
+        monthlyBestSellers={monthlyBestSellerDummy}
+        completedStories={completedBestSellerDummy}
       />
     </>
   )

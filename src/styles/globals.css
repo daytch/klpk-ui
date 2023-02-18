@@ -7,7 +7,7 @@
 @import url('./_aspect-ratio.css');
 
 input:-internal-autofill-selected {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 
 #toast-container {
@@ -21,10 +21,17 @@ input:-internal-autofill-selected {
 }
 
 body {
-  background-image: url('../../public/assets/images/main_background_left.png'), url('../../public/assets/images/main_background_right.png');
+  background-image: none;
   background-repeat: no-repeat;
   background-position: left, right;
   background-attachment: fixed;
+}
+
+@media (min-width: 768px) {
+  body {
+    background-image: url('../../public/assets/images/main_background_left.png'),
+      url('../../public/assets/images/main_background_right.png');
+  }
 }
 
 body.bg-none {
@@ -32,31 +39,30 @@ body.bg-none {
 }
 
 body.dropdown-open {
-  margin-right: 0!important;
+  margin-right: 0 !important;
 }
 
 body {
-  @apply overflow-x-hidden bg-dark-400
+  @apply overflow-x-hidden bg-dark-400;
 }
 
 body.writing-page {
-  @apply !bg-dark-100
+  @apply !bg-dark-100;
 }
 
 .container {
-  @apply md:max-w-xl lg:max-w-3xl xl:max-w-[959px] mx-auto px-4 md:px-0
+  @apply md:max-w-xl lg:max-w-3xl xl:max-w-[959px] mx-auto px-4 md:px-0;
 }
 
 @layer utilities {
-
   /* Scroll thumb styles */
   .scrollbar::-webkit-scrollbar {
-    width: .5rem;
+    width: 0.5rem;
     height: 4px;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #27272E;
+    background: #27272e;
     border-radius: 1rem;
   }
 
@@ -65,7 +71,7 @@ body.writing-page {
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #3B3B46;
+    background: #3b3b46;
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
   }
 
@@ -82,14 +88,17 @@ body.writing-page {
 }
 
 .tox-statusbar__text-container {
-  display: none!important;
+  display: none !important;
 }
 
 body .tox-tinymce {
-border-color:#AF7F3E
+  border-color: #af7f3e;
 }
 
-body .tox:not(.tox-tinymce-inline) .tox-editor-header, body .tox .tox-toolbar-overlord, body .tox .tox-toolbar__primary, body .tox .tox-statusbar {
+body .tox:not(.tox-tinymce-inline) .tox-editor-header,
+body .tox .tox-toolbar-overlord,
+body .tox .tox-toolbar__primary,
+body .tox .tox-statusbar {
   background-color: #333333;
 }
 
@@ -99,9 +108,9 @@ body .tox:not(.tox-tinymce-inline) .tox-editor-header {
 }
 
 body .tox .tox-tbtn {
-  color: #F9F7EF;
+  color: #f9f7ef;
 }
 
 body .tox .tox-tbtn svg {
-  fill: #F9F7EF;
+  fill: #f9f7ef;
 }
