@@ -14,7 +14,7 @@ interface WritingBookTemplateProps {
 const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
   detailBook,
 }) => {
-  const { asPath, query } = useRouter()
+  const { asPath, query, push } = useRouter()
   const [showSuccess, setShowSuccess] = useState(false)
 
   const isUpdateMode = query?.bookId !== undefined
@@ -42,7 +42,7 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
             </div>
             <div className="flex justify-center space-x-4">
               <Button
-                disabled={!isUpdateMode}
+                disabled={!isUpdateMode || !detailBook?.chapters.length}
                 isFullWidth={false}
                 onClick={() => setShowSuccess(true)}
               >
@@ -55,7 +55,7 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
       <DialogSuccessSaveBook
         message="Buku anda akan di review oleh Admin"
         isOpen={showSuccess}
-        onConfirm={() => console.log('confirm')}
+        onConfirm={() => push('/menulis')}
         onCloseDialog={() => setShowSuccess(false)}
       />
     </section>

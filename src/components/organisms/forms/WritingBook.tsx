@@ -53,7 +53,10 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
   const updateBook = useUpdateBookFromId()
   const markBookAsDone = useMarkBookAsDone()
 
-  const showPublishButton = detailBook !== undefined
+  const showPublishButton =
+    detailBook !== undefined &&
+    !!detailBook.chapters.length &&
+    !detailBook?.completed
 
   const { data: categories, isLoading, isError } = useGetCategories()
 
@@ -192,7 +195,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="lg:flex space-y-6 lg:space-y-0 lg:space-x-32">
         <div className="mx-auto lg:mx-0 w-[220px] ">
-          <div className="sticky top-4">
+          <div className="sticky top-20">
             <UploadCover
               cover={detailBook?.cover ?? ''}
               control={control}
@@ -205,7 +208,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                 disabled={markBookAsDone.isLoading}
                 variant="primary"
               >
-                {markBookAsDone.isLoading ? 'Menyimpan' : 'Publish'}
+                {markBookAsDone.isLoading ? 'Menyimpan' : 'Tandai Selesai'}
               </Button>
             )}
           </div>
@@ -217,12 +220,15 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                 Menulis
               </h2>
               <Button
+                disabled={createNewBook.isLoading || updateBook.isLoading}
                 type="submit"
                 isFullWidth={false}
                 variant="outlined"
                 className="py-1"
               >
-                Simpan
+                {createNewBook.isLoading || updateBook.isLoading
+                  ? 'Menyimpan'
+                  : 'Simpan'}
               </Button>
             </div>
             <div className="space-y-3 py-4">
