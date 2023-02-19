@@ -48,7 +48,7 @@ const UploadCover: React.FC<UploadCoverProps> = ({
                 height={68}
               />
             )}
-            {!!preview.length && !cover?.length && (
+            {preview.length !== 0 && (
               <Image
                 alt=""
                 src={preview}

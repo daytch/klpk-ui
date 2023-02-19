@@ -7,7 +7,7 @@ export const todayBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy1.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -19,7 +19,7 @@ export const todayBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy2.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -31,7 +31,7 @@ export const todayBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy3.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -43,7 +43,7 @@ export const todayBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy4.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -55,7 +55,7 @@ export const todayBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy5.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -67,7 +67,7 @@ export const todayBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy6.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -82,7 +82,7 @@ export const monthlyBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy7.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -94,7 +94,7 @@ export const monthlyBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy8.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -106,7 +106,7 @@ export const monthlyBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy3.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -118,7 +118,7 @@ export const monthlyBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy9.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -130,7 +130,7 @@ export const monthlyBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy10.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -142,7 +142,7 @@ export const monthlyBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy11.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -157,7 +157,7 @@ export const completedBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy11.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -169,7 +169,7 @@ export const completedBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy12.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -181,7 +181,7 @@ export const completedBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy13.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -193,7 +193,7 @@ export const completedBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy14.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -205,7 +205,7 @@ export const completedBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy9.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',
@@ -217,7 +217,7 @@ export const completedBestSellerDummy: BookDataModel[] = [
     synopsis: 'test',
     cover: '/assets/images/dummy/dummy8.png',
     status: 'draft',
-    isCompleted: false,
+    completed: false,
     category: {
       id: '1',
       name: 'test',

@@ -9,7 +9,7 @@ export interface BookDataModel {
   synopsis: string
   cover: string
   status: 'draft' | 'pending' | 'live'
-  isCompleted: boolean
+  completed: boolean
   category: BookCategoryDataModel
 }
 
@@ -38,4 +38,10 @@ export interface TestimonyDataModel {
 export interface PayloadChapter {
   name: string
   content: string
+}
+
+export type GetMyBookParams = {
+  status?: string
+  limit?: number
+  page?: number
 }
