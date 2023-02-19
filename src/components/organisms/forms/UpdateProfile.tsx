@@ -1,19 +1,26 @@
+import { ProfileUserDataModel } from '@/interfaces/profile'
 import React from 'react'
 import UpdateUnverifiedProfile from './UpdateUnverifiedProfile'
 import UpdateVerifiedProfile from './UpdateVerifiedProfile'
 
 type UpdateProfileFormProps = {
   onSuccessUpdateProfile: () => void
-  isVerifiedUser?: boolean
+  profile?: ProfileUserDataModel
 }
 
 export default function UpdateProfileForm({
   onSuccessUpdateProfile,
-  isVerifiedUser,
+  profile,
 }: UpdateProfileFormProps) {
-  return isVerifiedUser ? (
-    <UpdateVerifiedProfile onSuccessUpdateProfile={onSuccessUpdateProfile} />
+  return profile?.verified ? (
+    <UpdateVerifiedProfile
+      profile={profile}
+      onSuccessUpdateProfile={onSuccessUpdateProfile}
+    />
   ) : (
-    <UpdateUnverifiedProfile onSuccessUpdateProfile={onSuccessUpdateProfile} />
+    <UpdateUnverifiedProfile
+      profile={profile}
+      onSuccessUpdateProfile={onSuccessUpdateProfile}
+    />
   )
 }

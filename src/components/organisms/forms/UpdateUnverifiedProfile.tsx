@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { object, string, InferType } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Button from '@/components/atoms/Button'
 import TextField from '@/components/molecules/TextField'
 import { useForm } from 'react-hook-form'
+import { ProfileUserDataModel } from '@/interfaces/profile'
 
 type UpdateUnverifiedProfileProps = {
   onSuccessUpdateProfile: () => void
+  profile?: ProfileUserDataModel
 }
 
 export const unVerifiedSchema = object({
   username: string().required('Field tidak boleh kosong.'),
-  noHp: string().required('Field tidak boleh kosong.'),
+  phone: string().required('Field tidak boleh kosong.'),
   email: string()
     .email('Email tidak valid')
     .required('Field tidak boleh kosong.'),
@@ -21,14 +23,25 @@ type FormType = InferType<typeof unVerifiedSchema>
 
 export default function UpdateUnverifiedProfile({
   onSuccessUpdateProfile,
+  profile,
 }: UpdateUnverifiedProfileProps) {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<FormType>({
     resolver: yupResolver(unVerifiedSchema),
   })
+
+  useEffect(() => {
+    if (!profile) return
+    reset({
+      email: profile?.email ?? '',
+      phone: profile?.phone ?? '',
+      username: profile?.username ?? '',
+    })
+  }, [profile])
 
   const handleUpdateProfile = (data: FormType) => {
     console.log('update data', data)
@@ -59,10 +72,10 @@ export default function UpdateUnverifiedProfile({
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('noHp'),
+            ...register('phone'),
             placeholder: 'No. Handphone',
-            isInvalid: Boolean(errors?.noHp?.message),
-            errormessage: errors?.noHp?.message ?? '',
+            isInvalid: Boolean(errors?.phone?.message),
+            errormessage: errors?.phone?.message ?? '',
           }}
         />
         <TextField

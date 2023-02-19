@@ -11,6 +11,7 @@ import IconUserTag from '@/components/icons/IconUserTag'
 import IconUsers from '@/components/icons/IconUsers'
 import ButtonTab from '@/components/molecules/ButtonTab'
 import VerifProfileForm from '@/components/organisms/forms/VerifProfile'
+import { ProfileUserDataModel } from '@/interfaces/profile'
 
 const profileTabConfig = [
   {
@@ -32,9 +33,13 @@ const profileTabConfig = [
 
 type ProfileLayoutProps = {
   children: React.ReactNode
+  profile?: ProfileUserDataModel
 }
 
-export default function ProfileLayout({ children }: ProfileLayoutProps) {
+export default function ProfileLayout({
+  profile,
+  children,
+}: ProfileLayoutProps) {
   const { pathname, push } = useRouter()
   const [isVerifiedUser, setIsVerifiedUser] = useState(false)
   const [viewMode, setViewMode] = useState<'default' | 'verif-profile'>(
@@ -72,10 +77,12 @@ export default function ProfileLayout({ children }: ProfileLayoutProps) {
                 />
                 <div className="text-center font-gotham">
                   <h3 className="text-gold-200 text-2xl font-bold leading-6 space-x-[6px] mt-[22px] mb-2 inline-flex items-center">
-                    <span>Azharu</span>
-                    {isVerifiedUser && <IconVerified />}
+                    <span>{profile?.fullName ?? ''}</span>
+                    {profile?.verified && <IconVerified />}
                   </h3>
-                  <p className="text-kplkWhite text-xs font-thin">azharu12</p>
+                  <p className="text-kplkWhite text-xs font-thin">
+                    {profile?.username ?? ''}
+                  </p>
                   {!isVerifiedUser && viewMode === 'default' && (
                     <Button
                       type="button"
