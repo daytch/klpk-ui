@@ -53,7 +53,10 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
   const updateBook = useUpdateBookFromId()
   const markBookAsDone = useMarkBookAsDone()
 
-  const showPublishButton = detailBook !== undefined
+  const showPublishButton =
+    detailBook !== undefined &&
+    !!detailBook.chapters.length &&
+    !detailBook?.completed
 
   const { data: categories, isLoading, isError } = useGetCategories()
 
@@ -80,7 +83,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
   const handleUploadCover = async (
     formData: FormData,
     bookId: string,
-    onSuccess: () => void
+    onSuccess?: () => void
   ) => {
     await uploadBookCover.mutateAsync(
       {
@@ -89,7 +92,9 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
       },
       {
         onSuccess: () => {
-          onSuccess()
+          if (onSuccess !== undefined) {
+            onSuccess()
+          }
         },
         onError: () => {
           toast.addToast('error', 'Gagal menyimpan cover buku')
@@ -114,13 +119,20 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
           toast.addToast('error', 'Gagal menyimpan buku baru.')
           return
         },
+        onSuccess: (response) => {
+          if (!values.cover) {
+            toast.addToast('success', 'Berhasil menyimpan buku.')
+            router.push('/menulis/buku/' + response.id)
+          }
+        },
       }
     )
 
     if (!!values.cover && !!data.id) {
-      await handleUploadCover(formData, data.id, () =>
+      await handleUploadCover(formData, data.id, () => {
+        toast.addToast('success', 'Berhasil menyimpan buku.')
         router.push('/menulis/buku/' + data.id)
-      )
+      })
     }
   }
 
@@ -142,13 +154,18 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
         onError: () => {
           toast.addToast('error', 'Gagal menyimpan data buku. Coba lagi.')
         },
+        onSuccess: () => {
+          if (!values.cover) {
+            toast.addToast('success', 'Berhasil menyimpan buku.')
+          }
+        },
       }
     )
 
     if (!!values.cover) {
-      await handleUploadCover(formData, String(router.query.bookId), () =>
-        router.push('/menulis/buku/' + String(router.query.bookId))
-      )
+      await handleUploadCover(formData, String(router.query.bookId), () => {
+        toast.addToast('success', 'Berhasil menyimpan buku.')
+      })
     }
   }
 
@@ -178,7 +195,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="lg:flex space-y-6 lg:space-y-0 lg:space-x-32">
         <div className="mx-auto lg:mx-0 w-[220px] ">
-          <div className="sticky top-4">
+          <div className="sticky top-20">
             <UploadCover
               cover={detailBook?.cover ?? ''}
               control={control}
@@ -191,7 +208,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                 disabled={markBookAsDone.isLoading}
                 variant="primary"
               >
-                {markBookAsDone.isLoading ? 'Menyimpan' : 'Publish'}
+                {markBookAsDone.isLoading ? 'Menyimpan' : 'Tandai Selesai'}
               </Button>
             )}
           </div>
@@ -203,12 +220,15 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                 Menulis
               </h2>
               <Button
+                disabled={createNewBook.isLoading || updateBook.isLoading}
                 type="submit"
                 isFullWidth={false}
                 variant="outlined"
                 className="py-1"
               >
-                Simpan
+                {createNewBook.isLoading || updateBook.isLoading
+                  ? 'Menyimpan'
+                  : 'Simpan'}
               </Button>
             </div>
             <div className="space-y-3 py-4">

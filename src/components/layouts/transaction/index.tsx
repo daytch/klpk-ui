@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { formatNumberWithCommas, joinClass } from '@/utils/common'
@@ -8,6 +8,7 @@ import Button from '@/components/atoms/Button'
 import CointOption, {
   CointPriceDataModel,
 } from '@/components/molecules/CointOption'
+import { MIDTRANS_CLIENT_ID } from '@/utils/constants'
 
 interface TransactionLayoutProps {
   children: React.ReactNode
@@ -50,6 +51,23 @@ const tabs = [
 const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
   const [selectedCoint, setSelectedCoint] = useState<CointPriceDataModel>()
   const { query, push, pathname } = useRouter()
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const snapSrcUrl = 'https://app.sandbox.midtrans.com/snap/snap.js'
+    const midtransClientId = MIDTRANS_CLIENT_ID
+
+    const script = document.createElement('script')
+    script.src = snapSrcUrl
+    script.setAttribute('data-client-key', midtransClientId)
+    script.async = true
+
+    document.body.appendChild(script)
+
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
 
   const handleSelectTab = (tab: string) => {
     push(

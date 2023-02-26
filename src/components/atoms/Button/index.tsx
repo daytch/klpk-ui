@@ -8,11 +8,12 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const buttonType = {
   primary:
-    'bg-gold-200 text-dark-300 hover:bg-gold-200/95 focus:ring-2 focus:ring-gold-200 hover:text-dark-300/95',
+    'bg-gold-200 text-dark-300 hover:bg-gold-200/95 focus:ring-2 focus:ring-gold-200 hover:text-dark-300/95 disabled:bg-gold-300 disabled:cursor-not-allowed',
   secondary:
     'bg-dark-300 text-white hover:bg-dark-300/95 focus:ring-2 focus:ring-dark-300 hover:text-white/95',
   outlined:
     'text-gold-200 border-gold-200 ring-1 ring-gold-200 disabled:bg-gold-300 disabled:text-dark-500',
+  text: 'text-gold-200 font-base',
 }
 
 const Button: React.FC<IProps> = ({

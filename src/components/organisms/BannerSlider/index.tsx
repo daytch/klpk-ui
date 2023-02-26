@@ -22,6 +22,7 @@ const BannerSlider: React.FC<IBannerSliderProps> = ({ banners }) => {
           className="shrink-0 grow-0 basis-full rounded-lg overflow-hidden"
         >
           <Image
+            loading="eager"
             src={banner}
             alt=""
             width={959}
