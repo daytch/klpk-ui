@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import ProfileLayout from '@/components/layouts/profile'
 import { APP_NAME } from '@/utils/constants'
@@ -7,7 +7,7 @@ import { useGetMe } from '@/services/profile/query'
 
 export default function ProfileIndexPage() {
   const { data } = useGetMe()
-  const [setIsVerified] = useState(false)
+
   return (
     <>
       <Head>
@@ -16,7 +16,7 @@ export default function ProfileIndexPage() {
       <ProfileLayout profile={data}>
         <UpdateProfileForm
           profile={data}
-          onSuccessUpdateProfile={() => setIsVerified(true)}
+          onSuccessUpdateProfile={() => console.log('test')}
         />
       </ProfileLayout>
     </>

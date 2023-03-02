@@ -1,6 +1,9 @@
-import Footer from '@/components/organisms/Footer'
-import Header from '@/components/organisms/Header'
 import React from 'react'
+import dynamic from 'next/dynamic'
+import Footer from '@/components/organisms/Footer'
+const Header = dynamic(() => import('@/components/organisms/Header'), {
+  ssr: false,
+})
 
 interface GeneralLayoutProps {
   children: React.ReactNode

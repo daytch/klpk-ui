@@ -1,20 +1,27 @@
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { InferType, object, string } from 'yup'
 import Button from '@/components/atoms/Button'
 import DialogSuccessSaveBook from '@/components/molecules/DialogSuccessSaveBook'
 import TextField from '@/components/molecules/TextField'
-import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { InferType, object, string } from 'yup'
+import { useToast } from '@/hooks/useToast'
+import { useCreateVerificationUserRequest } from '@/services/profile/mutation'
+import { bankAccountPattern, NIKPattern } from '@/utils/regex'
 
 type VerifProfileFormProps = {
   onSuccessVerifProfile: () => void
 }
 
 const schema = object({
-  name: string().required('Field tidak boleh kosong.'),
-  ktp: string().required('Field tidak boleh kosong.'),
-  bank: string().required('Field tidak boleh kosong.'),
-  bank_account: string().required('Field tidak boleh kosong.'),
+  identityFullName: string().required('Field tidak boleh kosong.'),
+  identityNumber: string()
+    .matches(NIKPattern, 'NIK Tidak valid.')
+    .required('Field tidak boleh kosong.'),
+  bankName: string().required('Field tidak boleh kosong.'),
+  bankAccountNumber: string()
+    .matches(bankAccountPattern, 'Nomor Rekening tidak valid.')
+    .required('Field tidak boleh kosong.'),
 })
 
 type FormType = InferType<typeof schema>
@@ -28,13 +35,31 @@ export default function VerifProfileForm({
     formState: { errors },
   } = useForm<FormType>({
     resolver: yupResolver(schema),
+    mode: 'all',
   })
+  const toast = useToast()
+  const createVerifRequest = useCreateVerificationUserRequest()
   const [showSuccessModal, setShowSuccessModal] = useState(false)
 
-  const handleVerifProfile = (data: FormType) => {
-    console.log('verif data', data)
-    setShowSuccessModal(true)
+  const handleVerifProfile = (formValues: FormType) => {
+    createVerifRequest.mutate(
+      {
+        ...formValues,
+      },
+      {
+        onSuccess: () => {
+          setShowSuccessModal(true)
+        },
+        onError: () => {
+          toast.addToast(
+            'error',
+            'Gagal mengirim permintaan. Silahkan coba lagi.'
+          )
+        },
+      }
+    )
   }
+
   return (
     <form
       noValidate
@@ -48,10 +73,10 @@ export default function VerifProfileForm({
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('name'),
+            ...register('identityFullName'),
             placeholder: 'Nama sesuai KTP',
-            isInvalid: Boolean(errors?.name?.message),
-            errormessage: errors?.name?.message ?? '',
+            isInvalid: Boolean(errors?.identityFullName?.message),
+            errormessage: errors?.identityFullName?.message ?? '',
           }}
         />
         <TextField
@@ -60,10 +85,10 @@ export default function VerifProfileForm({
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('ktp'),
+            ...register('identityNumber'),
             placeholder: 'No KTP',
-            isInvalid: Boolean(errors?.ktp?.message),
-            errormessage: errors?.ktp?.message ?? '',
+            isInvalid: Boolean(errors?.identityNumber?.message),
+            errormessage: errors?.identityNumber?.message ?? '',
           }}
         />
         <TextField
@@ -72,10 +97,10 @@ export default function VerifProfileForm({
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('bank'),
+            ...register('bankName'),
             placeholder: 'Bank',
-            isInvalid: Boolean(errors?.bank?.message),
-            errormessage: errors?.bank?.message ?? '',
+            isInvalid: Boolean(errors?.bankName?.message),
+            errormessage: errors?.bankName?.message ?? '',
           }}
         />
         <TextField
@@ -84,20 +109,21 @@ export default function VerifProfileForm({
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('bank_account'),
+            ...register('bankAccountNumber'),
             placeholder: 'No. Rekening',
-            isInvalid: Boolean(errors?.bank_account?.message),
-            errormessage: errors?.bank_account?.message ?? '',
+            isInvalid: Boolean(errors?.bankAccountNumber?.message),
+            errormessage: errors?.bankAccountNumber?.message ?? '',
           }}
         />
       </div>
       <div className="text-center mt-9">
         <Button
           type="submit"
+          disabled={createVerifRequest.isLoading}
           isFullWidth={false}
           className="bg-[#00C008] text-white hover:bg-[#00C008]/70 hover:text-white"
         >
-          Simpan
+          {createVerifRequest.isLoading ? 'Menyimpan..' : 'Simpan'}
         </Button>
       </div>
       <DialogSuccessSaveBook

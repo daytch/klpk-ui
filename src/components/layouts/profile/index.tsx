@@ -1,17 +1,31 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import Button from '@/components/atoms/Button'
 import IconArrow from '@/components/icons/IconArrow'
 import IconVerified from '@/components/icons/IconVerified'
-import Footer from '@/components/organisms/Footer'
-import Header from '@/components/organisms/Header'
 import IconUser from '@/components/icons/IconUser'
 import IconUserTag from '@/components/icons/IconUserTag'
 import IconUsers from '@/components/icons/IconUsers'
 import ButtonTab from '@/components/molecules/ButtonTab'
 import VerifProfileForm from '@/components/organisms/forms/VerifProfile'
 import { ProfileUserDataModel } from '@/interfaces/profile'
+import {
+  useUploadUserAvatar,
+  useUploadUserCover,
+} from '@/services/profile/mutation'
+import { createImagePreview } from '@/utils/common'
+import { useToast } from '@/hooks/useToast'
+import IconUpload from '@/components/icons/IconUpload'
+
+const Header = dynamic(() => import('@/components/organisms/Header'), {
+  ssr: false,
+})
+
+const Footer = dynamic(() => import('src/components/organisms/Footer'), {
+  ssr: false,
+})
 
 const profileTabConfig = [
   {
@@ -41,10 +55,63 @@ export default function ProfileLayout({
   children,
 }: ProfileLayoutProps) {
   const { pathname, push } = useRouter()
-  const [isVerifiedUser, setIsVerifiedUser] = useState(false)
+  const isVerified = useMemo(() => profile?.verified, [profile])
   const [viewMode, setViewMode] = useState<'default' | 'verif-profile'>(
     'default'
   )
+  const [previewCover, setPreviewCover] = useState('')
+  const [previewAvatar, setPreviewAvatar] = useState('')
+  const uploadCover = useUploadUserCover()
+  const uploadAvatar = useUploadUserAvatar()
+  const toast = useToast()
+
+  const userCoverImage = useMemo(() => {
+    if (!profile?.photos || !profile.photos.length) return ''
+    const cover = profile.photos.find((photo) => photo.type === 'cover')
+    return cover?.url ?? ''
+  }, [profile])
+
+  const userAvatarImage = useMemo(() => {
+    if (!profile?.photos || !profile.photos.length) return ''
+    const cover = profile.photos.find((photo) => photo.type === 'avatar')
+    return cover?.url ?? ''
+  }, [profile])
+
+  const handleUploadCover = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: string
+  ) => {
+    const formData = new FormData()
+    if (e.target.files && e.target.files.length) {
+      const imagePreview = createImagePreview(e)
+      formData.append('File', e.target.files[0])
+      if (type === 'cover') {
+        uploadCover.mutate(formData, {
+          onSettled() {
+            setPreviewCover(imagePreview)
+          },
+          onSuccess() {
+            toast.addToast('success', 'Berhasil menyimpan cover.')
+          },
+          onError() {
+            toast.addToast('error', 'Gagal menyimpan cover. Coba lagi.')
+          },
+        })
+      } else {
+        uploadAvatar.mutate(formData, {
+          onSettled() {
+            setPreviewAvatar(imagePreview)
+          },
+          onSuccess() {
+            toast.addToast('success', 'Berhasil menyimpan cover.')
+          },
+          onError() {
+            toast.addToast('error', 'Gagal menyimpan cover. Coba lagi.')
+          },
+        })
+      }
+    }
+  }
 
   return (
     <>
@@ -55,26 +122,47 @@ export default function ProfileLayout({
             <div className="relative pb-28">
               <div className="w-full h-[145px] relative">
                 <Image
-                  src="https://picsum.photos/id/90/949/145"
+                  src={previewCover.length ? previewCover : userCoverImage}
                   alt="profile cover"
-                  fill
-                  className="object-cover"
+                  width={145}
+                  height={145}
+                  priority
+                  className="object-cover w-full h-full"
+                  style={{
+                    imageRendering: 'pixelated',
+                  }}
                 />
-                <button
-                  type="button"
-                  className="absolute right-[6px] bottom-[8px] inline-flex items-center bg-dark-200 text-gold-100 border border-gold-100 py-2 px-3 rounded-[50px] text-xs leading-3 space-x-1 font-gotham font-light"
-                >
+                <label className="absolute right-[6px] bottom-[8px] inline-flex items-center bg-dark-200 text-gold-100 border border-gold-100 py-2 px-3 rounded-[50px] text-xs leading-3 space-x-1 font-gotham font-light cursor-pointer">
                   <span>Ganti Background</span> <IconArrow />
-                </button>
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => handleUploadCover(e, 'cover')}
+                  />
+                </label>
               </div>
               <div className="absolute left-1/2 -translate-x-1/2 top-[90px] flex flex-col justify-center items-center">
-                <Image
-                  src="https://picsum.photos/90/90"
-                  width={90}
-                  height={90}
-                  alt=""
-                  className=" w-[90px] h-[90px] rounded-full"
-                />
+                <div className="relative group">
+                  <Image
+                    src={previewAvatar.length ? previewAvatar : userAvatarImage}
+                    width={90}
+                    height={90}
+                    alt="user avatar"
+                    className="w-[90px] h-[90px] rounded-full object-cover"
+                    priority
+                    style={{
+                      imageRendering: 'pixelated',
+                    }}
+                  />
+                  <label className="absolute top-0 right-0 bottom-0 left-0 inline-flex items-center justify-center bg-slate-400/80 rounded-full cursor-pointer opacity-0 group-hover:opacity-100">
+                    <input
+                      type="file"
+                      onChange={(e) => handleUploadCover(e, 'avatar')}
+                      className="hidden"
+                    />
+                    <IconUpload />
+                  </label>
+                </div>
                 <div className="text-center font-gotham">
                   <h3 className="text-gold-200 text-2xl font-bold leading-6 space-x-[6px] mt-[22px] mb-2 inline-flex items-center">
                     <span>{profile?.fullName ?? ''}</span>
@@ -83,7 +171,7 @@ export default function ProfileLayout({
                   <p className="text-kplkWhite text-xs font-thin">
                     {profile?.username ?? ''}
                   </p>
-                  {!isVerifiedUser && viewMode === 'default' && (
+                  {!isVerified && viewMode === 'default' && (
                     <Button
                       type="button"
                       onClick={() => setViewMode('verif-profile')}
@@ -139,7 +227,6 @@ export default function ProfileLayout({
                 <VerifProfileForm
                   onSuccessVerifProfile={() => {
                     setViewMode('default')
-                    setIsVerifiedUser(true)
                   }}
                 />
               )}

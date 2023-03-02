@@ -14,7 +14,7 @@ type UpdateVerifiedProfileProps = {
 
 const verifiedSchema = unVerifiedSchema.concat(
   object({
-    ktp: string().required('Field tidak boleh kosong.'),
+    identityNumber: string().required('Field tidak boleh kosong.'),
     bank: string().required('Field tidak boleh kosong.'),
     bank_account: string().required('Field tidak boleh kosong.'),
     fullName: string().required('Tidak boleh kosong.'),
@@ -35,12 +35,14 @@ export default function UpdateVerifiedProfile({
   } = useForm<FormType>({
     resolver: yupResolver(verifiedSchema),
   })
-  console.log(profile)
+
   useEffect(() => {
     if (!profile) return
     reset({
       phone: profile?.phone ?? '',
       fullName: profile?.fullName ?? '',
+      email: profile?.email ?? '',
+      identityNumber: profile?.verification?.identityNumber ?? '',
     })
   }, [profile])
 
@@ -97,10 +99,10 @@ export default function UpdateVerifiedProfile({
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('ktp'),
+            ...register('identityNumber'),
             placeholder: 'Email',
-            isInvalid: Boolean(errors?.ktp?.message),
-            errormessage: errors?.ktp?.message ?? '',
+            isInvalid: Boolean(errors?.identityNumber?.message),
+            errormessage: errors?.identityNumber?.message ?? '',
           }}
         />
         <TextField
