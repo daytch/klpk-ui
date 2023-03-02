@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import { formatNumberWithCommas, joinClass } from '@/utils/common'
 import Footer from '@/components/organisms/Footer'
-import Header from '@/components/organisms/Header'
 import Button from '@/components/atoms/Button'
 import CointOption, {
   CointPriceDataModel,
 } from '@/components/molecules/CointOption'
 import { MIDTRANS_CLIENT_ID } from '@/utils/constants'
+
+const Header = dynamic(() => import('@/components/organisms/Header'), {
+  ssr: false,
+})
 
 interface TransactionLayoutProps {
   children: React.ReactNode

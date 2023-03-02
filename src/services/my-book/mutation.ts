@@ -59,9 +59,6 @@ export function useMarkBookAsDone() {
     mutationFn: (data: { bookId: string }) => {
       return markBookAsDone(data.bookId)
     },
-    onMutate: (data) => {
-      console.log(data)
-    },
   })
 }
 

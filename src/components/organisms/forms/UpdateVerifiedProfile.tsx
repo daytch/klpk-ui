@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { object, string, InferType } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Button from '@/components/atoms/Button'
 import TextField from '@/components/molecules/TextField'
 import { useForm } from 'react-hook-form'
 import { unVerifiedSchema } from './UpdateUnverifiedProfile'
+import { ProfileUserDataModel } from '@/interfaces/profile'
 
 type UpdateVerifiedProfileProps = {
   onSuccessUpdateProfile: () => void
+  profile?: ProfileUserDataModel
 }
 
 const verifiedSchema = unVerifiedSchema.concat(
   object({
-    ktp: string().required('Field tidak boleh kosong.'),
+    identityNumber: string().required('Field tidak boleh kosong.'),
     bank: string().required('Field tidak boleh kosong.'),
     bank_account: string().required('Field tidak boleh kosong.'),
+    fullName: string().required('Tidak boleh kosong.'),
   })
 )
 
@@ -22,14 +25,26 @@ type FormType = InferType<typeof verifiedSchema>
 
 export default function UpdateVerifiedProfile({
   onSuccessUpdateProfile,
+  profile,
 }: UpdateVerifiedProfileProps) {
   const {
     register,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm<FormType>({
     resolver: yupResolver(verifiedSchema),
   })
+
+  useEffect(() => {
+    if (!profile) return
+    reset({
+      phone: profile?.phone ?? '',
+      fullName: profile?.fullName ?? '',
+      email: profile?.email ?? '',
+      identityNumber: profile?.verification?.identityNumber ?? '',
+    })
+  }, [profile])
 
   const handleUpdateProfile = (data: FormType) => {
     console.log('update data', data)
@@ -44,14 +59,14 @@ export default function UpdateVerifiedProfile({
       <div className="space-y-3 max-w-[350px]">
         <TextField
           labelProps={{
-            children: 'Username',
+            children: 'Nama sesuai KTP',
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('username'),
-            placeholder: 'Username',
-            isInvalid: Boolean(errors?.username?.message),
-            errormessage: errors?.username?.message ?? '',
+            ...register('fullName'),
+            placeholder: 'Nama sesuai KTP',
+            isInvalid: Boolean(errors?.fullName?.message),
+            errormessage: errors?.fullName?.message ?? '',
           }}
         />
         <TextField
@@ -60,10 +75,10 @@ export default function UpdateVerifiedProfile({
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('noHp'),
+            ...register('phone'),
             placeholder: 'No. Handphone',
-            isInvalid: Boolean(errors?.noHp?.message),
-            errormessage: errors?.noHp?.message ?? '',
+            isInvalid: Boolean(errors?.phone?.message),
+            errormessage: errors?.phone?.message ?? '',
           }}
         />
         <TextField
@@ -84,10 +99,10 @@ export default function UpdateVerifiedProfile({
             className: 'text-kplkWhite font-gotham font-extralight',
           }}
           inputProps={{
-            ...register('ktp'),
+            ...register('identityNumber'),
             placeholder: 'Email',
-            isInvalid: Boolean(errors?.ktp?.message),
-            errormessage: errors?.ktp?.message ?? '',
+            isInvalid: Boolean(errors?.identityNumber?.message),
+            errormessage: errors?.identityNumber?.message ?? '',
           }}
         />
         <TextField

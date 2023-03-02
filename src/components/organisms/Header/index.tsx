@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import Image from 'next/image'
 import { joinClass } from '@/utils/common'
 import IconSearch from '@/components/icons/IconSearch'
@@ -15,16 +15,9 @@ interface IProps {
 
 const Header: React.FC<IProps> = ({ mode = 'default' }) => {
   const { refreshToken } = useAuth()
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const showBackButton = mode === 'write' || mode === 'create'
 
-  useEffect(() => {
-    if (refreshToken?.length) {
-      setIsAuthenticated(true)
-    } else {
-      setIsAuthenticated(false)
-    }
-  }, [refreshToken])
+  const showBackButton = mode === 'write' || mode === 'create'
+  const isAuthenticated = useMemo(() => !!refreshToken?.length, [refreshToken])
 
   return (
     <header
@@ -120,7 +113,7 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
                   height={24}
                   alt=""
                 />
-                <div className="w-[6px] h-[6px] bg-[#FF3535] rounded-full absolute z-[2] top-[5px] right-1 ring-1 ring-white" />
+                <span className="inline-block w-[6px] h-[6px] bg-[#FF3535] rounded-full absolute z-[2] top-[5px] right-1 ring-1 ring-white" />
               </button>
 
               <ProfileDropdown />

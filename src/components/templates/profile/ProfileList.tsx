@@ -1,5 +1,6 @@
-import ProfileUserCard from '@/components/organisms/cards/ProfileUserCard'
 import React from 'react'
+import ProfileUserCard from '@/components/organisms/cards/ProfileUserCard'
+import { useGetFollowers } from '@/services/profile/query'
 
 const dummyUser = [
   {
@@ -16,7 +17,14 @@ const dummyUser = [
   },
 ]
 
-export default function ProfileListTemplate() {
+type ProfileListTemplateProps = {
+  userId?: string
+}
+
+export default function ProfileListTemplate({
+  userId,
+}: ProfileListTemplateProps) {
+  const { data: followers } = useGetFollowers({ userId: userId! }, true)
   const handleActive = (id: number) => {
     console.log(id)
   }
@@ -24,6 +32,8 @@ export default function ProfileListTemplate() {
   const handleInActive = (id: number) => {
     console.log(id)
   }
+
+  console.log(followers)
 
   return (
     <div className="space-y-6">
