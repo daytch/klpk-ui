@@ -1,22 +1,11 @@
-import TransactionLayout from '@/components/layouts/transaction'
-import Image from 'next/image'
 import React from 'react'
+import TransactionLayout from '@/components/layouts/transaction'
+import NoDataCard from '@/components/organisms/cards/NoDataCard'
 
 const TransactionHistoryTemplate = () => {
   return (
     <TransactionLayout>
-      <div className="px-4 pt-14 pb-10 flex flex-col items-center text-center">
-        <Image
-          alt="no history"
-          src="/assets/images/no-histoory.png"
-          width={163}
-          height={120}
-          className="mb-6"
-        />
-        <p className="font-gotham text-white text-base font-thin">
-          Belum ada riwayat
-        </p>
-      </div>
+      <NoDataCard text="Belum ada riwayat" />
     </TransactionLayout>
   )
 }

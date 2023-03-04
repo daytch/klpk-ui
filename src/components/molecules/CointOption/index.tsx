@@ -1,17 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 import { formatMoney, formatNumberWithCommas } from '@/utils/common'
-
-export interface CointPriceDataModel {
-  amount: number
-  price: number
-}
+import { CoinPackageDataModel } from '@/interfaces/payment'
 
 interface CointOptionProps {
   checked?: boolean
-  coint: CointPriceDataModel
+  coint: CoinPackageDataModel
   id: string
-  onChange: (value: CointPriceDataModel) => void
+  onChange: (value: CoinPackageDataModel) => void
 }
 
 const CointOption: React.FC<CointOptionProps> = ({
