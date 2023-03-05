@@ -22,7 +22,7 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
   return (
     <header
       className={joinClass(
-        'border-b border-gold-300 z-10 h-[84px] bg-dark-400 flex items-center sticky top-0'
+        'border-b border-gold-300 z-20 h-[84px] bg-dark-400 flex items-center sticky top-0'
       )}
     >
       {showBackButton && (

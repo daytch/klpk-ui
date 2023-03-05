@@ -1,22 +1,29 @@
-import { joinClass } from '@/utils/common'
+import React, { useMemo } from 'react'
 import Image from 'next/image'
-import React from 'react'
+import { joinClass } from '@/utils/common'
+import { ProfilePhotoDataModel } from '@/interfaces/profile'
 
 type ProfileUserCardProps = {
-  image: string
+  profilePhoto?: ProfilePhotoDataModel[]
   name: string
   isActive?: boolean
-  onActiveActionClick: () => void
-  onInactiveActionClick: () => void
+  onActiveActionClick?: () => void
+  onInactiveActionClick?: () => void
 }
 
 export default function ProfileUserCard({
-  image,
+  profilePhoto,
   name,
   isActive,
-  onActiveActionClick,
-  onInactiveActionClick,
+  onActiveActionClick = () => {},
+  onInactiveActionClick = () => {},
 }: ProfileUserCardProps) {
+  const userAvatarImage = useMemo(() => {
+    if (!profilePhoto || !profilePhoto.length) return ''
+    const cover = profilePhoto.find((photo) => photo.type === 'avatar')
+    return cover?.url ?? ''
+  }, [profilePhoto])
+
   const handleClickButton = () => {
     if (isActive) {
       onActiveActionClick()
@@ -28,7 +35,7 @@ export default function ProfileUserCard({
     <div className="flex items-center justify-between space-x-4">
       <div className="flex items-center space-x-6 text-kplkWhite">
         <Image
-          src={image}
+          src={userAvatarImage}
           alt=""
           width={55}
           height={55}

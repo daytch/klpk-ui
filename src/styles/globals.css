@@ -114,3 +114,14 @@ body .tox .tox-tbtn {
 body .tox .tox-tbtn svg {
   fill: #f9f7ef;
 }
+
+.dropdown-icon {
+  @apply -rotate-90 transition-all
+}
+
+[data-state='open'] .dropdown-icon {
+  @apply rotate-90
+}
+[data-radix-popper-content-wrapper] {
+  @apply !z-30
+}

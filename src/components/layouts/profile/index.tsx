@@ -36,7 +36,7 @@ const profileTabConfig = [
   {
     text: 'Mengikuti',
     icon: IconUserTag,
-    url: '/profile/follow',
+    url: '/profile/following',
   },
   {
     text: 'Pengikut',
@@ -55,7 +55,6 @@ export default function ProfileLayout({
   children,
 }: ProfileLayoutProps) {
   const { pathname, push } = useRouter()
-  const isVerified = useMemo(() => profile?.verified, [profile])
   const [viewMode, setViewMode] = useState<'default' | 'verif-profile'>(
     'default'
   )
@@ -171,7 +170,7 @@ export default function ProfileLayout({
                   <p className="text-kplkWhite text-xs font-thin">
                     {profile?.username ?? ''}
                   </p>
-                  {!isVerified && viewMode === 'default' && (
+                  {viewMode === 'default' && (
                     <Button
                       type="button"
                       onClick={() => setViewMode('verif-profile')}
@@ -225,6 +224,7 @@ export default function ProfileLayout({
               )}
               {viewMode === 'verif-profile' && (
                 <VerifProfileForm
+                  profile={profile}
                   onSuccessVerifProfile={() => {
                     setViewMode('default')
                   }}

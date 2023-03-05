@@ -15,7 +15,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const detailBookLink =
     contentTypeView === 'default'
-      ? `/books/detail/${book.id}`
+      ? `/book/detail/${book.id}`
       : `/menulis/buku/${book.id}`
   return (
     <Link to={detailBookLink} className="flex flex-col space-y-2">
