@@ -17,6 +17,7 @@ export interface BookChapterDataModel {
   id: string
   name: string
   content: string
+  isLocked?: boolean
 }
 
 export interface DetailBookDataModel extends BookDataModel {
