@@ -15,23 +15,23 @@ const Header = dynamic(() => import('@/components/organisms/Header'), {
 
 const dummyChapter: BookChapterDataModel[] = [
   {
-    id: '993ea304-d91d-91fc-8ce7-cb5c3576e95c/9f1ee821-a982-c92a-7f0c-749d3fc88799',
+    id: '9f1ee821-a982-c92a-7f0c-749d3fc88799',
     name: 'Bab 1',
     content: 'Bab 1',
   },
   {
-    id: '993ea304-d91d-91fc-8ce7-cb5c3576e95c/9f1ee821-a982-c92a-7f0c-749d3fc88710',
+    id: '9f1ee821-a982-c92a-7f0c-749d3fc88710',
     name: 'Bab 2',
     content: 'Bab 2',
   },
   {
-    id: '993ea304-d91d-91fc-8ce7-cb5c3576e95c/9f1ee821-a982-c92a-7f0c-749d3fc88715',
+    id: '9f1ee821-a982-c92a-7f0c-749d3fc88715',
     name: 'Bab 3',
     content: 'Bab 3',
     isLocked: true,
   },
   {
-    id: '993ea304-d91d-91fc-8ce7-cb5c3576e95c/9f1ee821-a982-c92a-7f0c-749d3fc88715',
+    id: '9f1ee821-a982-c92a-7f0c-749d3fc88715',
     name: 'Bab 4',
     content: 'Bab 4',
     isLocked: true,

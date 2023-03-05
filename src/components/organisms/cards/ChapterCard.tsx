@@ -16,12 +16,12 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
   orderNumber,
   viewMode = 'writing',
 }) => {
-  const { asPath } = useRouter()
+  const { asPath, query } = useRouter()
   const { id, name } = chapter
 
   const chapterUpdateLink = `${asPath}/chapter/${id}`
   const synopsisReadLink = `/book/detail/${id}`
-  const chapterReadLink = `/book/read/${id}`
+  const chapterReadLink = `/book/read/${query.bookId}/${id}`
   const isSynopsisContent = chapter.content === 'synopsis'
 
   if (viewMode === 'read') {
