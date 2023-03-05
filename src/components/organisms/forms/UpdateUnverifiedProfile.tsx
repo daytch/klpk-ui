@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { object, string, InferType } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
+import { useToast } from '@/hooks/useToast'
+import { useUpdateProfile } from '@/services/profile/mutation'
 import Button from '@/components/atoms/Button'
 import TextField from '@/components/molecules/TextField'
-import { useForm } from 'react-hook-form'
 import { ProfileUserDataModel } from '@/interfaces/profile'
 
 type UpdateUnverifiedProfileProps = {
@@ -33,6 +35,8 @@ export default function UpdateUnverifiedProfile({
   } = useForm<FormType>({
     resolver: yupResolver(unVerifiedSchema),
   })
+  const updateProfile = useUpdateProfile()
+  const toast = useToast()
 
   useEffect(() => {
     if (!profile) return
@@ -43,9 +47,21 @@ export default function UpdateUnverifiedProfile({
     })
   }, [profile])
 
-  const handleUpdateProfile = (data: FormType) => {
-    console.log('update data', data)
-    onSuccessUpdateProfile()
+  const handleUpdateProfile = (values: FormType) => {
+    updateProfile.mutate(
+      {
+        username: values.username,
+
+        email: values.email,
+        phone: values.phone,
+      },
+      {
+        onSuccess() {
+          toast.addToast('success', 'Profile berhasil diperbarui.')
+          onSuccessUpdateProfile()
+        },
+      }
+    )
   }
   return (
     <form

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { object, string, InferType } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
 import Button from '@/components/atoms/Button'
 import TextField from '@/components/molecules/TextField'
-import { useForm } from 'react-hook-form'
 import { unVerifiedSchema } from './UpdateUnverifiedProfile'
 import { ProfileUserDataModel } from '@/interfaces/profile'
+import { useUpdateProfile } from '@/services/profile/mutation'
+import { useToast } from '@/hooks/useToast'
 
 type UpdateVerifiedProfileProps = {
   onSuccessUpdateProfile: () => void
@@ -14,10 +16,8 @@ type UpdateVerifiedProfileProps = {
 
 const verifiedSchema = unVerifiedSchema.concat(
   object({
-    identityNumber: string().required('Field tidak boleh kosong.'),
-    bank: string().required('Field tidak boleh kosong.'),
-    bank_account: string().required('Field tidak boleh kosong.'),
     fullName: string().required('Tidak boleh kosong.'),
+    bio: string().optional(),
   })
 )
 
@@ -35,6 +35,8 @@ export default function UpdateVerifiedProfile({
   } = useForm<FormType>({
     resolver: yupResolver(verifiedSchema),
   })
+  const updateProfile = useUpdateProfile()
+  const toast = useToast()
 
   useEffect(() => {
     if (!profile) return
@@ -42,13 +44,27 @@ export default function UpdateVerifiedProfile({
       phone: profile?.phone ?? '',
       fullName: profile?.fullName ?? '',
       email: profile?.email ?? '',
-      identityNumber: profile?.verification?.identityNumber ?? '',
+      bio: profile?.bio ?? '',
+      username: profile?.username ?? '',
     })
   }, [profile])
 
-  const handleUpdateProfile = (data: FormType) => {
-    console.log('update data', data)
-    onSuccessUpdateProfile()
+  const handleUpdateProfile = (values: FormType) => {
+    updateProfile.mutate(
+      {
+        username: values.username,
+        bio: values?.bio ?? '',
+        email: values.email,
+        fullName: values.fullName,
+        phone: values.phone,
+      },
+      {
+        onSuccess() {
+          toast.addToast('success', 'Profile berhasil diperbarui.')
+          onSuccessUpdateProfile()
+        },
+      }
+    )
   }
   return (
     <form
@@ -67,6 +83,30 @@ export default function UpdateVerifiedProfile({
             placeholder: 'Nama sesuai KTP',
             isInvalid: Boolean(errors?.fullName?.message),
             errormessage: errors?.fullName?.message ?? '',
+          }}
+        />
+        <TextField
+          labelProps={{
+            children: 'Bio',
+            className: 'text-kplkWhite font-gotham font-extralight',
+          }}
+          inputProps={{
+            ...register('bio'),
+            placeholder: 'Bio',
+            isInvalid: Boolean(errors?.bio?.message),
+            errormessage: errors?.bio?.message ?? '',
+          }}
+        />
+        <TextField
+          labelProps={{
+            children: 'Username',
+            className: 'text-kplkWhite font-gotham font-extralight',
+          }}
+          inputProps={{
+            ...register('username'),
+            placeholder: 'Username',
+            isInvalid: Boolean(errors?.username?.message),
+            errormessage: errors?.username?.message ?? '',
           }}
         />
         <TextField
@@ -91,30 +131,6 @@ export default function UpdateVerifiedProfile({
             placeholder: 'Email',
             isInvalid: Boolean(errors?.email?.message),
             errormessage: errors?.email?.message ?? '',
-          }}
-        />
-        <TextField
-          labelProps={{
-            children: 'No KTP',
-            className: 'text-kplkWhite font-gotham font-extralight',
-          }}
-          inputProps={{
-            ...register('identityNumber'),
-            placeholder: 'Email',
-            isInvalid: Boolean(errors?.identityNumber?.message),
-            errormessage: errors?.identityNumber?.message ?? '',
-          }}
-        />
-        <TextField
-          labelProps={{
-            children: 'No Rekening',
-            className: 'text-kplkWhite font-gotham font-extralight',
-          }}
-          inputProps={{
-            ...register('bank_account'),
-            placeholder: 'No Rekening',
-            isInvalid: Boolean(errors?.bank_account?.message),
-            errormessage: errors?.bank_account?.message ?? '',
           }}
         />
       </div>
