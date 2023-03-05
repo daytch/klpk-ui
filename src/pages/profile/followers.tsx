@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import ProfileLayout from '@/components/layouts/profile'
 import { APP_NAME } from '@/utils/constants'
-import ProfileListTemplate from '@/components/templates/profile/ProfileList'
+import FollowerTemplate from '@/components/templates/profile/FollowerTemplate'
 import { useGetMe } from '@/services/profile/query'
 
 export default function ProfileFollowersPage() {
@@ -14,7 +14,7 @@ export default function ProfileFollowersPage() {
         <title>{`${APP_NAME} | Mengikuti`}</title>
       </Head>
       <ProfileLayout profile={data}>
-        <ProfileListTemplate userId={data?.id} />
+        <FollowerTemplate userId={data?.id} />
       </ProfileLayout>
     </>
   )

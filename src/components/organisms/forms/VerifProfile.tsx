@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import React, { useEffect, useState } from 'react'
 import { InferType, object, string } from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
+import {
+  useCreateVerificationUserRequest,
+  useUpdateVerificationUserRequest,
+} from '@/services/profile/mutation'
+import { useToast } from '@/hooks/useToast'
 import Button from '@/components/atoms/Button'
 import DialogSuccessSaveBook from '@/components/molecules/DialogSuccessSaveBook'
 import TextField from '@/components/molecules/TextField'
-import { useToast } from '@/hooks/useToast'
-import { useCreateVerificationUserRequest } from '@/services/profile/mutation'
 import { bankAccountPattern, NIKPattern } from '@/utils/regex'
+import { ProfileUserDataModel } from '@/interfaces/profile'
 
 type VerifProfileFormProps = {
   onSuccessVerifProfile: () => void
+  profile?: ProfileUserDataModel
 }
 
 const schema = object({
@@ -28,36 +33,69 @@ type FormType = InferType<typeof schema>
 
 export default function VerifProfileForm({
   onSuccessVerifProfile,
+  profile,
 }: VerifProfileFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormType>({
     resolver: yupResolver(schema),
     mode: 'all',
   })
   const toast = useToast()
   const createVerifRequest = useCreateVerificationUserRequest()
+  const updateVerifRequest = useUpdateVerificationUserRequest()
   const [showSuccessModal, setShowSuccessModal] = useState(false)
 
+  useEffect(() => {
+    if (!profile) return
+    reset({
+      identityFullName: profile?.verification?.identityFullName ?? '',
+      identityNumber: profile?.verification?.identityNumber ?? '',
+      bankName: profile?.verification?.bankName ?? '',
+      bankAccountNumber: profile?.verification?.bankAccountNumber ?? '',
+    })
+  }, [profile])
+
   const handleVerifProfile = (formValues: FormType) => {
-    createVerifRequest.mutate(
-      {
-        ...formValues,
-      },
-      {
-        onSuccess: () => {
-          setShowSuccessModal(true)
+    if (profile?.verified) {
+      updateVerifRequest.mutate(
+        {
+          id: profile?.verification?.id ?? '',
+          body: formValues,
         },
-        onError: () => {
-          toast.addToast(
-            'error',
-            'Gagal mengirim permintaan. Silahkan coba lagi.'
-          )
+        {
+          onSuccess: () => {
+            setShowSuccessModal(true)
+          },
+          onError: () => {
+            toast.addToast(
+              'error',
+              'Gagal mengirim permintaan. Silahkan coba lagi.'
+            )
+          },
+        }
+      )
+    } else {
+      createVerifRequest.mutate(
+        {
+          ...formValues,
         },
-      }
-    )
+        {
+          onSuccess: () => {
+            setShowSuccessModal(true)
+          },
+          onError: () => {
+            toast.addToast(
+              'error',
+              'Gagal mengirim permintaan. Silahkan coba lagi.'
+            )
+          },
+        }
+      )
+    }
   }
 
   return (

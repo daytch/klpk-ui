@@ -1,6 +1,6 @@
 import { APIBaseParams } from './api'
 
-type ProfilePhotoDataMode = {
+export type ProfilePhotoDataModel = {
   type: string
   url: string
 }
@@ -27,7 +27,7 @@ export type ProfileUserDataModel = {
   booksCount: number
   coinBalance: number
   verification?: ProfileVerification
-  photos?: ProfilePhotoDataMode[]
+  photos?: ProfilePhotoDataModel[]
 }
 
 export type UserVeriticationPayload = {
@@ -38,5 +38,21 @@ export type UserVeriticationPayload = {
 }
 
 export type ProfileParams = {
-  userId: string
+  userId?: string
 } & APIBaseParams
+
+export type ProfileFollowDataModel = {
+  id: string
+  fullName: string
+  username: string
+  following: boolean
+  photos?: ProfilePhotoDataModel[]
+}
+
+export type UpdateProfilePayload = {
+  fullName?: string
+  email: string
+  username: string
+  phone: string
+  bio?: string
+}

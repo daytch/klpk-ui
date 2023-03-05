@@ -122,3 +122,6 @@ body .tox .tox-tbtn svg {
 [data-state='open'] .dropdown-icon {
   @apply rotate-90
 }
+[data-radix-popper-content-wrapper] {
+  @apply !z-30
+}
