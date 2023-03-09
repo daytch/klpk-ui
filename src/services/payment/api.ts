@@ -22,3 +22,14 @@ export async function createTopup(params: TopupParams) {
     return Promise.reject(error)
   }
 }
+
+export async function createWithdraw(params: { amount: number }) {
+  try {
+    const response = await service.post('/withdraws', {
+      ...params,
+    })
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}

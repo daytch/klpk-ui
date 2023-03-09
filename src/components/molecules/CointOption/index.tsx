@@ -8,6 +8,7 @@ interface CointOptionProps {
   coint: CoinPackageDataModel
   id: string
   onChange: (value: CoinPackageDataModel) => void
+  viewMode?: 'default' | 'withdraw'
 }
 
 const CointOption: React.FC<CointOptionProps> = ({
@@ -15,6 +16,7 @@ const CointOption: React.FC<CointOptionProps> = ({
   coint,
   id,
   onChange,
+  viewMode = 'default',
 }) => {
   return (
     <div className="bg-transparent">
@@ -28,7 +30,7 @@ const CointOption: React.FC<CointOptionProps> = ({
       />
       <label
         htmlFor={id}
-        className="py-3 px-6 inline-flex items-center rounded-xl space-x-[18px] bg-dark-100 border-2 border-dark-100 peer-checked:border-gold-200"
+        className="py-3 px-6 inline-flex items-center rounded-xl space-x-[18px] bg-dark-100 border-2 border-dark-100 peer-checked:border-gold-200 w-full"
       >
         <Image
           alt=""
@@ -40,9 +42,11 @@ const CointOption: React.FC<CointOptionProps> = ({
           <p className="font-inherit font-bold text-gold-200 text-xl leading-5 mb-2">
             {formatNumberWithCommas(coint.amount)} Coins
           </p>
-          <p className="text-white font-thin text-sm leading-3">
-            {formatMoney(coint.price)}
-          </p>
+          {viewMode === 'default' && coint.price && (
+            <p className="text-white font-thin text-sm leading-3">
+              {formatMoney(coint.price)}
+            </p>
+          )}
         </div>
       </label>
     </div>

@@ -1,7 +1,7 @@
 export type CoinPackageDataModel = {
   id: string
   amount: number
-  price: number
+  price?: number
 }
 
 export type TopupParams = {

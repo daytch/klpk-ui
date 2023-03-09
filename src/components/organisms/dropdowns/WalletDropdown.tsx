@@ -3,8 +3,11 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import Image from 'next/image'
 import Link from '@/components/atoms/Link'
 import CointCard from '../cards/CointCard'
+import { useGetMe } from '@/services/profile/query'
 
 export default function WalletDropdown() {
+  const { data } = useGetMe()
+
   return (
     <div className="relative inline-block text-left">
       <DropdownMenu.Root
@@ -31,7 +34,7 @@ export default function WalletDropdown() {
             <DropdownMenu.Item>
               <div className="overflow-hidden rounded-lg w-64 ">
                 <div className="w-full bg-dark-200 p-5 flex items-center">
-                  <CointCard amount={10} />
+                  <CointCard amount={data?.coinBalance ?? 0} />
                 </div>
                 <Link
                   className="p-[10px] text-center w-full block bg-gold-200 text-dark-200"
