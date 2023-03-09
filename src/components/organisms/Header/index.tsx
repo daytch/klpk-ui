@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { joinClass } from '@/utils/common'
 import IconSearch from '@/components/icons/IconSearch'
@@ -13,11 +13,25 @@ interface IProps {
   mode?: 'default' | 'write' | 'create'
 }
 
+const useHasHydrated = () => {
+  const [hasHydrated, setHasHydrated] = useState<boolean>(false)
+
+  useEffect(() => {
+    setHasHydrated(true)
+  }, [])
+
+  return hasHydrated
+}
+
 const Header: React.FC<IProps> = ({ mode = 'default' }) => {
+  const hasHydrated = useHasHydrated()
   const { refreshToken } = useAuth()
 
   const showBackButton = mode === 'write' || mode === 'create'
-  const isAuthenticated = useMemo(() => !!refreshToken?.length, [refreshToken])
+  const isAuthenticated = useMemo(
+    () => hasHydrated && !!refreshToken?.length,
+    [refreshToken, hasHydrated]
+  )
 
   return (
     <header

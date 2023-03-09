@@ -35,3 +35,20 @@ export function createImagePreview(e: ChangeEvent<HTMLInputElement>) {
   const imageSrc = URL.createObjectURL(imageFiles[0])
   return imageSrc
 }
+
+export function createNumberArray(
+  min: number,
+  max: number,
+  step: number
+): number[] {
+  const result: number[] = []
+
+  for (let i = min; i <= max; i += step) {
+    result.push(i)
+  }
+
+  // Sort the array in ascending order
+  result.sort((a, b) => a - b)
+
+  return result
+}

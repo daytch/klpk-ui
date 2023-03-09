@@ -1,41 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 import { formatNumberWithCommas, joinClass } from '@/utils/common'
+import Header from '@/components/organisms/Header'
 import Footer from '@/components/organisms/Footer'
 import Button from '@/components/atoms/Button'
-import CointOption, {
-  CointPriceDataModel,
-} from '@/components/molecules/CointOption'
+import CointOption from '@/components/molecules/CointOption'
 import { MIDTRANS_CLIENT_ID } from '@/utils/constants'
-
-const Header = dynamic(() => import('@/components/organisms/Header'), {
-  ssr: false,
-})
+import { useGetCoinPackages } from '@/services/payment/query'
+import Spinner from '@/components/molecules/Spinner'
+import { useCreateTopup } from '@/services/payment/mutation'
+import { CoinPackageDataModel, TopupResponse } from '@/interfaces/payment'
+import { useToast } from '@/hooks/useToast'
+import SuccessDialog from '@/components/organisms/dialogs/SuccessDialog'
+import { useGetMe } from '@/services/profile/query'
+import WithdrawDialog from '@/components/organisms/dialogs/WithdrawDialog'
 
 interface TransactionLayoutProps {
   children: React.ReactNode
 }
-
-const dummyCointOptions: CointPriceDataModel[] = [
-  {
-    amount: 150,
-    price: 15000,
-  },
-  {
-    amount: 250,
-    price: 25000,
-  },
-  {
-    amount: 500,
-    price: 50000,
-  },
-  {
-    amount: 1000,
-    price: 100000,
-  },
-]
 
 const tabs = [
   {
@@ -53,8 +36,25 @@ const tabs = [
 ]
 
 const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
-  const [selectedCoint, setSelectedCoint] = useState<CointPriceDataModel>()
+  const { data, isLoading } = useGetCoinPackages()
+  const { data: me, isLoading: isLoadingMe, refetch: refetchMe } = useGetMe()
+  const createTopup = useCreateTopup()
+  const [selectedCoint, setSelectedCoint] = useState<CoinPackageDataModel>()
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [showWithdrawModal, setShowWithDrawModal] = useState(false)
   const { query, push, pathname } = useRouter()
+  const toast = useToast()
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (
+      String(query?.order_id).length > 0 &&
+      Number(query?.status_code) === 200
+    ) {
+      setShowSuccessModal(true)
+      refetchMe()
+    }
+  }, [query?.order_id, query?.status_code])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -86,6 +86,21 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
     )
   }
 
+  const handleCreateTopup = () => {
+    if (!selectedCoint || typeof window === undefined) return
+    createTopup.mutate(
+      { coinPackageId: selectedCoint.id },
+      {
+        onSuccess(data: TopupResponse) {
+          window.snap.pay(data.paymentToken)
+        },
+        onError() {
+          toast.addToast('error', 'Gagal memproses topup. Coba lagi.')
+        },
+      }
+    )
+  }
+
   return (
     <>
       <Header />
@@ -102,29 +117,52 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
                   height={44}
                 />
                 <p className="text-white font-normal text-2xl leading-6">
-                  {formatNumberWithCommas(100438)} Coins
+                  {formatNumberWithCommas(me?.coinBalance ?? 0)} Coins
                 </p>
               </div>
-              <Button type="button" variant="primary" isFullWidth={false}>
+              <Button
+                onClick={() => setShowWithDrawModal(true)}
+                type="button"
+                variant="primary"
+                isFullWidth={false}
+              >
                 Withdraw
               </Button>
+              <WithdrawDialog
+                coinBalance={me?.coinBalance ?? 0}
+                isOpen={showWithdrawModal}
+                onClose={() => setShowWithDrawModal(false)}
+                onSuccessWithdraw={() => {
+                  refetchMe()
+                  setShowWithDrawModal(false)
+                  setShowSuccessModal(true)
+                }}
+              />
             </div>
             <hr className="border-gold-300 mb-6" />
             <div className="flex flex-nowrap overflow-auto space-x-[42px] scrollbar pb-2 mb-10">
-              {dummyCointOptions.map((option, index) => (
-                <div key={index} className="grow shrink-0">
-                  <CointOption
-                    coint={option}
-                    onChange={(value) => setSelectedCoint(value)}
-                    id={`coint-option-${index}`}
-                    checked={option === selectedCoint}
-                  />
-                </div>
-              ))}
+              {isLoading || (isLoadingMe && <Spinner />)}
+              {data !== undefined &&
+                data.map((option, index) => (
+                  <div key={index} className="grow shrink-0">
+                    <CointOption
+                      coint={option}
+                      onChange={(value) => setSelectedCoint(value)}
+                      id={`coint-option-${index}`}
+                      checked={option === selectedCoint}
+                    />
+                  </div>
+                ))}
             </div>
             <div className="text-center">
-              <Button variant="primary" type="button" isFullWidth={false}>
-                Lanjut Pembayaran
+              <Button
+                onClick={handleCreateTopup}
+                disabled={selectedCoint === undefined || createTopup.isLoading}
+                variant="primary"
+                type="button"
+                isFullWidth={false}
+              >
+                {createTopup.isLoading ? 'Memproses..' : 'Lanjut Pembayaran'}
               </Button>
             </div>
           </div>
@@ -152,6 +190,28 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
           </div>
         </section>
       </main>
+      <SuccessDialog
+        isOpen={showSuccessModal}
+        onClose={() => {
+          setShowSuccessModal(false)
+          push({
+            pathname: '/transaksi/[transactionTab]',
+            query: {
+              transactionTab: query.transactionTab,
+            },
+          })
+        }}
+        onConfirm={() => {
+          setShowSuccessModal(false)
+          push({
+            pathname: '/transaksi/[transactionTab]',
+            query: {
+              transactionTab: query.transactionTab,
+            },
+          })
+        }}
+        message="Topup berhasil."
+      />
       <Footer />
     </>
   )
