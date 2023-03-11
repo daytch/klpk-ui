@@ -1,4 +1,5 @@
 import { LoginDataModel } from '@/interfaces/auth'
+import Router from 'next/router'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -15,11 +16,14 @@ export const useAuth = create<AuthState>()(
       expirationDate: '',
       login: (auth: LoginDataModel) =>
         set({
-          refreshToken: auth.refreshToken,
-          token: auth.token,
-          expirationDate: auth.expirationDate,
+          refreshToken: auth?.refreshToken ?? '',
+          token: auth?.token ?? '',
+          expirationDate: auth?.expirationDate ?? '',
         }),
-      logout: () => set({ refreshToken: '', token: '', expirationDate: '' }),
+      logout: () => {
+        set({ refreshToken: '', token: '', expirationDate: '' })
+        Router.push('/')
+      },
     }),
     {
       name: 'auth-state',

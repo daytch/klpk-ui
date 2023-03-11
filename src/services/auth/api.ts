@@ -1,12 +1,10 @@
-import { httpRequest } from '@/utils/httpRequest'
+import { apiService } from '@/utils/httpRequest'
 import {
   LoginPayloadProps,
   RegisterPayloadProps,
   VerifyPayloadProps,
   LoginDataModel,
 } from '@/interfaces/auth'
-
-const apiService = httpRequest()
 
 export function login(payload: LoginPayloadProps) {
   return apiService.post<LoginDataModel>('/auth/login', {
@@ -48,4 +46,15 @@ export function verifyResetPasswordToken(token: string) {
   return apiService.post('/auth/verify-reset-password', {
     token,
   })
+}
+
+export async function getRefreshToken(token: string) {
+  try {
+    const response = await apiService.post('/auth/refresh-token', {
+      token,
+    })
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }

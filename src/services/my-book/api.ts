@@ -5,37 +5,35 @@ import {
   PayloadBook,
   PayloadChapter,
 } from '@/interfaces/book'
-import { httpRequest } from '@/utils/httpRequest'
-
-const service = httpRequest()
+import { apiService } from '@/utils/httpRequest'
 const apiUrl = '/books'
 
 export async function getAllMyBooks(params?: GetMyBookParams) {
-  const response = await service.get<BookDataModel[]>(`${apiUrl}/@me`, {
+  const response = await apiService.get<BookDataModel[]>(`${apiUrl}/@me`, {
     params,
   })
   return response.data
 }
 
 export async function createNewBook(data: PayloadBook) {
-  const response = await service.post(apiUrl, {
+  const response = await apiService.post(apiUrl, {
     ...data,
   })
   return response.data
 }
 
 export async function updateBookFromId(bookId: string, data: PayloadBook) {
-  const response = await service.put(`${apiUrl}/${bookId}`, data)
+  const response = await apiService.put(`${apiUrl}/${bookId}`, data)
   return response.data
 }
 
 export async function getMyBookFromId(id: string) {
-  const response = await service.get<DetailBookDataModel>(`${apiUrl}/${id}`)
+  const response = await apiService.get<DetailBookDataModel>(`${apiUrl}/${id}`)
   return response.data
 }
 
 export async function updateBookCover(data: { File: any; id: string }) {
-  const response = await service.post(
+  const response = await apiService.post(
     `${apiUrl}/${data.id}/covers`,
     data.File,
     {
@@ -48,7 +46,7 @@ export async function updateBookCover(data: { File: any; id: string }) {
 }
 
 export async function createNewChapter(bookId: string, data: PayloadChapter) {
-  const response = await service.post(`${apiUrl}/${bookId}/chapters`, data)
+  const response = await apiService.post(`${apiUrl}/${bookId}/chapters`, data)
   return response.data
 }
 
@@ -57,7 +55,7 @@ export async function updateChapterFromId(
   chapterId: string,
   data: PayloadChapter
 ) {
-  const response = await service.put(
+  const response = await apiService.put(
     `${apiUrl}/${bookId}/chapters/${chapterId}`,
     data
   )
@@ -65,18 +63,18 @@ export async function updateChapterFromId(
 }
 
 export async function getChapterFromId(bookId: string, chapterId: string) {
-  const response = await service.get(
+  const response = await apiService.get(
     `${apiUrl}/${bookId}/chapters/${chapterId}`
   )
   return response.data
 }
 
 export async function markBookAsDone(bookId: string) {
-  const response = await service.put(`${apiUrl}/${bookId}/complete`)
+  const response = await apiService.put(`${apiUrl}/${bookId}/complete`)
   return response.data
 }
 
 export async function publishBook(bookId: string) {
-  const response = await service.put(`${apiUrl}/${bookId}/publish`)
+  const response = await apiService.put(`${apiUrl}/${bookId}/publish`)
   return response.data
 }

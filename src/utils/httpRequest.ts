@@ -1,3 +1,4 @@
+import { getRefreshToken } from '@/services/auth/api'
 import { useAuth } from '@/store/useAuth'
 import axios from 'axios'
 import { BASE_API_URL } from './constants'
@@ -7,20 +8,58 @@ export const httpRequest = () => {
   const instance = axios.create({
     baseURL: BASE_API_URL,
   })
-
-  const accessToken = getState().token
+  let count = 0
 
   instance.interceptors.request.use(
-    (config: any) => {
+    function (config) {
+      const accessToken = getState().token
       config.headers = {
         Authorization: `Bearer ${accessToken}`,
       }
       return config
     },
-    (error) => {
+    function (error) {
+      return Promise.reject(error)
+    }
+  )
+
+  instance.interceptors.response.use(
+    function (response) {
+      return response
+    },
+    async function (error) {
+      const originalRequest = error.config
+
+      if (
+        error?.response?.status === 401 &&
+        count < 2 &&
+        !originalRequest?._retry
+      ) {
+        count += 1
+        originalRequest._retry = true
+        const refreshToken = getState().refreshToken
+        const data = await getRefreshToken(refreshToken)
+        getState().login({
+          token: data.token,
+          expirationDate: data.expirationDate,
+          refreshToken: '',
+        })
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
+        return instance(originalRequest)
+      } else if (
+        error?.response?.status === 401 &&
+        !originalRequest._retry &&
+        count >= 2
+      ) {
+        localStorage.clear()
+        getState().logout()
+        location.href = '/'
+      }
       return Promise.reject(error)
     }
   )
 
   return instance
 }
+
+export const apiService = httpRequest()
