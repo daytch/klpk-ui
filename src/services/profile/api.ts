@@ -5,9 +5,8 @@ import {
   UpdateProfilePayload,
   UserVeriticationPayload,
 } from '@/interfaces/profile'
-import { httpRequest } from '@/utils/httpRequest'
+import { apiService } from '@/utils/httpRequest'
 
-const apiService = httpRequest()
 const apiUrl = '/@me'
 
 export async function getMe() {

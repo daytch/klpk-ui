@@ -1,11 +1,14 @@
 import { ProfileParams } from '@/interfaces/profile'
+import { useAuth } from '@/store/useAuth'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { getFollowers, getFollowings, getMe } from './api'
 
 export function useGetMe() {
+  const { token } = useAuth()
   return useQuery({
     queryKey: ['get-profile-me'],
     queryFn: () => getMe(),
+    enabled: !!token,
   })
 }
 
