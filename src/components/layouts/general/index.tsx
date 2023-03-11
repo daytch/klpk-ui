@@ -12,11 +12,11 @@ const GeneralLayout: React.FC<GeneralLayoutProps> = ({
   headerMode = 'default',
 }) => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Header mode={headerMode} />
-      <main>{children}</main>
+      <main className="flex-1">{children}</main>
       <Footer />
-    </>
+    </div>
   )
 }
 

@@ -52,6 +52,15 @@ export default function ProfileDropdown() {
               </Link>
             </DropdownMenu.Item>
             <DropdownMenu.Item>
+              <Link
+                to="/bacaan-saya"
+                className="flex items-center border-b border-gold-100 w-[164px] py-2 px-4 text-white space-x-2 cursor-pointer outline-none"
+              >
+                <IconBrush color="#D6B16D" />
+                <span>Bacaan Saya</span>
+              </Link>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item>
               <button
                 onClick={logout}
                 className="flex items-center border-b border-gold-100 w-[164px] py-2 px-4 text-white space-x-2 cursor-pointer outline-none"

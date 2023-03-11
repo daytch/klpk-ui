@@ -10,7 +10,7 @@ export default function NoDataCard({ text }: NoDataCardProps) {
     <div className="px-4 pt-14 pb-10 flex flex-col items-center text-center">
       <Image
         alt="no history"
-        src="/assets/images/no-histoory.png"
+        src="/assets/images/empty-data.svg"
         width={163}
         height={120}
         className="mb-6"
