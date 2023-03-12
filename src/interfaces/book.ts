@@ -45,4 +45,6 @@ export type GetMyBookParams = {
   status?: string
   limit?: number
   page?: number
+  userId?: string
+  search?: string
 }

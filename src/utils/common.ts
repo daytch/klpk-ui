@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react'
+import Router from 'next/router'
 
 export function joinClass(...args: Array<string | boolean | undefined>) {
   return args
@@ -51,4 +52,12 @@ export function createNumberArray(
   result.sort((a, b) => a - b)
 
   return result
+}
+
+export function authGuardAction(token: string, callback: () => void) {
+  if (!token || !token.length) {
+    return Router.push('/auth/login')
+  } else {
+    callback()
+  }
 }

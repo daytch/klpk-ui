@@ -1,20 +1,15 @@
 import React from 'react'
-import {
-  QueryClient,
-  QueryClientProvider,
-  Hydrate,
-} from '@tanstack/react-query'
+import { QueryClientProvider, Hydrate } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ThemeProvider } from 'next-themes'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import type { AppProps } from 'next/app'
 import '../styles/globals.css'
 import { ToastProvider } from '@/hooks/useToast'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GOOGLE_AUTH_CLIENT_ID } from '@/utils/constants'
-import { ThemeProvider } from 'next-themes'
+import { queryClient } from '@/utils/react-query'
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(() => new QueryClient())
-
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
