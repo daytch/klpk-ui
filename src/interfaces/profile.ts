@@ -24,6 +24,8 @@ export type ProfileUserDataModel = {
   verified: boolean
   bio?: string
   followersCount: number
+  followingsCount: number
+  following: false
   booksCount: number
   coinBalance: number
   verification?: ProfileVerification

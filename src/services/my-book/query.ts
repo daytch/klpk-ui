@@ -1,5 +1,10 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { getAllMyBooks, getChapterFromId, getMyBookFromId } from './api'
+import {
+  getAllMyBooks,
+  getChapterFromId,
+  getMyBookFromId,
+  getPublicBooks,
+} from './api'
 
 export function useMyBooks() {
   return useQuery({
@@ -43,6 +48,31 @@ export function useGetInfiniteMyBook({
     ({ pageParam }) => {
       const newParam = { ...params, page: pageParam }
       return getAllMyBooks(newParam)
+    },
+    {
+      enabled,
+      keepPreviousData: true,
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.length ? allPages.length + 1 : undefined
+      },
+    }
+  )
+}
+
+export function useGetSearchBook({
+  params,
+  enabled = true,
+  pageParam = 1,
+}: {
+  params: { status?: string; limit?: number }
+  enabled?: boolean
+  pageParam?: number
+}) {
+  return useInfiniteQuery(
+    ['infinite-public-books', pageParam, params],
+    ({ pageParam }) => {
+      const newParam = { ...params, page: pageParam }
+      return getPublicBooks(newParam)
     },
     {
       enabled,

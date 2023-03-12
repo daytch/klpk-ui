@@ -1,7 +1,7 @@
 import { ProfileParams } from '@/interfaces/profile'
 import { useAuth } from '@/store/useAuth'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { getFollowers, getFollowings, getMe } from './api'
+import { getFollowers, getFollowings, getMe, getWriterProfile } from './api'
 
 export function useGetMe() {
   const { token } = useAuth()
@@ -60,4 +60,11 @@ export function useGetFollowings({
       },
     }
   )
+}
+
+export function useGetWriterProfile(userId: string) {
+  return useQuery({
+    queryKey: ['get-writer-profile', userId],
+    queryFn: () => getWriterProfile(userId),
+  })
 }

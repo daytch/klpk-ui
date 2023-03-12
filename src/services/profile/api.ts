@@ -109,3 +109,14 @@ export async function unFollowUser(userId: string) {
     return Promise.reject(error)
   }
 }
+
+export async function getWriterProfile(userId: string) {
+  try {
+    const response = await apiService.get<ProfileUserDataModel>(
+      `/profiles/${userId}`
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
