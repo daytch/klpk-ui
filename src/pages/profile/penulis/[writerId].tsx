@@ -45,7 +45,7 @@ export default function WriterProfilePage({
   return (
     <Fragment>
       <Head>
-        <title>{`${APP_NAME} | Profil Buku`}</title>
+        <title>{`${APP_NAME} | Profil Penulis`}</title>
       </Head>
       <WriterProfileTemplate profile={data ?? null} onRefetchData={refetch} />
     </Fragment>
