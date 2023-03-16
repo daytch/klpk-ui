@@ -7,8 +7,20 @@ import IconBrush from '@/components/icons/IconBrush'
 import IconLogout from '@/components/icons/IconLogout'
 import { useAuth } from '@/store/useAuth'
 
-export default function ProfileDropdown() {
+type ProfileDropdownProps = {
+  onCloseSignalIR: () => void
+}
+
+export default function ProfileDropdown({
+  onCloseSignalIR,
+}: ProfileDropdownProps) {
   const { logout } = useAuth()
+
+  const handleLogout = () => {
+    logout()
+    onCloseSignalIR()
+  }
+
   return (
     <div className="relative inline-block text-left">
       <DropdownMenu.Root
@@ -62,7 +74,7 @@ export default function ProfileDropdown() {
             </DropdownMenu.Item>
             <DropdownMenu.Item>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="flex items-center border-b border-gold-100 w-[164px] py-2 px-4 text-white space-x-2 cursor-pointer outline-none"
               >
                 <IconLogout color="#D6B16D" />
