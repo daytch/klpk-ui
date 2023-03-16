@@ -1,51 +1,70 @@
 import React, { Fragment, useEffect } from 'react'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import Footer from '@/components/organisms/Footer'
 import IconStar from '@/components/icons/IconStar'
 import ImageText from '@/components/molecules/ImageText'
 import Button from '@/components/atoms/Button'
 import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import { useRouter } from 'next/router'
-import { BookChapterDataModel } from '@/interfaces/book'
+import { PublicBookDataModel } from '@/interfaces/book'
+import Header from '@/components/organisms/Header'
+import { authGuardAction } from '@/utils/common'
+import { useAuth } from '@/store/useAuth'
 
-const Header = dynamic(() => import('@/components/organisms/Header'), {
-  ssr: false,
-})
+type ProfileBookTemplateProps = {
+  book?: PublicBookDataModel
+}
 
-const dummyChapter: BookChapterDataModel[] = [
-  {
-    id: '9f1ee821-a982-c92a-7f0c-749d3fc88799',
-    name: 'Bab 1',
-    content: 'Bab 1',
-  },
-  {
-    id: '9f1ee821-a982-c92a-7f0c-749d3fc88710',
-    name: 'Bab 2',
-    content: 'Bab 2',
-  },
-  {
-    id: '9f1ee821-a982-c92a-7f0c-749d3fc88715',
-    name: 'Bab 3',
-    content: 'Bab 3',
-    isLocked: true,
-  },
-  {
-    id: '9f1ee821-a982-c92a-7f0c-749d3fc88715',
-    name: 'Bab 4',
-    content: 'Bab 4',
-    isLocked: true,
-  },
-]
-
-export default function ProfileBookTemplate() {
-  const { query } = useRouter()
+export default function ProfileBookTemplate({
+  book,
+}: ProfileBookTemplateProps) {
+  const { query, push } = useRouter()
+  const { token } = useAuth()
   useEffect(() => {
     if (typeof window === undefined) return
     document.body.classList.add('bg-none')
 
     return () => document.body.classList.remove('bg-none')
   }, [])
+
+  const handleStartReading = () => {
+    if (!book?.chapters.length) return
+    authGuardAction(token, () => {
+      push({
+        pathname: '/book/read/[bookId]/[chapterId]',
+        query: {
+          bookId: query.bookId,
+          chapterId: book.chapters[0].id,
+        },
+      })
+    })
+  }
+
+  const handleSelectChapter = (
+    type: 'synopsis' | 'chapter',
+    chapterId?: string
+  ) => {
+    if (type === 'synopsis') {
+      push({
+        pathname: '/book/detail/[bookId]',
+        query: {
+          bookId: query?.bookId,
+        },
+      })
+      return
+    }
+    authGuardAction(token, () => {
+      push({
+        pathname: '/book/read/[bookId]/[chapterId]',
+        query: {
+          bookId: query.bookId,
+          chapterId: chapterId ?? '',
+        },
+      })
+    })
+  }
+
+  if (!book) return null
 
   return (
     <Fragment>
@@ -56,6 +75,10 @@ export default function ProfileBookTemplate() {
           src="/assets/images/dummy/dummy-hero-profile-book.jpg"
           alt=""
           fill
+          priority
+          style={{
+            imageRendering: 'pixelated',
+          }}
           className="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover"
         />
         <div
@@ -71,29 +94,38 @@ export default function ProfileBookTemplate() {
             <div className="bg-[#f9f7efe6] inline-flex items-center space-x-[2px] p-[5px] rounded-lg absolute top-2 left-2 z-[2]">
               <IconStar />
               <span className="font-gotham text-sm font-light leading-3 text-gold-100">
-                5.0
+                {book?.rating ?? 0}
               </span>
             </div>
-            <Image src="/assets/images/dummy/dummy1.png" fill alt="" />
+            <Image src={book?.cover ?? ''} fill alt={book?.title ?? ''} />
           </div>
           <div className="relative z-10 font-gotham text-kplkWhite flex flex-col justify-center overflow-hidden flex-1">
             <h2 className="text-2xl font-bold mb-1 leading-6 w-full whitespace-nowrap text-ellipsis overflow-hidden">
-              Traite of Reflexions
+              {book?.title ?? ''}
             </h2>
-            <p className="font-extralight text-sm mb-6">Nama Penulis</p>
+            <p className="font-extralight text-sm mb-6">
+              {book?.writer?.fullName ?? ''}
+            </p>
             <div className="flex items-center flex-wrap space-x-4 mb-6">
               <ImageText
-                text="100rb Dibaca"
+                text={`${book?.readersCount ?? 0} Dibaca`}
                 icon="/assets/icons/icon-eye.svg"
               />
-              <ImageText text="27 Bab" icon="/assets/icons/icon-book.svg" />
               <ImageText
-                text="20rb Berlangganan"
+                text={`${book?.chapters.length ?? 0} Bab`}
+                icon="/assets/icons/icon-book.svg"
+              />
+              <ImageText
+                text={`${book?.subscribersCount ?? 0} Berlangganan`}
                 icon="/assets/icons/icon-user2.svg"
               />
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="primary" isFullWidth={false}>
+              <Button
+                onClick={handleStartReading}
+                variant="primary"
+                isFullWidth={false}
+              >
                 Mulai Baca
               </Button>
               <Button variant="primary" isFullWidth={false}>
@@ -112,11 +144,7 @@ export default function ProfileBookTemplate() {
                 Sinopsis
               </h3>
               <p className="font-gotham text-kplkWhite text-sm font-light mb-16">
-                Selingkuh, hal yang wajar kan bagi seorang laki-laki mapan?
-                Daniel butuh suasana baru yang tak mampu dihadirkan oleh Aniya
-                istrinya dan Sindy, wanita cantik itu bisa membuatnya begitu
-                menikmati indahnya dunia. Dan Daniel selingkuh, mengabaikan
-                kasih istri dan putrinya.
+                {book?.synopsis ?? ''}
               </p>
               <hr className="border-gold-300 mb-4" />
               <div className="flex items-center flex-wrap space-x-10">
@@ -132,7 +160,7 @@ export default function ProfileBookTemplate() {
                   <ImageText
                     type="synopsis"
                     text="Genre"
-                    description="Historical"
+                    description={book?.category?.name ?? '-'}
                     icon="/assets/icons/icon-category.svg"
                   />
                 </div>
@@ -140,7 +168,7 @@ export default function ProfileBookTemplate() {
                   <ImageText
                     type="synopsis"
                     text="Progress"
-                    description="Belum Selesai"
+                    description={book?.completed ? 'Selesai' : 'Belum Selesai'}
                     icon="/assets/icons/icon-chart.svg"
                   />
                 </div>
@@ -158,10 +186,12 @@ export default function ProfileBookTemplate() {
                     content: 'synopsis',
                     name: 'Sinopsis',
                   }}
+                  onClick={handleSelectChapter}
                   viewMode="read"
                 />
-                {dummyChapter.map((chapter, index) => (
+                {book.chapters.map((chapter, index) => (
                   <ChapterCard
+                    onClick={handleSelectChapter}
                     orderNumber={index + 1}
                     key={chapter.id}
                     chapter={chapter}

@@ -16,8 +16,9 @@ export interface BookDataModel {
 export interface BookChapterDataModel {
   id: string
   name: string
-  content: string
-  isLocked?: boolean
+  content?: string
+  accessible?: boolean
+  subscribeToAccess?: boolean
 }
 
 export interface DetailBookDataModel extends BookDataModel {
@@ -47,4 +48,32 @@ export type GetMyBookParams = {
   page?: number
   userId?: string
   search?: string
+}
+
+export type PublicBookChapterDataModel = {
+  id: string
+  name: string
+  accessible: boolean
+  subscribeToAccess: boolean
+}
+
+export type PublicBookDataModel = {
+  id: string
+  title: string
+  synopsis: string
+  cover: string
+  status: string
+  completed: boolean
+  rating: number
+  readersCount: number
+  category: BookCategoryDataModel
+  writer: {
+    userId: string
+    fullName: string
+    username: string
+  }
+  subscribersCount: number
+  subscribed: boolean
+  purchased: boolean
+  chapters: PublicBookChapterDataModel[]
 }

@@ -28,8 +28,14 @@ export async function updateBookFromId(bookId: string, data: PayloadBook) {
 }
 
 export async function getMyBookFromId(id: string) {
-  const response = await apiService.get<DetailBookDataModel>(`${apiUrl}/${id}`)
-  return response.data
+  try {
+    const response = await apiService.get<DetailBookDataModel>(
+      `${apiUrl}/${id}`
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export async function updateBookCover(data: { File: any; id: string }) {

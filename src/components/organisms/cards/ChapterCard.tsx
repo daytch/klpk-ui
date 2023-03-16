@@ -9,26 +9,32 @@ interface ChapterCardProps {
   orderNumber: number
   chapter: BookChapterDataModel
   viewMode?: 'writing' | 'read'
+  onClick?: (type: 'synopsis' | 'chapter', chapterId?: string) => void
 }
 
 const ChapterCard: React.FC<ChapterCardProps> = ({
   chapter,
   orderNumber,
   viewMode = 'writing',
+  onClick = () => {},
 }) => {
-  const { asPath, query } = useRouter()
+  const { asPath } = useRouter()
   const { id, name } = chapter
 
   const chapterUpdateLink = `${asPath}/chapter/${id}`
-  const synopsisReadLink = `/book/detail/${id}`
-  const chapterReadLink = `/book/read/${query.bookId}/${id}`
   const isSynopsisContent = chapter.content === 'synopsis'
 
   if (viewMode === 'read') {
     return (
-      <Link
-        to={isSynopsisContent ? synopsisReadLink : chapterReadLink}
-        className="flex items-center p-5 bg-dark-100 rounded-xl"
+      <button
+        onClick={() =>
+          onClick(
+            isSynopsisContent ? 'synopsis' : 'chapter',
+            id.length ? id : ''
+          )
+        }
+        type="button"
+        className="flex  items-center justify-start p-5 bg-dark-100 rounded-xl w-full"
       >
         <div className="w-7 h-7 inline-flex items-center justify-center border border-gold-200 text-gold-200 rounded-full font-gotham font-bold text-sm mr-[14px]">
           {isSynopsisContent ? (
@@ -42,10 +48,10 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
             orderNumber
           )}
         </div>
-        <p className="mr-[14px] flex-1 font-bold font-gotham text-sm text-gold-200">
+        <p className="mr-[14px] flex-1 text-left font-bold font-gotham text-sm text-gold-200">
           {name}
         </p>
-        {chapter.isLocked && (
+        {chapter?.subscribeToAccess && (
           <Image
             src="/assets/icons/icon-lock.svg"
             width={24}
@@ -53,7 +59,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
             alt="Lock"
           />
         )}
-      </Link>
+      </button>
     )
   }
 
