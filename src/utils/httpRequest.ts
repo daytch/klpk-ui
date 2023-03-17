@@ -11,23 +11,23 @@ export const httpRequest = () => {
   let count = 0
 
   instance.interceptors.request.use(
-    function (config) {
+    function (config: any) {
       const accessToken = getState().token
       config.headers = {
         Authorization: `Bearer ${accessToken}`,
       }
       return config
     },
-    function (error) {
+    function (error: any) {
       return Promise.reject(error)
     }
   )
 
   instance.interceptors.response.use(
-    function (response) {
+    function (response: any) {
       return response
     },
-    async function (error) {
+    async function (error: any) {
       const originalRequest = error.config
 
       if (
