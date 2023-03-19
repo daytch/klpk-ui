@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<
 }
 
 export default function ProfileBookPage({ bookId }: { bookId: string }) {
-  const { data, isLoading } = useGetDetailPublicBookById(bookId)
+  const { data, isLoading, refetch } = useGetDetailPublicBookById(bookId)
 
   if (isLoading) return <Spinner />
 
@@ -54,7 +54,7 @@ export default function ProfileBookPage({ bookId }: { bookId: string }) {
           as="image"
         />
       </Head>
-      <ProfileBookTemplate book={data} />
+      <ProfileBookTemplate book={data} onRefetchData={refetch} />
     </Fragment>
   )
 }

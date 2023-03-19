@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react'
 import Router from 'next/router'
+import { ProfilePhotoDataModel } from '@/interfaces/profile'
 
 export function joinClass(...args: Array<string | boolean | undefined>) {
   return args
@@ -60,4 +61,13 @@ export function authGuardAction(token: string, callback: () => void) {
   } else {
     callback()
   }
+}
+
+export function selectUserPhotos(
+  type: 'avatar' | 'cover',
+  photos: ProfilePhotoDataModel[]
+) {
+  if (!photos.length) return ''
+  const selectedType = photos.find((photo) => photo.type === type)
+  return selectedType !== undefined ? selectedType.url : ''
 }

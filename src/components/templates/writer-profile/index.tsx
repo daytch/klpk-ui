@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import { useGetSearchBook } from '@/services/my-book/query'
 import GeneralLayout from '@/components/layouts/general'
@@ -10,7 +10,7 @@ import ProductCard from '@/components/molecules/ProductCard'
 import Spinner from '@/components/molecules/Spinner'
 import { useToast } from '@/hooks/useToast'
 import { useFollowUser, useUnFollowUser } from '@/services/profile/mutation'
-import { authGuardAction } from '@/utils/common'
+import { authGuardAction, selectUserPhotos } from '@/utils/common'
 import { useAuth } from '@/store/useAuth'
 
 type WriterProfileTemplateProps = {
@@ -75,6 +75,10 @@ export default function WriterProfileTemplate({
     })
   }
 
+  const userAvatar = useMemo(() => {
+    return selectUserPhotos('avatar', profile?.photos ?? [])
+  }, [profile])
+
   if (!profile) return null
 
   return (
@@ -84,7 +88,8 @@ export default function WriterProfileTemplate({
           <div className="md:flex mb-6 md:space-x-6">
             <div className="block mx-auto w-[120px] h-[120px] bg-dark-100 rounded-full overflow-hidden mb-4">
               <Image
-                src="/assets/images/logo.png"
+                priority
+                src={userAvatar.length ? userAvatar : '/assets/images/logo.png'}
                 alt=""
                 width={120}
                 height={120}

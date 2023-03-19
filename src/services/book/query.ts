@@ -1,11 +1,12 @@
-import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import { useRouter } from 'next/router'
 import { getDetailChapterById, getDetailPublicBookById } from './api'
 
 export function useGetDetailPublicBookById(bookId: string) {
+  const { query } = useRouter()
   return useQuery({
-    queryKey: ['get-detail-public-book', bookId],
+    queryKey: ['get-detail-public-book', bookId, query],
     queryFn: () => getDetailPublicBookById(bookId),
   })
 }
@@ -17,17 +18,13 @@ export function useGetDetailChapterById(
   },
   errorCallback: (err: AxiosError) => void
 ) {
-  const [hasError, setHasError] = useState(false)
   return useQuery({
     queryKey: ['get-detail-detail-chapter', params],
     queryFn: () => getDetailChapterById(params),
-    onError: (err: AxiosError) => {
-      if (err?.response?.status === 403) {
-        setHasError(true)
-      }
-      errorCallback(err)
+    onError: (error: AxiosError) => {
+      errorCallback(error)
     },
+    retry: 0,
     refetchOnWindowFocus: false,
-    enabled: !hasError,
   })
 }

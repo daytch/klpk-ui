@@ -77,3 +77,7 @@ export type PublicBookDataModel = {
   purchased: boolean
   chapters: PublicBookChapterDataModel[]
 }
+
+export interface PublicChapterDetailDataModel extends PayloadChapter {
+  id: string
+}

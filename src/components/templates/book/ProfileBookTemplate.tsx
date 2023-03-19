@@ -10,16 +10,25 @@ import { PublicBookDataModel } from '@/interfaces/book'
 import Header from '@/components/organisms/Header'
 import { authGuardAction } from '@/utils/common'
 import { useAuth } from '@/store/useAuth'
+import Link from '@/components/atoms/Link'
+import { useSubsribeBook, useUnSubscribeBook } from '@/services/book/mutation'
+import { useToast } from '@/hooks/useToast'
 
 type ProfileBookTemplateProps = {
   book?: PublicBookDataModel
+  onRefetchData: () => void
 }
 
 export default function ProfileBookTemplate({
   book,
+  onRefetchData,
 }: ProfileBookTemplateProps) {
   const { query, push } = useRouter()
   const { token } = useAuth()
+  const subscribeBook = useSubsribeBook()
+  const unSubscribeBook = useUnSubscribeBook()
+  const toast = useToast()
+
   useEffect(() => {
     if (typeof window === undefined) return
     document.body.classList.add('bg-none')
@@ -64,6 +73,32 @@ export default function ProfileBookTemplate({
     })
   }
 
+  const handleSubscribeBook = () => {
+    authGuardAction(token, () => {
+      if (book?.subscribed) {
+        unSubscribeBook.mutate(String(query?.bookId ?? ''), {
+          onSuccess() {
+            onRefetchData()
+            toast.addToast('success', 'Berhasil unsubscribe buku.')
+          },
+          onError() {
+            toast.addToast('error', 'Gagal unsubscribe buku.')
+          },
+        })
+      } else {
+        subscribeBook.mutate(String(query?.bookId ?? ''), {
+          onSuccess() {
+            onRefetchData()
+            toast.addToast('success', 'Berhasil subscribe buku.')
+          },
+          onError() {
+            toast.addToast('error', 'Gagal subscribe buku.')
+          },
+        })
+      }
+    })
+  }
+
   if (!book) return null
 
   return (
@@ -103,9 +138,12 @@ export default function ProfileBookTemplate({
             <h2 className="text-2xl font-bold mb-1 leading-6 w-full whitespace-nowrap text-ellipsis overflow-hidden">
               {book?.title ?? ''}
             </h2>
-            <p className="font-extralight text-sm mb-6">
+            <Link
+              className="font-extralight text-sm mb-6"
+              to={`/profile/penulis/${book?.writer?.userId ?? ''}`}
+            >
               {book?.writer?.fullName ?? ''}
-            </p>
+            </Link>
             <div className="flex items-center flex-wrap space-x-4 mb-6">
               <ImageText
                 text={`${book?.readersCount ?? 0} Dibaca`}
@@ -128,8 +166,12 @@ export default function ProfileBookTemplate({
               >
                 Mulai Baca
               </Button>
-              <Button variant="primary" isFullWidth={false}>
-                Subscribe
+              <Button
+                onClick={handleSubscribeBook}
+                variant="primary"
+                isFullWidth={false}
+              >
+                {book?.subscribed ? 'Unsubscribe' : 'Subscribe'}
               </Button>
             </div>
           </div>

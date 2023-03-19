@@ -10,6 +10,7 @@ import {
   useGetDetailPublicBookById,
 } from '@/services/book/query'
 import { getMyBookFromId } from '@/services/my-book/api'
+import NotFoundPage from '@/pages/404'
 
 type ReadBookPageProps = {
   dehydratedState?: DehydratedState
@@ -40,6 +41,7 @@ export const getServerSideProps: GetServerSideProps<ReadBookPageProps> = async (
 
 export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
   const [isForbidden, setIsForbidden] = useState(false)
+  const [isNotFound, setIsNotFound] = useState(false)
   const { data: book, isLoading: isLoadingBook } = useGetDetailPublicBookById(
     bookId ?? ''
   )
@@ -52,11 +54,16 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
       (err) => {
         if (err?.response?.status === 403) {
           setIsForbidden(true)
+          setIsNotFound(false)
+        }
+        if (err?.response?.status === 401) {
+          setIsForbidden(false)
+          setIsNotFound(true)
         }
       }
     )
 
-  console.log({ chapter, book })
+  if (isNotFound) return <NotFoundPage />
 
   return (
     <>
@@ -64,6 +71,8 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
       <ReadBookTemplate
         isLoading={isLoadingBook || isLoadingChapter}
         isForbidden={isForbidden}
+        book={book}
+        chapter={chapter}
       />
     </>
   )
