@@ -29,12 +29,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
         <Image
+          priority
           width={138}
           height={189}
           className="absolute top-0 left-0 bottom-0 right-0 z-[1] w-full h-full object-cover"
           src={book?.cover ?? '/assets/images/gallery.png'}
           alt={book.title}
-          loading="lazy"
         />
       </div>
       {contentTypeView === 'default' && (

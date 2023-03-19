@@ -43,7 +43,7 @@ function ChapterButton({ chapter, isLast = false }: ChapterButtonProps) {
       >
         {chapter.name}
       </p>
-      {chapter.isLocked && (
+      {!chapter.accessible && (
         <Image
           src="/assets/icons/icon-lock.svg"
           width={24}
@@ -76,7 +76,7 @@ export default function ChapterDropdown({
             width={33}
             height={46}
             alt=""
-            className="rounded-lg"
+            className="rounded-lg object-cover w-[33px] h-[46px]"
           />
           <div className="text-kplkWhite font-gotham text-left ml-4 overflow-hidden whitespace-nowrap flex-1">
             <p className="font-bold text-sm mb-[6px] overflow-hidden text-ellipsis max-w-full">

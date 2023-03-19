@@ -20,7 +20,13 @@ export default function ImageText({
   if (type === 'synopsis') {
     return (
       <div className="inline-flex items-center space-x-[10px] font-light">
-        <Image src={icon} width={24} height={24} alt={text} />
+        <Image
+          src={icon}
+          width={24}
+          height={24}
+          alt={text}
+          className="w-auto h-auto"
+        />
         <div className="font-gotham text-xs">
           <p className="text-gold-300 mb-[2px]">{text}</p>
           <p className="text-gold-200">{description}</p>

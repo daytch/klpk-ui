@@ -17,7 +17,7 @@ export default function WithdrawDialog({
   onSuccessWithdraw,
   ...props
 }: WithdrawDialogProps) {
-  const data = createNumberArray(10000, coinBalance, 1000)
+  const data = createNumberArray(1000, coinBalance, 500)
   const [selectedAmount, setSelectedAmount] = useState<CoinPackageDataModel>()
   const createWithdrawRequest = useCreateWithdraw()
   const toast = useToast()
