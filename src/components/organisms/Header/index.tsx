@@ -8,6 +8,7 @@ import IconBrush from '@/components/icons/IconBrush'
 import ProfileDropdown from '../dropdowns/ProfileDropdown'
 import WalletDropdown from '../dropdowns/WalletDropdown'
 import IconChevron from '@/components/icons/IconChevron'
+import useSignalIR from '@/hooks/useSignalIR'
 
 interface IProps {
   mode?: 'default' | 'write' | 'create'
@@ -25,6 +26,7 @@ const useHasHydrated = () => {
 
 const Header: React.FC<IProps> = ({ mode = 'default' }) => {
   const hasHydrated = useHasHydrated()
+  const { unReadMessage, handleDisconnect } = useSignalIR()
   const { refreshToken } = useAuth()
 
   const showBackButton = mode === 'write' || mode === 'create'
@@ -127,10 +129,12 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
                   height={24}
                   alt=""
                 />
-                <span className="inline-block w-[6px] h-[6px] bg-[#FF3535] rounded-full absolute z-[2] top-[5px] right-1 ring-1 ring-white" />
+                {unReadMessage > 0 && (
+                  <span className="inline-block w-[6px] h-[6px] bg-[#FF3535] rounded-full absolute z-[2] top-[5px] right-1 ring-1 ring-white" />
+                )}
               </button>
 
-              <ProfileDropdown />
+              <ProfileDropdown onCloseSignalIR={handleDisconnect} />
             </div>
           )}
         </div>
