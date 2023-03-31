@@ -47,3 +47,15 @@ export async function unSubscribeBook(bookId: string) {
     return Promise.reject(error)
   }
 }
+
+export async function purchaseBook(data: {
+  type: 'book' | 'chapter'
+  id: string
+}) {
+  try {
+    const response = await apiService.post('/purchases', data)
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}

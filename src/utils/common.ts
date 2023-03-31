@@ -71,3 +71,8 @@ export function selectUserPhotos(
   const selectedType = photos.find((photo) => photo.type === type)
   return selectedType !== undefined ? selectedType.url : ''
 }
+
+export async function sanitizeHTML(html: string) {
+  const DOMPurify = (await import('dompurify')).default
+  return DOMPurify.sanitize(html)
+}

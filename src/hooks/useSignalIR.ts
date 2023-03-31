@@ -16,7 +16,7 @@ export default function useSignalIR() {
   const [unReadMessage, setUnReadMessage] = useState<number>(0)
 
   useEffect(() => {
-    if (!token.length) return
+    if (!token.length || connection !== undefined) return
     const connect = new HubConnectionBuilder()
       .withUrl(SIGNAL_IR_URL, {
         accessTokenFactory: () => token,
