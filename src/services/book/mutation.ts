@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { subscribeBook, unSubscribeBook } from './api'
+import { purchaseBook, subscribeBook, unSubscribeBook } from './api'
 
 export function useSubsribeBook() {
   return useMutation({
@@ -12,5 +12,13 @@ export function useUnSubscribeBook() {
   return useMutation({
     mutationKey: ['subscribe-book'],
     mutationFn: (bookId: string) => unSubscribeBook(bookId),
+  })
+}
+
+export function usePurchaseBook() {
+  return useMutation({
+    mutationKey: ['purchases-book'],
+    mutationFn: (data: { type: 'book' | 'chapter'; id: string }) =>
+      purchaseBook(data),
   })
 }

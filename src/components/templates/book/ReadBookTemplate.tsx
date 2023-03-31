@@ -13,12 +13,14 @@ import {
   PublicBookDataModel,
   PublicChapterDetailDataModel,
 } from '@/interfaces/book'
+import { sanitizeHTML } from '@/utils/common'
 
 type ReadBookTemplateProps = {
   isLoading: boolean
   isForbidden: boolean
   book?: PublicBookDataModel
   chapter?: PublicChapterDetailDataModel
+  onRefetchChapter: () => void
 }
 
 export default function ReadBookTemplate({
@@ -26,6 +28,7 @@ export default function ReadBookTemplate({
   isForbidden,
   chapter,
   book,
+  onRefetchChapter = () => {},
 }: ReadBookTemplateProps) {
   const { setTheme, theme } = useTheme()
   const { query, push } = useRouter()
@@ -36,10 +39,10 @@ export default function ReadBookTemplate({
       (chapter) => chapter.id === currentChapterId
     )
 
-    return book?.chapters[currentChapter! + 1].id
-  }, [query?.chapterId])
+    return book?.chapters[currentChapter! + 1]?.id
+  }, [query?.chapterId, book])
 
-  const isLastChapter = !nextChapterLink
+  const isLastChapter = nextChapterLink === undefined
 
   useEffect(() => {
     if (typeof window === undefined) return
@@ -56,7 +59,13 @@ export default function ReadBookTemplate({
           <Spinner />
         </div>
       )}
-      {!isLoading && isForbidden && !chapter && <PuchaseOptionCard />}
+      {!isLoading && isForbidden && !chapter && (
+        <PuchaseOptionCard
+          bookId={String(query?.bookId ?? '')}
+          chapterId={String(query?.chapterId ?? '')}
+          onRefetchBook={onRefetchChapter}
+        />
+      )}
       {book !== undefined && chapter !== undefined && (
         <>
           <section className="bg-[#676867] dark:bg-black py-[11px] sticky top-[84px] z-10">
@@ -85,22 +94,21 @@ export default function ReadBookTemplate({
               </h2>
               <div className="font-sans text-justify text-dark-200 dark:text-kplkWhite space-y-4">
                 <div
-                  dangerouslySetInnerHTML={{ __html: chapter?.content ?? '' }}
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeHTML(chapter?.content ?? ''),
+                  }}
                 />
                 <Button
                   isFullWidth
                   disabled={isLastChapter}
                   onClick={() =>
-                    push(
-                      {
-                        pathname: '/book/read/[bookId]/[chapterId]',
-                        query: {
-                          bookId: query.bookId,
-                        },
+                    push({
+                      pathname: '/book/read/[bookId]/[chapterId]',
+                      query: {
+                        bookId: query.bookId,
+                        chapterId: nextChapterLink,
                       },
-                      undefined,
-                      { scroll: false }
-                    )
+                    })
                   }
                   variant="primary"
                   className="dark:bg-transparent dark:ring-gold-100 dark:text-gold-100 dark:border-gold-100 dark:border"

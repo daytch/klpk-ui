@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react'
 import Router from 'next/router'
+import DOMPurify from 'dompurify'
 import { ProfilePhotoDataModel } from '@/interfaces/profile'
 
 export function joinClass(...args: Array<string | boolean | undefined>) {
@@ -70,4 +71,8 @@ export function selectUserPhotos(
   if (!photos.length) return ''
   const selectedType = photos.find((photo) => photo.type === type)
   return selectedType !== undefined ? selectedType.url : ''
+}
+
+export function sanitizeHTML(html: string) {
+  return DOMPurify.sanitize(html)
 }

@@ -42,9 +42,11 @@ export const getServerSideProps: GetServerSideProps<ReadBookPageProps> = async (
 export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
   const [isForbidden, setIsForbidden] = useState(false)
   const [isNotFound, setIsNotFound] = useState(false)
-  const { data: book, isLoading: isLoadingBook } = useGetDetailPublicBookById(
-    bookId ?? ''
-  )
+  const {
+    data: book,
+    isLoading: isLoadingBook,
+    refetch: onRefetchChapter,
+  } = useGetDetailPublicBookById(bookId ?? '')
   const { data: chapter, isLoading: isLoadingChapter } =
     useGetDetailChapterById(
       {
@@ -73,6 +75,7 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
         isForbidden={isForbidden}
         book={book}
         chapter={chapter}
+        onRefetchChapter={onRefetchChapter}
       />
     </>
   )
