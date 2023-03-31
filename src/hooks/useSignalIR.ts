@@ -7,6 +7,7 @@ import {
 } from '@microsoft/signalr'
 import { useAuth } from '@/store/useAuth'
 import { NotificationDataModel } from '@/interfaces/notification'
+import { SIGNAL_IR_URL } from '@/utils/constants'
 
 export default function useSignalIR() {
   const { token } = useAuth()
@@ -17,7 +18,7 @@ export default function useSignalIR() {
   useEffect(() => {
     if (!token.length) return
     const connect = new HubConnectionBuilder()
-      .withUrl('https://klpk-api.lut.web.id/notification-hub', {
+      .withUrl(SIGNAL_IR_URL, {
         accessTokenFactory: () => token,
         skipNegotiation: true,
         transport: HttpTransportType.WebSockets,
