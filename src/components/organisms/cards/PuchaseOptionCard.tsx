@@ -6,18 +6,17 @@ import { useToast } from '@/hooks/useToast'
 interface PuchaseOptionCardProps {
   bookId: string
   chapterId: string
-  onRefetchBook: () => void
 }
 
 export default function PuchaseOptionCard({
   bookId,
   chapterId,
-  onRefetchBook = () => {},
 }: PuchaseOptionCardProps) {
   const purchaseBook = usePurchaseBook()
   const toast = useToast()
 
-  const handlePurchaseBook = (type: 'book' | 'chapter') => {
+  const handlePurchaseBook = async (type: 'book' | 'chapter') => {
+    const Router = (await import('next/router')).default
     const payload: { type: 'book' | 'chapter'; id: string } = {
       type,
       id: '',
@@ -34,11 +33,15 @@ export default function PuchaseOptionCard({
       { ...payload },
       {
         onSuccess() {
-          onRefetchBook()
           toast.addToast('success', 'Berhasil membeli buku.')
+          Router.reload()
         },
-        onError() {
-          toast.addToast('success', 'Gagal membeli buku. Coba lagi.')
+        onError(error) {
+          let errorMessage = 'Gagal membeli buku. Coba lagi.'
+          if (error?.response?.data?.errorCode.includes('booknotcompleted')) {
+            errorMessage = 'Gagal membeli buku. Status buku belum selesai.'
+          }
+          toast.addToast('error', errorMessage)
         },
       }
     )

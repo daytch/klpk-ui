@@ -1,6 +1,5 @@
 import { ChangeEvent } from 'react'
 import Router from 'next/router'
-import DOMPurify from 'dompurify'
 import { ProfilePhotoDataModel } from '@/interfaces/profile'
 
 export function joinClass(...args: Array<string | boolean | undefined>) {
@@ -73,6 +72,7 @@ export function selectUserPhotos(
   return selectedType !== undefined ? selectedType.url : ''
 }
 
-export function sanitizeHTML(html: string) {
+export async function sanitizeHTML(html: string) {
+  const DOMPurify = (await import('dompurify')).default
   return DOMPurify.sanitize(html)
 }

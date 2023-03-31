@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps<
       getMyBookFromId(bookId as string)
     )
   } catch (error) {
+    // console.log('error =>', error)
     notFound = true
   }
 

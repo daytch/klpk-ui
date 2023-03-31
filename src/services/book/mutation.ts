@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { purchaseBook, subscribeBook, unSubscribeBook } from './api'
 
 export function useSubsribeBook() {
@@ -16,7 +17,11 @@ export function useUnSubscribeBook() {
 }
 
 export function usePurchaseBook() {
-  return useMutation({
+  return useMutation<
+    any,
+    AxiosError<{ errorCode: string }>,
+    { type: 'book' | 'chapter'; id: string }
+  >({
     mutationKey: ['purchases-book'],
     mutationFn: (data: { type: 'book' | 'chapter'; id: string }) =>
       purchaseBook(data),

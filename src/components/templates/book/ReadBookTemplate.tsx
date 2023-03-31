@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import Footer from '@/components/organisms/Footer'
@@ -20,7 +20,6 @@ type ReadBookTemplateProps = {
   isForbidden: boolean
   book?: PublicBookDataModel
   chapter?: PublicChapterDetailDataModel
-  onRefetchChapter: () => void
 }
 
 export default function ReadBookTemplate({
@@ -28,10 +27,10 @@ export default function ReadBookTemplate({
   isForbidden,
   chapter,
   book,
-  onRefetchChapter = () => {},
 }: ReadBookTemplateProps) {
   const { setTheme, theme } = useTheme()
   const { query, push } = useRouter()
+  const [content, setContent] = useState('')
 
   const nextChapterLink: string | undefined = useMemo(() => {
     const currentChapterId = query.chapterId as string
@@ -42,6 +41,11 @@ export default function ReadBookTemplate({
     return book?.chapters[currentChapter! + 1]?.id
   }, [query?.chapterId, book])
 
+  const bookChapterContent = async (chapterContent: string) => {
+    const cleanHtml = await sanitizeHTML(chapterContent)
+    setContent(cleanHtml)
+  }
+
   const isLastChapter = nextChapterLink === undefined
 
   useEffect(() => {
@@ -50,6 +54,10 @@ export default function ReadBookTemplate({
 
     return () => document.body.classList.remove('bg-none')
   }, [])
+
+  useEffect(() => {
+    bookChapterContent(chapter?.content ?? '')
+  }, [chapter?.content])
 
   return (
     <div className="flex flex-col">
@@ -63,7 +71,6 @@ export default function ReadBookTemplate({
         <PuchaseOptionCard
           bookId={String(query?.bookId ?? '')}
           chapterId={String(query?.chapterId ?? '')}
-          onRefetchBook={onRefetchChapter}
         />
       )}
       {book !== undefined && chapter !== undefined && (
@@ -95,7 +102,7 @@ export default function ReadBookTemplate({
               <div className="font-sans text-justify text-dark-200 dark:text-kplkWhite space-y-4">
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeHTML(chapter?.content ?? ''),
+                    __html: content,
                   }}
                 />
                 <Button

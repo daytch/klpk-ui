@@ -1,6 +1,6 @@
+import axios from 'axios'
 import { getRefreshToken } from '@/services/auth/api'
 import { useAuth } from '@/store/useAuth'
-import axios from 'axios'
 import { BASE_API_URL } from './constants'
 const { getState } = useAuth
 
