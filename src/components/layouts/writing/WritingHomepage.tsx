@@ -24,6 +24,7 @@ const WritingLayout: React.FC<WritingLayoutProps> = ({ children }) => {
   const handleClickTab = (tab: 'draft' | 'publish') => {
     push({ pathname, query: { writingTab: tab } })
   }
+
   return (
     <GeneralLayout headerMode="write">
       <div className="container pt-10 pb-20">
