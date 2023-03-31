@@ -6,6 +6,8 @@ import { DetailBookDataModel } from '@/interfaces/book'
 import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import Button from '@/components/atoms/Button'
 import DialogSuccessSaveBook from '@/components/molecules/DialogSuccessSaveBook'
+import { usePublishBook } from '@/services/my-book/mutation'
+import { useToast } from '@/hooks/useToast'
 
 interface WritingBookTemplateProps {
   detailBook?: DetailBookDataModel
@@ -15,7 +17,25 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
   detailBook,
 }) => {
   const { asPath, query, push } = useRouter()
+  const toast = useToast()
   const [showSuccess, setShowSuccess] = useState(false)
+  const publishBook = usePublishBook()
+
+  const handlePublishBook = () => {
+    publishBook.mutate(
+      {
+        bookId: String(query?.bookId ?? ''),
+      },
+      {
+        onSuccess() {
+          setShowSuccess(true)
+        },
+        onError() {
+          toast.addToast('error', 'Gagal mengupdate status buku.')
+        },
+      }
+    )
+  }
 
   const isUpdateMode = query?.bookId !== undefined
 
@@ -31,7 +51,8 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
               Tambah Bab
             </Link>
             <div className="space-y-4 mt-4 mb-7">
-              {detailBook?.chapters.length &&
+              {detailBook?.chapters &&
+                detailBook?.chapters.length > 0 &&
                 detailBook.chapters.map((chapter, index) => (
                   <ChapterCard
                     key={index}
@@ -42,9 +63,14 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
             </div>
             <div className="flex justify-center space-x-4">
               <Button
-                disabled={!isUpdateMode || !detailBook?.chapters.length}
+                type="button"
+                disabled={
+                  !isUpdateMode ||
+                  !detailBook?.chapters.length ||
+                  publishBook.isLoading
+                }
                 isFullWidth={false}
-                onClick={() => setShowSuccess(true)}
+                onClick={handlePublishBook}
               >
                 Terbitkan
               </Button>
@@ -55,7 +81,10 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
       <DialogSuccessSaveBook
         message="Buku anda akan di review oleh Admin"
         isOpen={showSuccess}
-        onConfirm={() => push('/menulis')}
+        onConfirm={() => {
+          setShowSuccess(false)
+          push('/menulis')
+        }}
         onCloseDialog={() => setShowSuccess(false)}
       />
     </section>

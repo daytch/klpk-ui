@@ -81,8 +81,12 @@ export async function markBookAsDone(bookId: string) {
 }
 
 export async function publishBook(bookId: string) {
-  const response = await apiService.put(`${apiUrl}/${bookId}/publish`)
-  return response.data
+  try {
+    const response = await apiService.put(`${apiUrl}/${bookId}/publish`)
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export async function getPublicBooks(params?: GetMyBookParams) {
