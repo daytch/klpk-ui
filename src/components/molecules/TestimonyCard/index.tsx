@@ -15,7 +15,7 @@ const TopWriterCard: React.FC<ITopWriterCardProps> = ({ writer }) => {
   return (
     <Link to={`/profile/penulis/${writer?.userId ?? ''}`} className="block w-full h-full px-6 pt-10 pb-14 bg-dark-300 rounded-[20px] overflow-hidden">
       <Image
-        className="block mx-auto rounded-full mb-7"
+        className="block mx-auto rounded-full mb-7 w-[90px] h-[90px] object-cover"
         alt=""
         width={90}
         height={90}
