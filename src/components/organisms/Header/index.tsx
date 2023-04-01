@@ -27,6 +27,7 @@ const useHasHydrated = () => {
 const Header: React.FC<IProps> = ({ mode = 'default' }) => {
   const hasHydrated = useHasHydrated()
   const { unReadMessage, handleDisconnect } = useSignalIR()
+  const [search, setSearch] = useState('')
   const { refreshToken } = useAuth()
 
   const showBackButton = mode === 'write' || mode === 'create'
@@ -34,6 +35,18 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
     () => hasHydrated && !!refreshToken?.length,
     [refreshToken, hasHydrated]
   )
+
+  const handleSearchBook = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!search.length) return
+    const Router = (await import('next/router')).default
+    Router.push({
+      pathname: '/story/search',
+      query: {
+        search,
+      },
+    })
+  }
 
   return (
     <header
@@ -74,13 +87,18 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
             </Link>
 
             {mode === 'default' && (
-              <div className="relative border border-[#726A64] p-2 pr-4 flex-1 lg:flex-none lg:w-80 rounded-[50px] overflow-hidden flex items-center space-x-2 mr-3">
+              <form
+                onSubmit={handleSearchBook}
+                className="relative border border-[#726A64] p-2 pr-4 flex-1 lg:flex-none lg:w-80 rounded-[50px] overflow-hidden flex items-center space-x-2 mr-3"
+              >
                 <IconSearch />
                 <input
                   className="outline-none border-none text-base bg-transparent text-gold-300 placeholder:text-gold-300 flex-1"
                   placeholder="Search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
-              </div>
+              </form>
             )}
           </div>
           {!isAuthenticated && (

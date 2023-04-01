@@ -9,12 +9,9 @@ const apiUrl = '/books'
 
 export async function getBooks(params: PublicParamsBooks) {
   try {
-    const response = await apiService.get<PublicBookDataModel[]>(
-      '/feed/best-seller',
-      {
-        params,
-      }
-    )
+    const response = await apiService.get<PublicBookDataModel[]>('/books', {
+      params,
+    })
     return response.data
   } catch (error) {
     return Promise.reject(error)
