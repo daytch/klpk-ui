@@ -37,10 +37,15 @@ export default function PuchaseOptionCard({
           Router.reload()
         },
         onError(error) {
-          let errorMessage = 'Gagal membeli buku. Coba lagi.'
+          const typeWording = type === 'book' ? 'buku' : 'bab'
+          let errorMessage = `Gagal membeli ${typeWording}. Coba lagi.`
+
           if (error?.response?.data?.errorCode.includes('booknotcompleted')) {
             errorMessage = 'Gagal membeli buku. Status buku belum selesai.'
+          } else if (error?.response?.data?.errorMessage.includes('Insufficient coin balance')) {
+            errorMessage = `Gagal membeli ${typeWording}. Saldo koin tidak mencukupi.`
           }
+
           toast.addToast('error', errorMessage)
         },
       }
