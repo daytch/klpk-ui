@@ -86,3 +86,7 @@ export type PublicParamsBooks = {
   category?: string
   completed?: boolean
 } & GetMyBookParams
+
+export type BookLibraryDataModel = {
+  readProgress: number
+} & PublicBookDataModel
