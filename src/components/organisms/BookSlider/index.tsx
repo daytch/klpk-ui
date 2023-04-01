@@ -4,13 +4,14 @@ import IconArrow from '@/components/icons/IconArrow'
 import IconStar from '@/components/icons/IconStar'
 import Carousel from '@/components/molecules/Carousel'
 import ProductCard from '@/components/molecules/ProductCard'
-import { BookDataModel } from '@/interfaces/book'
+import { BookDataModel, PublicBookDataModel } from '@/interfaces/book'
 
 interface BookSliderProps {
-  books: BookDataModel[]
+  books: BookDataModel[] | PublicBookDataModel[]
   title: string
   subTitle: string
   isBestSeller?: boolean
+  moreLink: string
 }
 
 const BookSlider: React.FC<BookSliderProps> = ({
@@ -18,6 +19,7 @@ const BookSlider: React.FC<BookSliderProps> = ({
   title,
   subTitle,
   isBestSeller = false,
+  moreLink,
 }) => {
   if (!books?.length) return <></>
 
@@ -34,7 +36,7 @@ const BookSlider: React.FC<BookSliderProps> = ({
           </p>
         </div>
         <Link
-          to="/"
+          to={moreLink}
           className="inline-flex items-center space-x-1 py-[6px] px-3 border border-gold-100 text-xs leading-3 font-gotham text-gold-100 rounded-[50px] font-thin"
         >
           <span>Selengkapnya</span>

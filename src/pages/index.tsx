@@ -1,19 +1,28 @@
 import React from 'react'
 import Head from 'next/head'
-import { dehydrate, QueryClient } from '@tanstack/react-query'
+import { dehydrate } from '@tanstack/react-query'
+import { GetServerSideProps } from 'next'
 import HomepageTemplate from '@/components/templates/homepage'
 import { APP_NAME } from '@/utils/constants'
-import { getCategories } from '@/services/category/api'
 import { useGetCategories } from '@/services/category/query'
+import { queryClient } from '@/utils/react-query'
 import {
-  completedBestSellerDummy,
-  monthlyBestSellerDummy,
-  todayBestSellerDummy,
-} from '@/dummy/homepage'
+  useGetBestSellerBooks,
+  useGetBooks,
+  useGetTopWriters,
+} from '@/services/book/query'
+import { getBanners } from '@/services/banner/api'
+import { useGetBanners } from '@/services/banner/query'
 
-export async function getServerSideProps() {
-  const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(['get-all-categories'], getCategories)
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  )
+  await queryClient.prefetchQuery({
+    queryKey: ['get-banners'],
+    queryFn: () => getBanners(),
+  })
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
@@ -23,6 +32,15 @@ export async function getServerSideProps() {
 
 const Homepage = () => {
   const { data: categories } = useGetCategories()
+  const { data: dailyBestSeller } = useGetBestSellerBooks('daily', true, 10)
+  const { data: monthlyBestSeller } = useGetBestSellerBooks('monthly', true, 10)
+  const { data: completedBooks } = useGetBooks(
+    { limit: 10, completed: true },
+    true
+  )
+  const { data: topWriters } = useGetTopWriters()
+  const { data: banners } = useGetBanners()
+
   return (
     <>
       <Head>
@@ -30,9 +48,11 @@ const Homepage = () => {
       </Head>
       <HomepageTemplate
         categories={categories ?? []}
-        todayBestSellers={todayBestSellerDummy}
-        monthlyBestSellers={monthlyBestSellerDummy}
-        completedStories={completedBestSellerDummy}
+        todayBestSellers={dailyBestSeller ?? []}
+        monthlyBestSellers={monthlyBestSeller ?? []}
+        completedStories={completedBooks ?? []}
+        topWriters={topWriters ?? []}
+        banners={banners ?? []}
       />
     </>
   )

@@ -11,7 +11,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
 }) => {
   return (
     <Link
-      to={`/story/category/${id}`}
+      to={`/story/search?category=${id}`}
       className="capitalize font-gotham font-light text-gold-100 text-base leading-4 py-[10px] px-3 border border-gold-200 rounded-[20px] whitespace-nowrap"
     >
       {name}

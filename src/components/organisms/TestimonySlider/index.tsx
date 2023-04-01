@@ -1,14 +1,14 @@
 import Carousel from '@/components/molecules/Carousel'
 import TestimonyCard from '@/components/molecules/TestimonyCard'
-import { TestimonyDataModel } from '@/interfaces/book'
+import { TopWriterDataModel } from '@/interfaces/writer'
 import React from 'react'
 
 interface TestimonySliderProps {
-  testimonies: TestimonyDataModel[]
+  topWriters: TopWriterDataModel[]
 }
 
-const TestimonySlider: React.FC<TestimonySliderProps> = ({ testimonies }) => {
-  if (!testimonies.length) return null
+const TopWriterSlider: React.FC<TestimonySliderProps> = ({ topWriters }) => {
+  if (!topWriters.length) return null
   return (
     <div className="space-y-6">
       <div className="flex items-end justify-between">
@@ -23,19 +23,19 @@ const TestimonySlider: React.FC<TestimonySliderProps> = ({ testimonies }) => {
       </div>
       <Carousel
         hasNavigation
-        items={testimonies}
+        items={topWriters}
         options={{
           containScroll: 'trimSnaps',
           align: 'start',
           slidesToScroll: 'auto',
         }}
       >
-        {testimonies.map((testimony, index) => (
+        {topWriters.map((writer, index) => (
           <div
             key={index}
             className="grow-0 shrink-0 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 pr-12"
           >
-            <TestimonyCard testimony={testimony} />
+            <TestimonyCard writer={writer} />
           </div>
         ))}
       </Carousel>
@@ -43,4 +43,4 @@ const TestimonySlider: React.FC<TestimonySliderProps> = ({ testimonies }) => {
   )
 }
 
-export default TestimonySlider
+export default TopWriterSlider

@@ -1,9 +1,50 @@
 import {
   PublicBookDataModel,
   PublicChapterDetailDataModel,
+  PublicParamsBooks,
 } from '@/interfaces/book'
+import { TopWriterDataModel } from '@/interfaces/writer'
 import { apiService } from '@/utils/httpRequest'
 const apiUrl = '/books'
+
+export async function getBooks(params: PublicParamsBooks) {
+  try {
+    const response = await apiService.get<PublicBookDataModel[]>(
+      '/feed/best-seller',
+      {
+        params,
+      }
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export async function getBestSellerBooks(scope: 'daily' | 'monthly') {
+  try {
+    const response = await apiService.get<PublicBookDataModel[]>(
+      '/feed/best-seller',
+      {
+        params: { scope },
+      }
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export async function getTopWriters() {
+  try {
+    const response = await apiService.get<TopWriterDataModel[]>(
+      '/feed/top-writers'
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
 
 export async function getDetailPublicBookById(bookId: string) {
   try {

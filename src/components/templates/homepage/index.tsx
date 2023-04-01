@@ -1,65 +1,35 @@
 import React from 'react'
 import GeneralLayout from '@/components/layouts/general'
-import {
-  BookCategoryDataModel,
-  BookDataModel,
-  TestimonyDataModel,
-} from '@/interfaces/book'
+import { BookCategoryDataModel, PublicBookDataModel } from '@/interfaces/book'
 import BookSlider from '@/components/organisms/BookSlider'
 import CategoryButton from '@/components/molecules/CategoryButton'
 import BannerSlider from '@/components/organisms/BannerSlider'
 import TestimonySlider from '@/components/organisms/TestimonySlider'
+import { TopWriterDataModel } from '@/interfaces/writer'
+import { BannerDataModel } from '@/interfaces/banner'
 
 interface IHomepageTemplate {
   categories?: BookCategoryDataModel[]
-  todayBestSellers?: BookDataModel[]
-  monthlyBestSellers?: BookDataModel[]
-  completedStories?: BookDataModel[]
+  todayBestSellers?: PublicBookDataModel[]
+  monthlyBestSellers?: PublicBookDataModel[]
+  completedStories?: PublicBookDataModel[]
+  topWriters?: TopWriterDataModel[]
+  banners?: BannerDataModel[]
 }
-
-const testimonies: TestimonyDataModel[] = [
-  {
-    photo: '/assets/images/dummy/writer1.png',
-    name: 'Patrick Kellan',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
-  },
-  {
-    photo: '/assets/images/dummy/writer2.png',
-    name: 'Sri Riahna',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
-  },
-  {
-    photo: '/assets/images/dummy/writer3.png',
-    name: 'Vindy Ruslianti',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
-  },
-  {
-    photo: '/assets/images/dummy/writer4.png',
-    name: 'Writer Name',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quas necessitatibus modi cum labore dignissimos fuga quidem perspiciatis accusantium! Optio nulla dignissimos eaque voluptates consequuntur delectus vitae?',
-  },
-]
 
 const HomepageTemplate: React.FC<IHomepageTemplate> = ({
   categories = [],
   todayBestSellers = [],
   monthlyBestSellers = [],
   completedStories = [],
+  topWriters = [],
+  banners = [],
 }) => {
   return (
     <GeneralLayout>
       <section className="pt-14 pb-2">
         <div className="container">
-          <BannerSlider
-            banners={[
-              '/assets/images/banner-01.jpg',
-              '/assets/images/banner-01.jpg',
-            ]}
-          />
+          <BannerSlider banners={banners.map((banner) => banner.url)} />
         </div>
       </section>
 
@@ -76,6 +46,7 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
       <section className="">
         <div className="container border-b border-gold-300 pt-11 pb-14">
           <BookSlider
+            moreLink="/story/daily-best-seller"
             title="Today Best Seller"
             subTitle="Based on Favorite Choose"
             isBestSeller
@@ -87,6 +58,7 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
       <section className="">
         <div className="container border-b border-gold-300 pt-11 pb-14">
           <BookSlider
+            moreLink="/story/monthly-best-seller"
             title="Monthly Best Sellers"
             subTitle="Based on Favorite Choose"
             books={monthlyBestSellers}
@@ -96,13 +68,14 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
 
       <section>
         <div className="container border-b border-gold-300 pt-11 pb-14">
-          <TestimonySlider testimonies={testimonies} />
+          <TestimonySlider topWriters={topWriters} />
         </div>
       </section>
 
       <section className="">
         <div className="container !px-4 pt-11 pb-14">
           <BookSlider
+            moreLink="/story/search?completed=true"
             title="Completed Story"
             subTitle="Buku yang bisa anda beli"
             books={completedStories}
