@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const isFinishRead = showProgress && book.readProgress === 100
 
   const detailBookLink =
-    contentTypeView === 'default'
+    contentTypeView === 'default' || contentTypeView === 'library'
       ? `/book/detail/${book.id}`
       : `/menulis/buku/${book.id}`
 
