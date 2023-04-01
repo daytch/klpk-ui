@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 import Button from '@/components/atoms/Button'
 import { usePurchaseBook } from '@/services/book/mutation'
 import { useToast } from '@/hooks/useToast'
+import SuccessIcon from '@/assets/icons/success.svg'
+import CoinIcon from '@/assets/icons/coin.svg'
+
+const ActionModal = dynamic(
+  () => import('@/components/organisms/dialogs/ActionDialog')
+)
 
 interface PuchaseOptionCardProps {
   bookId: string
@@ -12,11 +19,33 @@ export default function PuchaseOptionCard({
   bookId,
   chapterId,
 }: PuchaseOptionCardProps) {
+  const [successPurchaseBook, setSuccessPurchaseBook] = useState(false)
+  const [notEnoughCoin, setNotEnoughCoin] = useState(false)
   const purchaseBook = usePurchaseBook()
   const toast = useToast()
 
-  const handlePurchaseBook = async (type: 'book' | 'chapter') => {
+  const handleConfirmSuccessPayment = async () => {
     const Router = (await import('next/router')).default
+    setSuccessPurchaseBook(false)
+    setNotEnoughCoin(false)
+    Router.reload()
+  }
+
+  const handleConfirmTopUp = async () => {
+    const Router = (await import('next/router')).default
+    setSuccessPurchaseBook(false)
+    setNotEnoughCoin(false)
+    Router.push('/transaksi/transaksi')
+  }
+
+  const handleCloseModal = () => {
+    setSuccessPurchaseBook(false)
+    setNotEnoughCoin(false)
+  }
+
+  const handlePurchaseBook = async (type: 'book' | 'chapter') => {
+    setSuccessPurchaseBook(false)
+    setNotEnoughCoin(false)
     const payload: { type: 'book' | 'chapter'; id: string } = {
       type,
       id: '',
@@ -33,8 +62,7 @@ export default function PuchaseOptionCard({
       { ...payload },
       {
         onSuccess() {
-          toast.addToast('success', 'Berhasil membeli buku.')
-          Router.reload()
+          setSuccessPurchaseBook(true)
         },
         onError(error) {
           const typeWording = type === 'book' ? 'buku' : 'bab'
@@ -42,11 +70,15 @@ export default function PuchaseOptionCard({
 
           if (error?.response?.data?.errorCode.includes('booknotcompleted')) {
             errorMessage = 'Gagal membeli buku. Status buku belum selesai.'
-          } else if (error?.response?.data?.errorMessage.includes('Insufficient coin balance')) {
-            errorMessage = `Gagal membeli ${typeWording}. Saldo koin tidak mencukupi.`
+          } else if (
+            error?.response?.data?.errorMessage.includes(
+              'Insufficient coin balance'
+            )
+          ) {
+            setNotEnoughCoin(true)
+          } else {
+            toast.addToast('error', errorMessage)
           }
-
-          toast.addToast('error', errorMessage)
         },
       }
     )
@@ -65,6 +97,27 @@ export default function PuchaseOptionCard({
           </Button>
         </div>
       </div>
+      {/* Success Purchase */}
+      <ActionModal
+        icon={SuccessIcon}
+        isOpen={successPurchaseBook}
+        title="Berhasil"
+        message="Berhasil di bayar!"
+        buttonText="Mengerti"
+        onConfirm={handleConfirmSuccessPayment}
+        onClose={handleCloseModal}
+      />
+
+      {/* Not Enough Coin */}
+      <ActionModal
+        icon={CoinIcon}
+        isOpen={notEnoughCoin}
+        title="Oops..."
+        message="Koin anda tidak mencukupi"
+        buttonText="Topup"
+        onConfirm={handleConfirmTopUp}
+        onClose={handleCloseModal}
+      />
     </section>
   )
 }

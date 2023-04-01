@@ -101,8 +101,6 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
     )
   }
 
-  console.log(me?.coinBalance)
-
   return (
     <>
       <Header />
