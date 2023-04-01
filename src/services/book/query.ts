@@ -1,5 +1,5 @@
 import { PublicParamsBooks } from '@/interfaces/book'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import {
@@ -17,6 +17,32 @@ export function useGetBooks(params: PublicParamsBooks, enabled: boolean) {
     enabled,
     refetchOnWindowFocus: false,
   })
+}
+
+export function useGetInfiniteBooks({
+  params,
+  enabled = true,
+  pageParam = 1,
+}: {
+  params: PublicParamsBooks
+  enabled?: boolean
+  pageParam?: number
+}) {
+  return useInfiniteQuery(
+    ['infinite-public-books', pageParam, params],
+    ({ pageParam }) => {
+      const newParam = { ...params, page: pageParam }
+      return getBooks(newParam)
+    },
+    {
+      enabled,
+      keepPreviousData: true,
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.length ? allPages.length + 1 : undefined
+      },
+      refetchOnWindowFocus: false,
+    }
+  )
 }
 
 export function useGetBestSellerBooks(
