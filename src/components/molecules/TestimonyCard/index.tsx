@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { TopWriterDataModel } from '@/interfaces/writer'
 import GravatarIcon from '@/assets/icons/gravatar.svg'
+import Link from '@/components/atoms/Link'
 
 interface ITopWriterCardProps {
   writer: TopWriterDataModel
@@ -12,7 +13,7 @@ const TopWriterCard: React.FC<ITopWriterCardProps> = ({ writer }) => {
   const avatar = photos.find((photo) => photo.type === 'avatar')?.url
 
   return (
-    <div className="w-full h-full px-6 pt-10 pb-14 bg-dark-300 rounded-[20px] overflow-hidden">
+    <Link to={`/profile/penulis/${writer?.userId ?? ''}`} className="block w-full h-full px-6 pt-10 pb-14 bg-dark-300 rounded-[20px] overflow-hidden">
       <Image
         className="block mx-auto rounded-full mb-7"
         alt=""
@@ -32,7 +33,7 @@ const TopWriterCard: React.FC<ITopWriterCardProps> = ({ writer }) => {
           "{bio}"
         </p>
       </div>
-    </div>
+    </Link>
   )
 }
 
