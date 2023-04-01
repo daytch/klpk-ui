@@ -1,12 +1,13 @@
 import Link from '@/components/atoms/Link'
 import IconStar from '@/components/icons/IconStar'
 import { BookDataModel, PublicBookDataModel } from '@/interfaces/book'
+import { joinClass } from '@/utils/common'
 import Image from 'next/image'
 import React from 'react'
 
 interface ProductCardProps {
   book: BookDataModel | PublicBookDataModel
-  contentTypeView?: 'default' | 'writing'
+  contentTypeView?: 'default' | 'writing' | 'library'
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -14,9 +15,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
   contentTypeView = 'default',
 }) => {
   const showRating = 'rating' in book
+  const showProgress = 'readProgress' in book
+  const isFinishRead = showProgress && book.readProgress === 100
 
   const detailBookLink =
-    contentTypeView === 'default'
+    contentTypeView === 'default' || contentTypeView === 'library'
       ? `/book/detail/${book.id}`
       : `/menulis/buku/${book.id}`
 
@@ -39,17 +42,41 @@ const ProductCard: React.FC<ProductCardProps> = ({
           src={book?.cover ?? '/assets/images/gallery.png'}
           alt={book.title}
         />
+        {contentTypeView === 'library' && showProgress && (
+          <div
+            className={joinClass(
+              'absolute p-1 rounded text-white font-sfpro left-1/2 -translate-x-1/2 bottom-2 z-[5] whitespace-nowrap',
+              isFinishRead ? 'bg-[#00C008]' : 'bg-[#0A84FF]'
+            )}
+          >
+            {isFinishRead ? 'Selesai dibaca' : 'Belum selesai'}
+          </div>
+        )}
       </div>
-      {contentTypeView === 'default' && 'writer' in book && (
-        <div className="pb-4">
-          <p className="capitalize font-gotham font-normal text-gold-400 text-xs leading-3 mb-2">
-            {book.writer.fullName}
-          </p>
-          <p className="capitalize font-gotham font-bold text-kplkWhite text-sm leading-3">
-            {book?.title ?? ''}
-          </p>
+      {contentTypeView === 'library' && showProgress && (
+        <div className="w-full h-[2px] rounded-lg bg-[#D9D9D9] relative mt-2">
+          <div
+            className={joinClass(
+              'absolute top-0 bottom-0 left-0',
+              isFinishRead ? 'bg-[#00C008]' : 'bg-[#0A84FF]'
+            )}
+            style={{
+              width: `${((book.readProgress as number) / 100) * 100}%`,
+            }}
+          ></div>
         </div>
       )}
+      {contentTypeView === 'default' ||
+        (contentTypeView === 'library' && 'writer' in book && (
+          <div className="pb-4">
+            <p className="capitalize font-gotham font-normal text-gold-400 text-xs leading-3 mb-2">
+              {book.writer.fullName}
+            </p>
+            <p className="capitalize font-gotham font-bold text-kplkWhite text-sm leading-3">
+              {book?.title ?? ''}
+            </p>
+          </div>
+        ))}
       {contentTypeView === 'writing' && (
         <div className="pb-4 space-y-2">
           <p className="font-gotham font-medium text-sm text-kplkWhite">
