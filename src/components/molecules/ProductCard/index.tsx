@@ -66,17 +66,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
           ></div>
         </div>
       )}
-      {contentTypeView === 'default' ||
-        (contentTypeView === 'library' && 'writer' in book && (
-          <div className="pb-4">
-            <p className="capitalize font-gotham font-normal text-gold-400 text-xs leading-3 mb-2">
-              {book.writer.fullName}
-            </p>
-            <p className="capitalize font-gotham font-bold text-kplkWhite text-sm leading-3">
-              {book?.title ?? ''}
-            </p>
-          </div>
-        ))}
+      {contentTypeView !== 'writing' && 'writer' in book && (
+        <div className="pb-4">
+          <p className="capitalize font-gotham font-normal text-gold-400 text-xs leading-3 mb-2">
+            {book.writer.fullName}
+          </p>
+          <p className="capitalize font-gotham font-bold text-kplkWhite text-sm leading-3">
+            {book?.title ?? ''}
+          </p>
+        </div>
+      )}
       {contentTypeView === 'writing' && (
         <div className="pb-4 space-y-2">
           <p className="font-gotham font-medium text-sm text-kplkWhite">
