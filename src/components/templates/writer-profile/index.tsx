@@ -27,7 +27,7 @@ export default function WriterProfileTemplate({
   const observer = useRef<IntersectionObserver>()
   const { data, hasNextPage, fetchNextPage, isLoading } = useGetSearchBook({
     pageParam: 1,
-    params: { limit: 10 },
+    params: { limit: 10, userId: profile?.id },
     enabled: !writerNoBook,
   })
   const toast = useToast()
