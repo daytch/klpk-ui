@@ -2,7 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['picsum.photos', 'placeimg.com', 'klpk-api.lut.web.id', 'api.komunitaspatrickkellan.com'],
+    domains: [
+      'picsum.photos',
+      'placeimg.com',
+      'klpk-api.lut.web.id',
+      'api.komunitaspatrickkellan.com',
+    ],
+    minimumCacheTTL: 60,
   },
 }
 

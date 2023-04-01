@@ -81,3 +81,8 @@ export type PublicBookDataModel = {
 export interface PublicChapterDetailDataModel extends PayloadChapter {
   id: string
 }
+
+export type PublicParamsBooks = {
+  category?: string
+  completed?: boolean
+} & GetMyBookParams
