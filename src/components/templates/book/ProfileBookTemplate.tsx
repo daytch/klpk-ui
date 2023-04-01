@@ -129,7 +129,7 @@ export default function ProfileBookTemplate({
             <div className="bg-[#f9f7efe6] inline-flex items-center space-x-[2px] p-[5px] rounded-lg absolute top-2 left-2 z-[2]">
               <IconStar />
               <span className="font-gotham text-sm font-light leading-3 text-gold-100">
-                {book?.rating ?? 0}
+                {(book?.rating ?? 0).toFixed(1)}
               </span>
             </div>
             <Image src={book?.cover ?? ''} fill alt={book?.title ?? ''} />

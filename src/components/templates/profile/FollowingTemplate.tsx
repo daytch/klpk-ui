@@ -82,6 +82,7 @@ export default function FollowingTemplate({ userId }: FollowingTemplateProps) {
                       ref={lastProfileElement}
                     >
                       <ProfileUserCard
+                        id={profile.id}
                         profilePhoto={profile.photos}
                         name={profile.fullName}
                         onActiveActionClick={() => handleUnFollow(profile.id)}
@@ -94,6 +95,7 @@ export default function FollowingTemplate({ userId }: FollowingTemplateProps) {
                 return (
                   <div key={`${pageIndex}-${profileIndex}`}>
                     <ProfileUserCard
+                      id={profile.id}
                       profilePhoto={profile.photos}
                       name={profile.fullName}
                       onActiveActionClick={() => handleUnFollow(profile.id)}

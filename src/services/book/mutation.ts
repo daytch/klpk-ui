@@ -19,7 +19,7 @@ export function useUnSubscribeBook() {
 export function usePurchaseBook() {
   return useMutation<
     any,
-    AxiosError<{ errorCode: string }>,
+    AxiosError<{ errorMessage: string, errorCode: string }>,
     { type: 'book' | 'chapter'; id: string }
   >({
     mutationKey: ['purchases-book'],
