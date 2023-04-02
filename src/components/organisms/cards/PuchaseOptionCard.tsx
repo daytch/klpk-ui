@@ -35,7 +35,7 @@ export default function PuchaseOptionCard({
     const Router = (await import('next/router')).default
     setSuccessPurchaseBook(false)
     setNotEnoughCoin(false)
-    Router.push('/transaksi/transaksi')
+    Router.push('/transaksi')
   }
 
   const handleCloseModal = () => {

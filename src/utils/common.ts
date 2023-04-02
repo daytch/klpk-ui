@@ -1,6 +1,11 @@
 import { ChangeEvent } from 'react'
 import Router from 'next/router'
+import dayjs from 'dayjs'
+import 'dayjs/locale/id'
 import { ProfilePhotoDataModel } from '@/interfaces/profile'
+import { TransactionHistoryStatus } from '@/interfaces/transaction'
+
+dayjs.locale('id')
 
 export function joinClass(...args: Array<string | boolean | undefined>) {
   return args
@@ -75,4 +80,48 @@ export function selectUserPhotos(
 export async function sanitizeHTML(html: string) {
   const DOMPurify = (await import('dompurify')).default
   return DOMPurify.sanitize(html)
+}
+
+export function createTableTextTransactionHistory(
+  status: TransactionHistoryStatus,
+  metadata: string
+) {
+  if (!metadata.length) return ''
+  let textResult = ''
+  const parseMetadata = JSON.parse(metadata)
+  switch (status) {
+    case 'topup':
+      textResult = `Topup ${
+        parseMetadata?.product?.topupRequestAmount ?? ''
+      } koin`
+      break
+    case 'bookPurchase':
+      textResult = `Pembelian Buku - ${parseMetadata?.product?.bookTitle ?? ''}`
+      break
+    case 'chapterPurchase':
+      textResult = `Pembelian ${parseMetadata?.product?.chapterName ?? ''} - ${
+        parseMetadata?.product?.bookTitle ?? ''
+      }`
+      break
+    case 'withdraw':
+      textResult = `Withdraw ${
+        parseMetadata?.withdrawAmount ?? ''
+      } koin -> ${formatMoney(Number(parseMetadata?.withdrawPrice ?? 0))}`
+      break
+    case 'withdrawRejection':
+      textResult = `Withdraw Ditolak ${
+        parseMetadata?.withdrawAmount ?? ''
+      } koin -> ${formatMoney(Number(parseMetadata?.withdrawPrice ?? 0))}`
+      break
+    default:
+      textResult = ''
+      break
+  }
+
+  return textResult
+}
+
+export function formatDate(date: string | Date, format = 'DD MMMM YYYY') {
+  if (!dayjs(date).isValid()) return ''
+  return dayjs(date).format(format)
 }
