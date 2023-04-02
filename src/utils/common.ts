@@ -96,24 +96,29 @@ export function createTableTextTransactionHistory(
         parseMetadata?.product?.topupRequestAmount ?? ''
       } koin`
       break
+
     case 'bookPurchase':
       textResult = `Pembelian Buku - ${parseMetadata?.product?.bookTitle ?? ''}`
       break
+
     case 'chapterPurchase':
       textResult = `Pembelian ${parseMetadata?.product?.chapterName ?? ''} - ${
         parseMetadata?.product?.bookTitle ?? ''
       }`
       break
+
     case 'withdraw':
       textResult = `Withdraw ${
         parseMetadata?.withdrawAmount ?? ''
       } koin -> ${formatMoney(Number(parseMetadata?.withdrawPrice ?? 0))}`
       break
+
     case 'withdrawRejection':
       textResult = `Withdraw Ditolak ${
         parseMetadata?.withdrawAmount ?? ''
       } koin -> ${formatMoney(Number(parseMetadata?.withdrawPrice ?? 0))}`
       break
+
     case 'bookSales':
       textResult = `Penjualan Buku "${
         parseMetadata?.product?.bookTitle ?? ''
@@ -121,6 +126,7 @@ export function createTableTextTransactionHistory(
         amount ?? 0
       } koin`
       break
+
     case 'chapterSales':
       textResult = `Penjualan Bab "${
         parseMetadata?.product?.chapterName ?? ''
@@ -128,6 +134,7 @@ export function createTableTextTransactionHistory(
         amount ?? 0
       } koin`
       break
+
     default:
       textResult = ''
       break
