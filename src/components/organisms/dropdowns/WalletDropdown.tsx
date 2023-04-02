@@ -38,7 +38,7 @@ export default function WalletDropdown() {
                 </div>
                 <Link
                   className="p-[10px] text-center w-full block bg-gold-200 text-dark-200"
-                  to="/transaksi/transaksi"
+                  to="/transaksi"
                 >
                   Detail
                 </Link>

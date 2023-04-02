@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { formatNumberWithCommas, joinClass } from '@/utils/common'
 import Header from '@/components/organisms/Header'
@@ -12,37 +13,48 @@ import Spinner from '@/components/molecules/Spinner'
 import { useCreateTopup } from '@/services/payment/mutation'
 import { CoinPackageDataModel, TopupResponse } from '@/interfaces/payment'
 import { useToast } from '@/hooks/useToast'
-import SuccessDialog from '@/components/organisms/dialogs/SuccessDialog'
 import { useGetMe } from '@/services/profile/query'
-import WithdrawDialog from '@/components/organisms/dialogs/WithdrawDialog'
+const SuccessDialog = dynamic(
+  () => import('@/components/organisms/dialogs/SuccessDialog')
+)
+const WithdrawDialog = dynamic(
+  () => import('@/components/organisms/dialogs/WithdrawDialog')
+)
 
 interface TransactionLayoutProps {
+  activeTab: 'transaksi' | 'withdraw' | 'penjualan'
   children: React.ReactNode
 }
 
 const tabs = [
   {
     text: 'Riwayat Transaksi',
-    type: 'transaksi',
+    url: '/transaksi',
+    tab: 'transaksi',
   },
   {
     text: 'Riwayat Withdaw',
-    type: 'withdaw',
+    url: '/transaksi/withdraw',
+    tab: 'withdraw',
   },
   {
     text: 'Riwayat Penjualan',
-    type: 'penjualan',
+    url: '/transaksi/penjualan',
+    tab: 'penjualan',
   },
 ]
 
-const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
+const TransactionLayout: React.FC<TransactionLayoutProps> = ({
+  activeTab,
+  children,
+}) => {
   const { data, isLoading } = useGetCoinPackages()
   const { data: me, isLoading: isLoadingMe, refetch: refetchMe } = useGetMe()
   const createTopup = useCreateTopup()
   const [selectedCoint, setSelectedCoint] = useState<CoinPackageDataModel>()
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [showWithdrawModal, setShowWithDrawModal] = useState(false)
-  const { query, push, pathname } = useRouter()
+  const { query, asPath } = useRouter()
   const toast = useToast()
 
   useEffect(() => {
@@ -73,17 +85,9 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
     }
   }, [])
 
-  const handleSelectTab = (tab: string) => {
-    push(
-      {
-        pathname,
-        query: {
-          transactionTab: tab,
-        },
-      },
-      undefined,
-      { scroll: false }
-    )
+  const handleSelectTab = async (url: string) => {
+    const Router = (await import('next/router')).default
+    Router.push(url)
   }
 
   const handleCreateTopup = () => {
@@ -173,10 +177,10 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
               {tabs.map((tab, index) => (
                 <button
                   key={index}
-                  onClick={() => handleSelectTab(tab.type)}
+                  onClick={() => handleSelectTab(tab.url)}
                   className={joinClass(
                     'py-2 px-3 rounded-lg font-thin text-xs',
-                    query?.transactionTab === tab.type
+                    activeTab === tab.tab
                       ? 'bg-dark-100 text-gold-200'
                       : 'text-white bg-transparent'
                   )}
@@ -194,21 +198,11 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({ children }) => {
         isOpen={showSuccessModal}
         onClose={() => {
           setShowSuccessModal(false)
-          push({
-            pathname: '/transaksi/[transactionTab]',
-            query: {
-              transactionTab: query.transactionTab,
-            },
-          })
+          handleSelectTab(asPath)
         }}
         onConfirm={() => {
           setShowSuccessModal(false)
-          push({
-            pathname: '/transaksi/[transactionTab]',
-            query: {
-              transactionTab: query.transactionTab,
-            },
-          })
+          handleSelectTab(asPath)
         }}
         message="Topup berhasil."
       />
