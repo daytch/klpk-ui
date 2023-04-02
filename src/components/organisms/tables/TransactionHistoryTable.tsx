@@ -68,7 +68,8 @@ const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = ({
                   <td className="text-xs text-kplkWhite font-thin py-2 px-3 border-b border-dark-100 text-left">
                     {createTableTextTransactionHistory(
                       item.type as TransactionHistoryStatus,
-                      item.metadata
+                      item.metadata,
+                      item?.amount
                     )}
                   </td>
                   <td className="text-xs text-kplkWhite font-thin py-2 px-3 border-b border-dark-100 text-left">

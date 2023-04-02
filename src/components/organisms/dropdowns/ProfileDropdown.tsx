@@ -16,9 +16,11 @@ export default function ProfileDropdown({
 }: ProfileDropdownProps) {
   const { logout } = useAuth()
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const Router = (await import('next/router')).default
     logout()
     onCloseSignalIR()
+    Router.push('/')
   }
 
   return (

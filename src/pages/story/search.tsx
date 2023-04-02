@@ -13,7 +13,7 @@ export default function StorySearchBookPage() {
       params: {
         search: String(search || ''),
         category: String(category || ''),
-        completed: completed === 'true',
+        completed: completed === 'true' ? true : undefined,
       },
     })
 

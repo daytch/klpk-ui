@@ -87,7 +87,7 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
 
   const handleSelectTab = async (url: string) => {
     const Router = (await import('next/router')).default
-    Router.push(url)
+    Router.push(url, undefined, { scroll: false })
   }
 
   const handleCreateTopup = () => {
