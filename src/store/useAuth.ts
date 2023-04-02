@@ -1,5 +1,4 @@
 import { LoginDataModel } from '@/interfaces/auth'
-import Router from 'next/router'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -22,7 +21,6 @@ export const useAuth = create<AuthState>()(
         }),
       logout: () => {
         set({ refreshToken: '', token: '', expirationDate: '' })
-        Router.push('/')
       },
     }),
     {

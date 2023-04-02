@@ -48,6 +48,7 @@ export const httpRequest = () => {
         return instance(originalRequest)
       } else if (
         error?.response?.status === 401 &&
+        error?.config?.method === 'get' &&
         !originalRequest._retry &&
         count >= 2
       ) {
