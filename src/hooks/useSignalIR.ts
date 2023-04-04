@@ -10,10 +10,23 @@ import { NotificationDataModel } from '@/interfaces/notification'
 import { SIGNAL_IR_URL } from '@/utils/constants'
 
 export default function useSignalIR() {
-  const { token } = useAuth()
   const [connection, setConnection] = useState<HubConnection>()
   const isAlreadyConnected = useRef(false)
   const [unReadMessage, setUnReadMessage] = useState<number>(0)
+  const [messages, setMessages] = useState<NotificationDataModel[]>([])
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState<NotificationDataModel | undefined>()
+  const { token } = useAuth()
+
+  useEffect(() => {
+    if (!open) return
+    const timer = setTimeout(() => {
+      setOpen(false)
+      setMessage(undefined)
+    }, 10000)
+
+    return () => clearTimeout(timer)
+  }, [open])
 
   useEffect(() => {
     if (!token.length || connection !== undefined) return
@@ -52,7 +65,7 @@ export default function useSignalIR() {
           notifications: NotificationDataModel[]
           unreadCount: number
         }) => {
-          console.log(data.notifications)
+          setMessages(data.notifications)
           setUnReadMessage(data.unreadCount)
         }
       )
@@ -60,7 +73,8 @@ export default function useSignalIR() {
       connection.on(
         'ReceiveNotification',
         (notification: NotificationDataModel) => {
-          console.log(notification)
+          setMessage(notification)
+          setOpen(true)
         }
       )
 
@@ -92,5 +106,13 @@ export default function useSignalIR() {
     }
   }
 
-  return { unReadMessage, handleReadMessage, handleDisconnect }
+  return {
+    unReadMessage,
+    handleReadMessage,
+    handleDisconnect,
+    messages,
+    message,
+    open,
+    setOpen,
+  }
 }

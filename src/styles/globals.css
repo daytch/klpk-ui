@@ -125,3 +125,14 @@ body .tox .tox-tbtn svg {
 [data-radix-popper-content-wrapper] {
   @apply !z-30
 }
+
+.notification-progress {
+  width: 100%;
+  animation: notification-toast-progress 10s linear forwards;
+}
+
+@keyframes notification-toast-progress {
+  100% {
+    width: 0%;
+  }
+}
