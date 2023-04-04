@@ -67,18 +67,21 @@ export default function PuchaseOptionCard({
         onError(error) {
           const typeWording = type === 'book' ? 'buku' : 'bab'
           let errorMessage = `Gagal membeli ${typeWording}. Coba lagi.`
-
-          if (error?.response?.data?.errorCode.includes('booknotcompleted')) {
-            errorMessage = 'Gagal membeli buku. Status buku belum selesai.'
-          } else if (
+          if (
             error?.response?.data?.errorMessage.includes(
               'Insufficient coin balance'
             )
           ) {
             setNotEnoughCoin(true)
-          } else {
-            toast.addToast('error', errorMessage)
+            return
+          } else if (
+            error?.response?.data?.errorCode.includes(
+              'bad_request:id_booknotcompleted'
+            )
+          ) {
+            errorMessage = 'Buku tidak dapat dibeli karena belum selesai.'
           }
+          toast.addToast('error', errorMessage)
         },
       }
     )

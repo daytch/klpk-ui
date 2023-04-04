@@ -1,11 +1,13 @@
 import { ChangeEvent } from 'react'
 import Router from 'next/router'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/id'
 import { ProfilePhotoDataModel } from '@/interfaces/profile'
 import { TransactionHistoryStatus } from '@/interfaces/transaction'
 
 dayjs.locale('id')
+dayjs.extend(relativeTime)
 
 export function joinClass(...args: Array<string | boolean | undefined>) {
   return args
@@ -146,4 +148,20 @@ export function createTableTextTransactionHistory(
 export function formatDate(date: string | Date, format = 'DD MMMM YYYY') {
   if (!dayjs(date).isValid()) return ''
   return dayjs(date).format(format)
+}
+
+export function createRelativeTime(date: string) {
+  return dayjs(date).fromNow()
+}
+
+export function createNotificationTitle(type: string) {
+  let title = ''
+  if (type.toLocaleLowerCase().includes('book')) {
+    title = 'Buku'
+  } else if (type.toLocaleLowerCase().includes('topup')) {
+    title = 'Topup'
+  } else {
+    title = 'Pesan'
+  }
+  return title
 }
