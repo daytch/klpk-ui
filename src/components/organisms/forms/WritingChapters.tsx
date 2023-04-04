@@ -8,7 +8,7 @@ import UploadCover from '@/components/molecules/UploadCover'
 import Button from '@/components/atoms/Button'
 import TextEditorField from '@/components/molecules/TextEditorField'
 import IconArrow from '@/components/icons/IconArrow'
-import { BookChapterDataModel } from '@/interfaces/book'
+import { BookChapterDataModel, DetailBookDataModel } from '@/interfaces/book'
 import {
   useCreateNewChapter,
   useUpdateChapterFromId,
@@ -27,13 +27,13 @@ const schema = object({
 type FormValue = InferType<typeof schema>
 
 interface WritingChapterFormProps {
-  cover?: string
   chapter?: BookChapterDataModel
+  detailBook?: DetailBookDataModel
 }
 
 const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
   chapter,
-  cover,
+  detailBook,
 }) => {
   const { query, push } = useRouter()
   const toast = useToast()
@@ -155,7 +155,12 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <div className="lg:flex space-y-6 lg:space-y-0 lg:space-x-32">
               <div className="mx-auto lg:mx-0 w-[220px] lg:sticky top-4">
-                <UploadCover cover={cover} control={control} name="cover" />
+                <UploadCover
+                  disable={detailBook?.completed ?? false}
+                  cover={detailBook?.cover ?? ''}
+                  control={control}
+                  name="cover"
+                />
               </div>
               <div className="flex-1">
                 <div className="p-4 lg:p-8 bg-dark-300 rounded-xl overflow-hidden">
@@ -184,6 +189,7 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
                         ...register('name'),
                         isInvalid: Boolean(errors?.name?.message),
                         placeholder: 'Judul Bab',
+                        disabled: detailBook?.completed ?? false,
                         errormessage: errors?.name?.message,
                       }}
                     />
@@ -191,7 +197,10 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
                       labelProps={{
                         children: 'Text',
                       }}
-                      textEditorProps={{ name: 'content' }}
+                      textEditorProps={{
+                        name: 'content',
+                        disabled: true,
+                      }}
                       errorMessage={errors?.content?.message ?? ''}
                     />
                     <hr className="border-gold-300" />

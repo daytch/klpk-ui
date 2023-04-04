@@ -29,10 +29,7 @@ const UpdateChapterPage = () => {
         <title>{`${APP_NAME} | Update Bab`}</title>
       </Head>
       <WritingBookLayout headerMode="create">
-        <WritingChapterForm
-          cover={detailBook?.cover ?? ''}
-          chapter={chapterDetail}
-        />
+        <WritingChapterForm detailBook={detailBook} chapter={chapterDetail} />
       </WritingBookLayout>
     </>
   )

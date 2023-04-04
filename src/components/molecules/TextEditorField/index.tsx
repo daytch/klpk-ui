@@ -1,11 +1,11 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import Label, { ILabelProps } from '@/components/atoms/Label'
 import { HtmlEditorProps } from '@/components/atoms/TextEditor'
 const TextEditor = dynamic(() => import('../../atoms/TextEditor'), {
   ssr: false,
 })
 import { joinClass } from '@/utils/common'
-import dynamic from 'next/dynamic'
 
 interface TextEditorFieldProps {
   textEditorProps: HtmlEditorProps

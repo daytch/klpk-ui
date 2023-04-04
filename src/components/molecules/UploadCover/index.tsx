@@ -6,6 +6,7 @@ import { joinClass } from '@/utils/common'
 
 interface UploadCoverProps {
   control: Control<AssertsShape<any>, any>
+  disable: boolean
   name: string
   cover?: string
   className?: string
@@ -16,6 +17,7 @@ const UploadCover: React.FC<UploadCoverProps> = ({
   name,
   cover,
   className,
+  disable,
 }) => {
   const [preview, setPreview] = useState<string>('')
 
@@ -71,6 +73,7 @@ const UploadCover: React.FC<UploadCoverProps> = ({
           </div>
           <div className="text-center">
             <input
+              disabled={disable}
               type="file"
               className="hidden peer"
               id="cover"

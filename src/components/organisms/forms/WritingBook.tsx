@@ -53,10 +53,10 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
   const updateBook = useUpdateBookFromId()
   const markBookAsDone = useMarkBookAsDone()
 
-  const showPublishButton =
+  const isCompleteBook =
     detailBook !== undefined &&
-    !!detailBook.chapters.length &&
-    !detailBook?.completed
+    detailBook?.chapters?.length > 0 &&
+    detailBook?.completed
 
   const { data: categories, isLoading, isError } = useGetCategories()
 
@@ -197,12 +197,13 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
         <div className="mx-auto lg:mx-0 w-[220px] ">
           <div className="sticky top-20">
             <UploadCover
+              disable={detailBook?.completed ?? false}
               cover={detailBook?.cover ?? ''}
               control={control}
               name="cover"
               className="mb-4"
             />
-            {showPublishButton && (
+            {!isCompleteBook && (
               <Button
                 onClick={handleMarkBookAsDone}
                 disabled={markBookAsDone.isLoading}
@@ -220,7 +221,11 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                 Menulis
               </h2>
               <Button
-                disabled={createNewBook.isLoading || updateBook.isLoading}
+                disabled={
+                  createNewBook.isLoading ||
+                  updateBook.isLoading ||
+                  isCompleteBook
+                }
                 type="submit"
                 isFullWidth={false}
                 variant="outlined"
@@ -241,6 +246,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                   isInvalid: Boolean(errors?.title?.message),
                   placeholder: 'Judul',
                   errormessage: errors?.title?.message,
+                  disabled: isLoading || isError || isCompleteBook,
                 }}
               />
               <SelectField
@@ -251,7 +257,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                 }}
                 instanceId={useId()}
                 options={categoryOptions}
-                isDisabled={isLoading || isError}
+                isDisabled={isLoading || isError || isCompleteBook}
                 errorMessage={errors?.category?.message}
               />
               <TextAreaField
@@ -263,6 +269,8 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                   isInvalid: Boolean(errors?.synopsis?.message),
                   placeholder: 'Judul',
                   errormessage: errors?.synopsis?.message,
+                  disabled: isCompleteBook || isLoading || isError,
+                  rows: 10,
                 }}
               />
               <hr className="border-gold-300 " />

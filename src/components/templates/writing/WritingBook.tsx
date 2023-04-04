@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import WritingBookForm from '@/components/organisms/forms/WritingBook'
-import Link from '@/components/atoms/Link'
 import { DetailBookDataModel } from '@/interfaces/book'
 import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import Button from '@/components/atoms/Button'
@@ -16,10 +15,11 @@ interface WritingBookTemplateProps {
 const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
   detailBook,
 }) => {
-  const { asPath, query, push } = useRouter()
+  const { query, push } = useRouter()
   const toast = useToast()
   const [showSuccess, setShowSuccess] = useState(false)
   const publishBook = usePublishBook()
+  const isCompleteBook = detailBook?.completed
 
   const handlePublishBook = () => {
     publishBook.mutate(
@@ -39,22 +39,40 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
 
   const isUpdateMode = query?.bookId !== undefined
 
+  const handleAddNewChapter = async () => {
+    const Router = (await import('next/router')).default
+    Router.push({
+      pathname: '/menulis/buku/[bookId]/chapter',
+      query: {
+        bookId: Router.query?.bookId,
+      },
+    })
+  }
+
   return (
     <section className="pt-7 pb-28">
       <div className="container">
         <WritingBookForm detailBook={detailBook}>
           <div className="pt-5">
-            <Link
-              to={`${isUpdateMode ? `${asPath}/chapter` : '#'}`}
-              className="inline-flex items-center justify-center px-4 font-sfpro font-normal min-h-[20px] rounded-lg text-base text-gold-200 border-gold-200 ring-1 ring-gold-200 disabled:bg-gold-300 disabled:text-dark-500 w-full py-1"
+            <Button
+              type="button"
+              isFullWidth
+              disabled={isCompleteBook || !isUpdateMode}
+              onClick={handleAddNewChapter}
+              variant="outlined"
+              style={{
+                paddingTop: 4,
+                paddingBottom: 4,
+              }}
             >
               Tambah Bab
-            </Link>
+            </Button>
             <div className="space-y-4 mt-4 mb-7">
               {detailBook?.chapters &&
                 detailBook?.chapters.length > 0 &&
                 detailBook.chapters.map((chapter, index) => (
                   <ChapterCard
+                    isCompletedBook={false}
                     key={index}
                     chapter={chapter}
                     orderNumber={index + 1}
@@ -67,12 +85,16 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
                 disabled={
                   !isUpdateMode ||
                   !detailBook?.chapters.length ||
-                  publishBook.isLoading
+                  publishBook.isLoading ||
+                  detailBook?.status === 'live' ||
+                  detailBook?.status === 'pending'
                 }
                 isFullWidth={false}
                 onClick={handlePublishBook}
               >
-                Terbitkan
+                {detailBook?.status === 'draft' && 'Terbitkan'}
+                {detailBook?.status === 'live' && 'Sudah Terbit'}
+                {detailBook?.status === 'pending' && 'Sedang Direview'}
               </Button>
             </div>
           </div>

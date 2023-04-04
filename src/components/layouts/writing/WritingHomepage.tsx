@@ -16,12 +16,16 @@ const WritingLayout: React.FC<WritingLayoutProps> = ({ children }) => {
     () => query?.writingTab === 'draft',
     [query?.writingTab]
   )
-  const isPublish = useMemo(
-    () => query?.writingTab === 'publish' || !query?.writingTab,
+  const isLive = useMemo(
+    () => query?.writingTab === 'live',
+    [query?.writingTab]
+  )
+  const isPending = useMemo(
+    () => query?.writingTab === 'pending',
     [query?.writingTab]
   )
 
-  const handleClickTab = (tab: 'draft' | 'publish') => {
+  const handleClickTab = (tab: 'draft' | 'live' | 'pending') => {
     push({ pathname, query: { writingTab: tab } })
   }
 
@@ -32,13 +36,23 @@ const WritingLayout: React.FC<WritingLayoutProps> = ({ children }) => {
           <div className="flex justify-center space-x-8 mb-2">
             <button
               type="button"
-              onClick={() => handleClickTab('publish')}
+              onClick={() => handleClickTab('live')}
               className={joinClass(
                 'py-2 px-3 min-w-[132px] text-xs rounded-lg',
-                isPublish ? activeButtonClassName : defaultButtonClassName
+                isLive ? activeButtonClassName : defaultButtonClassName
               )}
             >
               Diterbitkan
+            </button>
+            <button
+              type="button"
+              onClick={() => handleClickTab('pending')}
+              className={joinClass(
+                'py-2 px-3 min-w-[132px] text-xs rounded-lg',
+                isPending ? activeButtonClassName : defaultButtonClassName
+              )}
+            >
+              Pending
             </button>
             <button
               type="button"

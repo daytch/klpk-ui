@@ -8,7 +8,7 @@ import Button from '@/components/atoms/Button'
 import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import { PublicBookDataModel } from '@/interfaces/book'
 import Header from '@/components/organisms/Header'
-import { authGuardAction } from '@/utils/common'
+import { authGuardAction, formatDate } from '@/utils/common'
 import { useAuth } from '@/store/useAuth'
 import Link from '@/components/atoms/Link'
 import { useSubsribeBook, useUnSubscribeBook } from '@/services/book/mutation'
@@ -194,7 +194,11 @@ export default function ProfileBookTemplate({
                   <ImageText
                     type="synopsis"
                     text="Tanggal Terbit"
-                    description="20 Desember 2022"
+                    description={
+                      book?.approvalDate && book?.approvalDate?.length > 0
+                        ? formatDate(book.approvalDate, 'DD MMMM YYYY')
+                        : 'Belum Diverifikasi Admin'
+                    }
                     icon="/assets/icons/icon-calendar.svg"
                   />
                 </div>

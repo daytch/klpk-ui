@@ -13,22 +13,28 @@ const ActionModal = dynamic(
 interface PuchaseOptionCardProps {
   bookId: string
   chapterId: string
+  isCompleteBook: boolean
+  onSuccessPurchase: () => void
 }
 
 export default function PuchaseOptionCard({
   bookId,
   chapterId,
+  onSuccessPurchase,
+  isCompleteBook,
 }: PuchaseOptionCardProps) {
   const [successPurchaseBook, setSuccessPurchaseBook] = useState(false)
   const [notEnoughCoin, setNotEnoughCoin] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [purchaseType, setPurchaseType] = useState<
+    'book' | 'chapter' | undefined
+  >()
   const purchaseBook = usePurchaseBook()
   const toast = useToast()
 
   const handleConfirmSuccessPayment = async () => {
-    const Router = (await import('next/router')).default
+    onSuccessPurchase()
     setSuccessPurchaseBook(false)
-    setNotEnoughCoin(false)
-    Router.reload()
   }
 
   const handleConfirmTopUp = async () => {
@@ -41,16 +47,16 @@ export default function PuchaseOptionCard({
   const handleCloseModal = () => {
     setSuccessPurchaseBook(false)
     setNotEnoughCoin(false)
+    setShowConfirm(false)
   }
 
-  const handlePurchaseBook = async (type: 'book' | 'chapter') => {
-    setSuccessPurchaseBook(false)
-    setNotEnoughCoin(false)
+  const handlePurchaseBook = async () => {
+    if (!purchaseType) return
     const payload: { type: 'book' | 'chapter'; id: string } = {
-      type,
+      type: purchaseType,
       id: '',
     }
-    if (type === 'book') {
+    if (purchaseType === 'book') {
       payload.id = bookId
     } else {
       payload.id = chapterId
@@ -65,7 +71,7 @@ export default function PuchaseOptionCard({
           setSuccessPurchaseBook(true)
         },
         onError(error) {
-          const typeWording = type === 'book' ? 'buku' : 'bab'
+          const typeWording = purchaseType === 'book' ? 'buku' : 'bab'
           let errorMessage = `Gagal membeli ${typeWording}. Coba lagi.`
           if (
             error?.response?.data?.errorMessage.includes(
@@ -85,6 +91,9 @@ export default function PuchaseOptionCard({
         },
       }
     )
+
+    handleCloseModal()
+    setPurchaseType(undefined)
   }
 
   return (
@@ -94,8 +103,15 @@ export default function PuchaseOptionCard({
           Anda tidak punya akses untuk Bab ini
         </h1>
         <div className="flex space-x-2 items-center">
-          <Button onClick={() => handlePurchaseBook('book')}>Beli Buku</Button>
-          <Button onClick={() => handlePurchaseBook('chapter')}>
+          <Button
+            disabled={!isCompleteBook}
+            onClick={() => [setPurchaseType('book'), setShowConfirm(true)]}
+          >
+            Beli Buku
+          </Button>
+          <Button
+            onClick={() => [setPurchaseType('chapter'), setShowConfirm(true)]}
+          >
             Beli Bab Ini
           </Button>
         </div>
@@ -106,8 +122,8 @@ export default function PuchaseOptionCard({
         isOpen={successPurchaseBook}
         title="Berhasil"
         message="Berhasil di bayar!"
-        buttonText="Mengerti"
-        onConfirm={handleConfirmSuccessPayment}
+        buttonConfirmText="Mengerti"
+        onConfirmAction={handleConfirmSuccessPayment}
         onClose={handleCloseModal}
       />
 
@@ -117,8 +133,23 @@ export default function PuchaseOptionCard({
         isOpen={notEnoughCoin}
         title="Oops..."
         message="Koin anda tidak mencukupi"
-        buttonText="Topup"
-        onConfirm={handleConfirmTopUp}
+        buttonConfirmText="Topup"
+        onConfirmAction={handleConfirmTopUp}
+        onClose={handleCloseModal}
+      />
+
+      {/* Confirm */}
+      <ActionModal
+        icon={SuccessIcon}
+        isOpen={showConfirm && purchaseBook !== undefined}
+        title={`Apakah anda yakin ingin membeli ${
+          purchaseType === 'book' ? 'Buku' : 'Bab'
+        } ini`}
+        message="Traksasi tidak dapat dibatalkan"
+        buttonConfirmText="Lanjutkan"
+        buttonCancelText="Batal"
+        onCancelAction={handleCloseModal}
+        onConfirmAction={handlePurchaseBook}
         onClose={handleCloseModal}
       />
     </section>
