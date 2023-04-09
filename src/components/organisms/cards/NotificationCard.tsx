@@ -8,29 +8,40 @@ import {
   sanitizeHTML,
 } from '@/utils/common'
 import Button from '@/components/atoms/Button'
+import useSignalIR from '@/hooks/useSignalIR'
 
 interface NotificationCardProps {
   notification: NotificationDataModel
-  onClick?: () => void
+
   isDisabled?: boolean
   hideReadButton?: boolean
 }
 
 const NotificationCard: React.FC<NotificationCardProps> = ({
   notification,
-  onClick = () => {},
   isDisabled,
   hideReadButton,
 }) => {
   const [content, setContent] = useState('')
+  const [unRead, setUnRead] = useState(false)
+  const { handleReadMessage } = useSignalIR()
+
   const handleSanitizeContent = async () => {
     const notificationContent = await sanitizeHTML(notification.content)
     setContent(notificationContent)
   }
 
+  const handleClickMessage = async () => {
+    if (!notification?.id) return
+    await handleReadMessage(notification.id)
+    setUnRead(true)
+  }
+
   useEffect(() => {
     handleSanitizeContent()
-  }, [notification?.content])
+    setUnRead(notification?.read ?? false)
+  }, [notification])
+
   return (
     <div className="mt-2 px-6 py-4 bg-dark-300 rounded-lg shadow w-full">
       <div className=" inline-flex items-center justify-between w-full">
@@ -55,10 +66,10 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
         dangerouslySetInnerHTML={{ __html: content }}
       />
 
-      {!notification?.read && !hideReadButton && (
+      {!unRead && !hideReadButton && (
         <div className="flex justify-end">
           <Button
-            onClick={() => onClick()}
+            onClick={handleClickMessage}
             disabled={isDisabled}
             isFullWidth={false}
           >
