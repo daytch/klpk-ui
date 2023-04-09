@@ -1,6 +1,10 @@
 import React, { Fragment, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useToast } from '@/hooks/useToast'
+import { useAuth } from '@/store/useAuth'
+import { useSubsribeBook, useUnSubscribeBook } from '@/services/book/mutation'
+import Link from '@/components/atoms/Link'
 import Footer from '@/components/organisms/Footer'
 import IconStar from '@/components/icons/IconStar'
 import ImageText from '@/components/molecules/ImageText'
@@ -9,10 +13,7 @@ import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import { PublicBookDataModel } from '@/interfaces/book'
 import Header from '@/components/organisms/Header'
 import { authGuardAction, formatDate } from '@/utils/common'
-import { useAuth } from '@/store/useAuth'
-import Link from '@/components/atoms/Link'
-import { useSubsribeBook, useUnSubscribeBook } from '@/services/book/mutation'
-import { useToast } from '@/hooks/useToast'
+import IconNoImage from '@/assets/icons/no-image.png'
 
 type ProfileBookTemplateProps = {
   book?: PublicBookDataModel
@@ -28,6 +29,7 @@ export default function ProfileBookTemplate({
   const subscribeBook = useSubsribeBook()
   const unSubscribeBook = useUnSubscribeBook()
   const toast = useToast()
+  const noAvailableCoverImage = !book?.cover?.length
 
   useEffect(() => {
     if (typeof window === undefined) return
@@ -111,9 +113,6 @@ export default function ProfileBookTemplate({
           alt=""
           fill
           priority
-          style={{
-            imageRendering: 'pixelated',
-          }}
           className="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover"
         />
         <div
@@ -132,7 +131,19 @@ export default function ProfileBookTemplate({
                 {(book?.rating ?? 0).toFixed(1)}
               </span>
             </div>
-            <Image src={book?.cover ?? ''} fill alt={book?.title ?? ''} />
+            <div className="w-full h-full bg-dark-100">
+              <Image
+                src={book?.cover ?? IconNoImage}
+                fill
+                alt={book?.title ?? ''}
+                className="object-cover"
+                style={{
+                  filter: noAvailableCoverImage
+                    ? 'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)'
+                    : 'none',
+                }}
+              />
+            </div>
           </div>
           <div className="relative z-10 font-gotham text-kplkWhite flex flex-col justify-center overflow-hidden flex-1">
             <h2 className="text-2xl font-bold mb-1 leading-6 w-full whitespace-nowrap text-ellipsis overflow-hidden">
