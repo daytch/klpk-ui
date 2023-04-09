@@ -18,6 +18,7 @@ import { sanitizeHTML } from '@/utils/common'
 type ReadBookTemplateProps = {
   isLoading: boolean
   isForbidden: boolean
+  onSuccessPurchase: () => void
   book?: PublicBookDataModel
   chapter?: PublicChapterDetailDataModel
 }
@@ -25,6 +26,7 @@ type ReadBookTemplateProps = {
 export default function ReadBookTemplate({
   isLoading,
   isForbidden,
+  onSuccessPurchase,
   chapter,
   book,
 }: ReadBookTemplateProps) {
@@ -69,6 +71,8 @@ export default function ReadBookTemplate({
       )}
       {!isLoading && isForbidden && !chapter && (
         <PuchaseOptionCard
+          isCompleteBook={book?.completed ?? false}
+          onSuccessPurchase={onSuccessPurchase}
           bookId={String(query?.bookId ?? '')}
           chapterId={String(query?.chapterId ?? '')}
         />

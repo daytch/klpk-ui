@@ -3,6 +3,7 @@ import { InfiniteData } from '@tanstack/react-query'
 import WritingLayout from '@/components/layouts/writing/WritingHomepage'
 import { BookDataModel } from '@/interfaces/book'
 import ProductCard from '@/components/molecules/ProductCard'
+import NoDataCard from '@/components/organisms/cards/NoDataCard'
 
 interface WritingHomepageTemplateProps {
   bookPages?: InfiniteData<BookDataModel[]>
@@ -31,10 +32,13 @@ const WritingHomepageTemplate: React.FC<WritingHomepageTemplateProps> = ({
     },
     [isLoadingBook, hasNextBookPage]
   )
+  const isEmptyData = !bookPages?.pages[0]?.length
 
   return (
     <WritingLayout>
-      {!bookPages?.pages.length && null}
+      {!isLoadingBook && isEmptyData && (
+        <NoDataCard text="Kamu belum menulis buku apapun." />
+      )}
       <div className="grid gap-6 grid-cols-2  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 max-w-[795px] mx-auto">
         {bookPages?.pages.length !== 0 &&
           bookPages?.pages.map((page, pageIndex) =>

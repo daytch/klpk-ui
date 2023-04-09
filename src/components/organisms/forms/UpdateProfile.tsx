@@ -4,12 +4,12 @@ import UpdateUnverifiedProfile from './UpdateUnverifiedProfile'
 import UpdateVerifiedProfile from './UpdateVerifiedProfile'
 
 type UpdateProfileFormProps = {
-  onSuccessUpdateProfile: () => void
+  onSuccessUpdateProfile?: () => void
   profile?: ProfileUserDataModel
 }
 
 export default function UpdateProfileForm({
-  onSuccessUpdateProfile,
+  onSuccessUpdateProfile = () => {},
   profile,
 }: UpdateProfileFormProps) {
   return profile?.verified ? (

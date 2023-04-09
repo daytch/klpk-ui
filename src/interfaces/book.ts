@@ -72,6 +72,7 @@ export type PublicBookDataModel = {
     fullName: string
     username: string
   }
+  approvalDate?: string
   subscribersCount: number
   subscribed: boolean
   purchased: boolean

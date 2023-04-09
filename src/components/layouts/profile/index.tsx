@@ -126,10 +126,7 @@ export default function ProfileLayout({
                   width={145}
                   height={145}
                   priority
-                  className="object-cover w-full h-full"
-                  style={{
-                    imageRendering: 'pixelated',
-                  }}
+                  className="w-full h-full object-cover"
                 />
                 <label className="absolute right-[6px] bottom-[8px] inline-flex items-center bg-dark-200 text-gold-100 border border-gold-100 py-2 px-3 rounded-[50px] text-xs leading-3 space-x-1 font-gotham font-light cursor-pointer">
                   <span>Ganti Background</span> <IconArrow />

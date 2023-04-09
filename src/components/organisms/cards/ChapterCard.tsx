@@ -10,6 +10,7 @@ interface ChapterCardProps {
   chapter: BookChapterDataModel
   viewMode?: 'writing' | 'read'
   onClick?: (type: 'synopsis' | 'chapter', chapterId?: string) => void
+  isCompletedBook?: boolean
 }
 
 const ChapterCard: React.FC<ChapterCardProps> = ({
@@ -17,6 +18,7 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
   orderNumber,
   viewMode = 'writing',
   onClick = () => {},
+  isCompletedBook,
 }) => {
   const { asPath } = useRouter()
   const { id, name } = chapter
@@ -71,9 +73,11 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
       <p className="mr-[14px] flex-1 font-bold font-gotham text-sm text-gold-200">
         {name}
       </p>
-      <Link to={chapterUpdateLink}>
-        <IconPen />
-      </Link>
+      {!isCompletedBook && (
+        <Link to={chapterUpdateLink}>
+          <IconPen />
+        </Link>
+      )}
     </div>
   )
 }

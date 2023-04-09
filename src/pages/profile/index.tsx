@@ -14,10 +14,7 @@ export default function ProfileIndexPage() {
         <title>Profile User | {APP_NAME}</title>
       </Head>
       <ProfileLayout profile={data}>
-        <UpdateProfileForm
-          profile={data}
-          onSuccessUpdateProfile={() => console.log('test')}
-        />
+        <UpdateProfileForm profile={data} />
       </ProfileLayout>
     </>
   )

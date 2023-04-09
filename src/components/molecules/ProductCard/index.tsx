@@ -1,9 +1,10 @@
+import React from 'react'
+import Image from 'next/image'
 import Link from '@/components/atoms/Link'
 import IconStar from '@/components/icons/IconStar'
 import { BookDataModel, PublicBookDataModel } from '@/interfaces/book'
 import { joinClass } from '@/utils/common'
-import Image from 'next/image'
-import React from 'react'
+import IconNoImage from '@/assets/icons/no-image.png'
 
 interface ProductCardProps {
   book: BookDataModel | PublicBookDataModel
@@ -17,6 +18,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const showRating = 'rating' in book
   const showProgress = 'readProgress' in book
   const isFinishRead = showProgress && book.readProgress === 100
+  const noAvailableCoverImage = !book?.cover?.length
 
   const detailBookLink =
     contentTypeView === 'default' || contentTypeView === 'library'
@@ -34,14 +36,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </span>
           </div>
         )}
-        <Image
-          priority
-          width={138}
-          height={189}
-          className="absolute top-0 left-0 bottom-0 right-0 z-[1] w-full h-full object-cover"
-          src={book?.cover ?? '/assets/images/gallery.png'}
-          alt={book.title}
-        />
+        <div>
+          <Image
+            priority
+            width={138}
+            height={189}
+            className="absolute top-0 left-0 bottom-0 right-0 z-[1] w-full h-full object-cover"
+            src={book?.cover ?? IconNoImage}
+            alt={book?.title ?? ''}
+            style={{
+              filter: noAvailableCoverImage
+                ? 'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)'
+                : 'none',
+            }}
+          />
+        </div>
         {contentTypeView === 'library' && showProgress && (
           <div
             className={joinClass(

@@ -2,21 +2,26 @@ import React from 'react'
 import BaseDialog, { BaseDialogProps } from '@/components/molecules/BaseDialog'
 import Image from 'next/image'
 import Button from '@/components/atoms/Button'
+import { joinClass } from '@/utils/common'
 
 type ActionDialogProps = {
   icon: string
   message: string
   title: string
-  buttonText: string
-  onConfirm: () => void
+  buttonConfirmText: string
+  onConfirmAction: () => void
+  buttonCancelText?: string
+  onCancelAction?: () => void
 } & Pick<BaseDialogProps, 'isOpen' | 'onClose'>
 
 const ActionDialog: React.FC<ActionDialogProps> = ({
   icon,
   message,
   title,
-  buttonText,
-  onConfirm,
+  buttonConfirmText,
+  onConfirmAction,
+  buttonCancelText,
+  onCancelAction = () => {},
   ...props
 }) => {
   return (
@@ -33,14 +38,26 @@ const ActionDialog: React.FC<ActionDialogProps> = ({
           {message}
         </p>
 
-        <Button
-          type="button"
-          variant="primary"
-          onClick={onConfirm}
-          isFullWidth={false}
+        <div
+          className={joinClass(
+            'flex',
+            buttonCancelText !== undefined ? 'space-x-4' : ''
+          )}
         >
-          {buttonText}
-        </Button>
+          {buttonCancelText !== undefined && (
+            <Button type="button" variant="secondary" onClick={onCancelAction}>
+              {buttonCancelText}
+            </Button>
+          )}
+          <Button
+            type="button"
+            variant="primary"
+            onClick={onConfirmAction}
+            isFullWidth={buttonCancelText === undefined}
+          >
+            {buttonConfirmText}
+          </Button>
+        </div>
       </div>
     </BaseDialog>
   )

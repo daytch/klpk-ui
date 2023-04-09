@@ -45,23 +45,26 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
   const { data: book, isLoading: isLoadingBook } = useGetDetailPublicBookById(
     bookId ?? ''
   )
-  const { data: chapter, isLoading: isLoadingChapter } =
-    useGetDetailChapterById(
-      {
-        bookId: bookId ?? '',
-        chapterId: chapterId ?? '',
-      },
-      (err) => {
-        if (err?.response?.status === 403) {
-          setIsForbidden(true)
-          setIsNotFound(false)
-        }
-        if (err?.response?.status === 401) {
-          setIsForbidden(false)
-          setIsNotFound(true)
-        }
+  const {
+    data: chapter,
+    isLoading: isLoadingChapter,
+    refetch: refetchChapter,
+  } = useGetDetailChapterById(
+    {
+      bookId: bookId ?? '',
+      chapterId: chapterId ?? '',
+    },
+    (err) => {
+      if (err?.response?.status === 403) {
+        setIsForbidden(true)
+        setIsNotFound(false)
       }
-    )
+      if (err?.response?.status === 401) {
+        setIsForbidden(false)
+        setIsNotFound(true)
+      }
+    }
+  )
 
   if (isNotFound) return <NotFoundPage />
 
@@ -72,6 +75,7 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
         isLoading={isLoadingBook || isLoadingChapter}
         isForbidden={isForbidden}
         book={book}
+        onSuccessPurchase={refetchChapter}
         chapter={chapter}
       />
     </>

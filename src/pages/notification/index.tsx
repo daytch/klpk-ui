@@ -1,5 +1,4 @@
 import React, { useCallback, useRef } from 'react'
-import useSignalIR from '@/hooks/useSignalIR'
 import Head from 'next/head'
 import { APP_NAME } from '@/utils/constants'
 import GeneralLayout from '@/components/layouts/general'
@@ -8,8 +7,7 @@ import NotificationCard from '@/components/organisms/cards/NotificationCard'
 import { useGetNotifications } from '@/services/notification/query'
 
 const NotificationPage = () => {
-  const { handleReadMessage } = useSignalIR()
-  const { data, isLoading, hasNextPage, fetchNextPage, refetch, isError } =
+  const { data, isLoading, hasNextPage, fetchNextPage, isError } =
     useGetNotifications({
       params: { limit: 10 },
       pageParam: 1,
@@ -31,11 +29,6 @@ const NotificationPage = () => {
     },
     [isLoading, hasNextPage]
   )
-
-  const handleClickMessage = async (id: string) => {
-    await handleReadMessage(id)
-    refetch()
-  }
 
   return (
     <>
@@ -68,9 +61,6 @@ const NotificationPage = () => {
                             <NotificationCard
                               notification={notification}
                               isDisabled={notification.read}
-                              onClick={() =>
-                                handleClickMessage(notification.id)
-                              }
                             />
                           </div>
                         )
@@ -80,7 +70,6 @@ const NotificationPage = () => {
                           <NotificationCard
                             notification={notification}
                             isDisabled={notification.read}
-                            onClick={() => handleClickMessage(notification.id)}
                           />
                         </div>
                       )

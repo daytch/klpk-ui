@@ -51,6 +51,31 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
     })
   }
 
+  const handleBackButton = async () => {
+    const Router = (await import('next/router')).default
+    if (Router.pathname === '/menulis/buku/[bookId]') {
+      Router.push('/menulis')
+    } else if (Router.pathname === '/menulis/buku/[bookId]/[chapter]') {
+      Router.push({
+        pathname: '/menulis/buku/[bookId]',
+        query: {
+          bookId: Router.query?.bookId,
+        },
+      })
+    } else if (
+      Router.pathname === '/menulis/buku/[bookId]/[chapter]/[chapterId]'
+    ) {
+      Router.push({
+        pathname: '/menulis/buku/[bookId]',
+        query: {
+          bookId: Router.query?.bookId,
+        },
+      })
+    } else {
+      Router.push('/menulis')
+    }
+  }
+
   return (
     <>
       <NotificationDialog open={open} message={message} setOpen={setOpen} />
@@ -60,15 +85,15 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
         )}
       >
         {showBackButton && (
-          <Link
+          <button
+            onClick={handleBackButton}
             className="lg:absolute top-1/2 lg:-translate-y-1/2 left-6 inline-flex items-center space-x-3 text-gold-200 ml-6 lg:ml-0"
-            to="/"
           >
             <span className="inline-flex items-center justify-center p-2 w-6 h-6 border border-gold-100 rounded">
               <IconChevron />
             </span>
             <span>Kembali</span>
-          </Link>
+          </button>
         )}
         {mode === 'default' && (
           <Image
