@@ -10,3 +10,17 @@
     clear: both;
   }
 }
+
+@supports not (aspect-ratio: 4/1) {
+  .aspect-4-1::before {
+    float: left;
+    padding-top: calc(4 / 1 * 100%);
+    content: "";
+  }
+
+  .aspect-4-1::after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+}

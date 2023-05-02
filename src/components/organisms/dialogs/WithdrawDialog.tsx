@@ -6,6 +6,7 @@ import CointOption from '@/components/molecules/CointOption'
 import { createNumberArray } from '@/utils/common'
 import Button from '@/components/atoms/Button'
 import { CoinPackageDataModel } from '@/interfaces/payment'
+import { useGetCoinRate } from '@/services/payment/query'
 
 type WithdrawDialogProps = {
   coinBalance: number
@@ -17,10 +18,19 @@ export default function WithdrawDialog({
   onSuccessWithdraw,
   ...props
 }: WithdrawDialogProps) {
-  const data = createNumberArray(1000, coinBalance, 500)
+  const { data: coinRate } = useGetCoinRate(props.isOpen)
+  const data = createNumberArray(
+    coinRate?.minimumWithdrawAmount ?? 0,
+    coinBalance,
+    500
+  )
   const [selectedAmount, setSelectedAmount] = useState<CoinPackageDataModel>()
   const createWithdrawRequest = useCreateWithdraw()
   const toast = useToast()
+  const isNotEnoughCoin =
+    coinRate?.minimumWithdrawAmount !== undefined
+      ? coinRate.minimumWithdrawAmount > coinBalance
+      : false
 
   const createWithdraw = () => {
     if (!selectedAmount) return
@@ -47,27 +57,34 @@ export default function WithdrawDialog({
         <p className="text-2xl font-bold font-gotham text-gold-200 mb-6">
           Pilih Jumlah Koin yang Ingin Ditarik
         </p>
-        <div className="flex flex-wrap -mx-4">
-          {data.map((coin, index) => {
-            const option = {
-              id: index.toString(),
-              amount: coin,
-            }
-            return (
-              <div key={index} className="w-full lg:w-1/2 p-4">
-                <CointOption
-                  viewMode="withdraw"
-                  coint={option}
-                  id={index.toString()}
-                  onChange={function (value): void {
-                    setSelectedAmount(value)
-                  }}
-                  checked={selectedAmount?.id === option.id}
-                />
-              </div>
-            )
-          })}
-        </div>
+        {isNotEnoughCoin && (
+          <p className="text-base text-gold-200 mb-4">
+            Jumlah koin tidak mencukupi untuk bisa di tukar.
+          </p>
+        )}
+        {!isNotEnoughCoin && (
+          <div className="flex flex-wrap -mx-4">
+            {data.map((coin, index) => {
+              const option = {
+                id: index.toString(),
+                amount: coin,
+              }
+              return (
+                <div key={index} className="w-full lg:w-1/2 p-4">
+                  <CointOption
+                    viewMode="withdraw"
+                    coint={option}
+                    id={index.toString()}
+                    onChange={function (value): void {
+                      setSelectedAmount(value)
+                    }}
+                    checked={selectedAmount?.id === option.id}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        )}
         <div className="flex items-center justify-end space-x-4">
           <Button
             disabled={createWithdrawRequest.isLoading}
@@ -77,14 +94,16 @@ export default function WithdrawDialog({
           >
             Batal
           </Button>
-          <Button
-            onClick={createWithdraw}
-            disabled={!selectedAmount || createWithdrawRequest.isLoading}
-            variant="primary"
-            isFullWidth={false}
-          >
-            Proses
-          </Button>
+          {!isNotEnoughCoin && (
+            <Button
+              onClick={createWithdraw}
+              disabled={!selectedAmount || createWithdrawRequest.isLoading}
+              variant="primary"
+              isFullWidth={false}
+            >
+              Proses
+            </Button>
+          )}
         </div>
       </div>
     </BaseDialog>

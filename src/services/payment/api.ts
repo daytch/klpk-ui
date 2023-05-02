@@ -1,4 +1,8 @@
-import { CoinPackageDataModel, TopupParams } from '@/interfaces/payment'
+import {
+  CoinPackageDataModel,
+  TCoinRate,
+  TopupParams,
+} from '@/interfaces/payment'
 import { apiService } from '@/utils/httpRequest'
 
 export async function getCoinPackages() {
@@ -28,6 +32,15 @@ export async function createWithdraw(params: { amount: number }) {
     const response = await apiService.post('/withdraws', {
       ...params,
     })
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export async function getCoinRate() {
+  try {
+    const response = await apiService<TCoinRate>('/settings/coin-rate')
     return response.data
   } catch (error) {
     return Promise.reject(error)
