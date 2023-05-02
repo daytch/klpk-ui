@@ -12,3 +12,9 @@ export type TopupResponse = {
   id: string
   paymentToken: string
 }
+
+export type TCoinRate = {
+  sellRate: number
+  withdrawRate: number
+  minimumWithdrawAmount: number
+}
