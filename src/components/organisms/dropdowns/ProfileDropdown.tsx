@@ -1,11 +1,13 @@
 import React from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import Image from 'next/image'
+import NoImage from '@/assets/icons/no-image.png'
 import Link from '@/components/atoms/Link'
 import IconUser from '@/components/icons/IconUser'
 import IconBrush from '@/components/icons/IconBrush'
 import IconLogout from '@/components/icons/IconLogout'
 import { useAuth } from '@/store/useAuth'
+import { useGetMe } from '@/services/profile/query'
 
 type ProfileDropdownProps = {
   onCloseSignalIR: () => void
@@ -15,6 +17,9 @@ export default function ProfileDropdown({
   onCloseSignalIR,
 }: ProfileDropdownProps) {
   const { logout } = useAuth()
+  const { data } = useGetMe()
+
+  const profilePicture = data?.photos?.find((photo) => photo?.type === 'avatar')
 
   const handleLogout = async () => {
     const Router = (await import('next/router')).default
@@ -34,7 +39,7 @@ export default function ProfileDropdown({
       >
         <DropdownMenu.Trigger className="inline-flex outline-none relative">
           <Image
-            src="https://picsum.photos/id/64/35/35"
+            src={profilePicture?.url ?? NoImage}
             width={35}
             height={35}
             alt=""

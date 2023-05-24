@@ -199,7 +199,7 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
                       }}
                       textEditorProps={{
                         name: 'content',
-                        disabled: true,
+                        disabled: detailBook?.completed ?? false,
                       }}
                       errorMessage={errors?.content?.message ?? ''}
                     />

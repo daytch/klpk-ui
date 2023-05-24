@@ -18,6 +18,7 @@ import {
 import { createImagePreview } from '@/utils/common'
 import { useToast } from '@/hooks/useToast'
 import IconUpload from '@/components/icons/IconUpload'
+import NoImage from '@/assets/icons/no-image.png'
 
 const Header = dynamic(() => import('@/components/organisms/Header'), {
   ssr: false,
@@ -71,9 +72,9 @@ export default function ProfileLayout({
   }, [profile])
 
   const userAvatarImage = useMemo(() => {
-    if (!profile?.photos || !profile.photos.length) return ''
+    if (!profile?.photos || !profile.photos.length) return NoImage
     const cover = profile.photos.find((photo) => photo.type === 'avatar')
-    return cover?.url ?? ''
+    return cover?.url ?? NoImage
   }, [profile])
 
   const handleUploadCover = (
