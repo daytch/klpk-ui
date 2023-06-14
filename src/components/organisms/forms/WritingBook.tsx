@@ -1,11 +1,11 @@
 import React, { useMemo, useId, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import dynamic from 'next/dynamic'
+import { FormProvider, useForm } from 'react-hook-form'
 import { InferType, mixed, object, string } from 'yup'
 import { useRouter } from 'next/router'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Button from '@/components/atoms/Button'
 import SelectField from '@/components/molecules/SelectField'
-import TextAreaField from '@/components/molecules/TextAreaField'
 import TextField from '@/components/molecules/TextField'
 import UploadCover from '@/components/molecules/UploadCover'
 import { SelectOptionsDataModel } from '@/interfaces/common'
@@ -18,14 +18,29 @@ import {
 } from '@/services/my-book/mutation'
 import { useToast } from '@/hooks/useToast'
 import { DetailBookDataModel } from '@/interfaces/book'
+import { MAX_FILE_SIZE } from '@/utils/constants'
+const TextEditorField = dynamic(
+  () => import('@/components/molecules/TextEditorField'),
+  { ssr: false }
+)
 
 const schema = object({
   title: string().required('Judul wajib diisi.'),
-  synopsis: string().required('Sinopsis wajib diisi.'),
+  content: string().required('Sinopsis wajib diisi.'),
   category: string().required('Kategori wajib diisi.'),
-  cover: mixed().test('file type', 'File tidak valid', () => {
-    return true
-  }),
+  cover: mixed()
+    .test('file type', 'File tidak valid', () => {
+      return true
+    })
+    .test(
+      'file-size',
+      'File terlalu besar. Ukuran maksimal file hanya 2 MB',
+      (value: FileList) => {
+        if (!value) return true
+        const fileSize = value[0]?.size
+        return fileSize < MAX_FILE_SIZE
+      }
+    ),
 })
 
 type FormValue = InferType<typeof schema>
@@ -41,13 +56,17 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
 }) => {
   const router = useRouter()
   const toast = useToast()
+  const methods = useForm<FormValue>({
+    resolver: yupResolver(schema),
+    mode: 'all',
+  })
   const {
     register,
     handleSubmit,
     control,
     reset,
     formState: { errors },
-  } = useForm<FormValue>({ resolver: yupResolver(schema), mode: 'all' })
+  } = methods
   const createNewBook = useCreateNewBook()
   const uploadBookCover = useUploadBookCover()
   const updateBook = useUpdateBookFromId()
@@ -65,7 +84,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
     reset({
       title: detailBook.title,
       category: detailBook.category.id,
-      synopsis: detailBook.synopsis,
+      content: detailBook.synopsis,
     })
   }, [detailBook])
 
@@ -111,7 +130,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
     const data = await createNewBook.mutateAsync(
       {
         title: values.title,
-        synopsis: values.synopsis,
+        synopsis: values.content,
         categoryId: values.category,
       },
       {
@@ -147,7 +166,7 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
         payloadBook: {
           title: values.title,
           categoryId: values.category,
-          synopsis: values.synopsis,
+          synopsis: values.content,
         },
       },
       {
@@ -192,75 +211,88 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className="lg:flex space-y-6 lg:space-y-0 lg:space-x-32">
-        <div className="mx-auto lg:mx-0 w-[220px] ">
-          <div className="sticky top-20">
-            <UploadCover
-              disable={detailBook?.completed ?? false}
-              cover={detailBook?.cover ?? ''}
-              control={control}
-              name="cover"
-              className="mb-4"
-            />
-            {!isCompleteBook && (
-              <Button
-                onClick={handleMarkBookAsDone}
-                disabled={markBookAsDone.isLoading}
-                variant="primary"
-              >
-                {markBookAsDone.isLoading ? 'Menyimpan' : 'Tandai Selesai'}
-              </Button>
-            )}
-          </div>
-        </div>
-        <div className="flex-1">
-          <div className="p-4 lg:p-8 bg-dark-300 rounded-xl overflow-hidden">
-            <div className="flex items-center justify-between pb-4 border-b border-gold-300">
-              <h2 className="text-white font-bold font-gotham text-base">
-                Menulis
-              </h2>
-              <Button
-                disabled={
-                  createNewBook.isLoading ||
-                  updateBook.isLoading ||
-                  isCompleteBook
-                }
-                type="submit"
-                isFullWidth={false}
-                variant="outlined"
-                className="py-1"
-              >
-                {createNewBook.isLoading || updateBook.isLoading
-                  ? 'Menyimpan'
-                  : 'Simpan'}
-              </Button>
-            </div>
-            <div className="space-y-3 py-4">
-              <TextField
-                labelProps={{
-                  children: 'Judul',
-                }}
-                inputProps={{
-                  ...register('title'),
-                  isInvalid: Boolean(errors?.title?.message),
-                  placeholder: 'Judul',
-                  errormessage: errors?.title?.message,
-                  disabled: isLoading || isError || isCompleteBook,
-                }}
-              />
-              <SelectField
-                name="category"
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div className="lg:flex space-y-6 lg:space-y-0 lg:space-x-32">
+          <div className="mx-auto lg:mx-0 w-[220px] ">
+            <div className="sticky top-20">
+              <UploadCover
+                disable={detailBook?.completed ?? false}
+                cover={detailBook?.cover ?? ''}
                 control={control}
-                labelProps={{
-                  children: 'Kategori',
-                }}
-                instanceId={useId()}
-                options={categoryOptions}
-                isDisabled={isLoading || isError || isCompleteBook}
-                errorMessage={errors?.category?.message}
+                errorMessage={(errors?.cover?.message as string) ?? ''}
+                name="cover"
+                className="mb-4"
               />
-              <TextAreaField
+              {!isCompleteBook && (
+                <Button
+                  onClick={handleMarkBookAsDone}
+                  disabled={markBookAsDone.isLoading}
+                  variant="primary"
+                >
+                  {markBookAsDone.isLoading ? 'Menyimpan' : 'Tandai Selesai'}
+                </Button>
+              )}
+            </div>
+          </div>
+
+          <div className="flex-1">
+            <div className="p-4 lg:p-8 bg-dark-300 rounded-xl overflow-hidden">
+              <div className="flex items-center justify-between pb-4 border-b border-gold-300">
+                <h2 className="text-white font-bold font-gotham text-base">
+                  Menulis
+                </h2>
+                <Button
+                  disabled={
+                    createNewBook.isLoading ||
+                    updateBook.isLoading ||
+                    isCompleteBook
+                  }
+                  type="submit"
+                  isFullWidth={false}
+                  variant="outlined"
+                  className="py-1"
+                >
+                  {createNewBook.isLoading || updateBook.isLoading
+                    ? 'Menyimpan'
+                    : 'Simpan'}
+                </Button>
+              </div>
+              <div className="space-y-3 py-4">
+                <TextField
+                  labelProps={{
+                    children: 'Judul',
+                  }}
+                  inputProps={{
+                    ...register('title'),
+                    isInvalid: Boolean(errors?.title?.message),
+                    placeholder: 'Judul',
+                    errormessage: errors?.title?.message,
+                    disabled: isLoading || isError || isCompleteBook,
+                  }}
+                />
+                <SelectField
+                  name="category"
+                  control={control}
+                  labelProps={{
+                    children: 'Kategori',
+                  }}
+                  instanceId={useId()}
+                  options={categoryOptions}
+                  isDisabled={isLoading || isError || isCompleteBook}
+                  errorMessage={errors?.category?.message}
+                />
+                <TextEditorField
+                  labelProps={{
+                    children: 'Sinopsis',
+                  }}
+                  textEditorProps={{
+                    name: 'content',
+                    disabled: isCompleteBook || isLoading || isError,
+                  }}
+                  errorMessage={errors?.content?.message ?? ''}
+                />
+                {/* <TextAreaField
                 labelProps={{
                   children: 'Sinopsis',
                 }}
@@ -272,14 +304,15 @@ const WritingBookForm: React.FC<WritingBookFormProps> = ({
                   disabled: isCompleteBook || isLoading || isError,
                   rows: 10,
                 }}
-              />
-              <hr className="border-gold-300 " />
-              {children}
+              /> */}
+                <hr className="border-gold-300 " />
+                {children}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </FormProvider>
   )
 }
 

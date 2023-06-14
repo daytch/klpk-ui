@@ -1,7 +1,7 @@
 import React from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import Image from 'next/image'
-import NoImage from '@/assets/icons/no-image.png'
+import NoImage from '@/assets/icons/no-avatar.svg'
 import Link from '@/components/atoms/Link'
 import IconUser from '@/components/icons/IconUser'
 import IconBrush from '@/components/icons/IconBrush'

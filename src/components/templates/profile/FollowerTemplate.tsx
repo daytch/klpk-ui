@@ -72,7 +72,7 @@ export default function FollowerTemplate({ userId }: FollowerTemplateProps) {
     <Fragment>
       {isError && !isLoading && !followingPages && (
         <div>
-          <NoDataCard text="Anda belum memfollow user." />
+          <NoDataCard text="Anda belum memiliki pengikut." />
         </div>
       )}
       {followingPages !== undefined && followingPages.pages.length > 0 && (
@@ -81,7 +81,7 @@ export default function FollowerTemplate({ userId }: FollowerTemplateProps) {
             if (page.length === 0 && pageIndex === 0) {
               return (
                 <div key={pageIndex}>
-                  <NoDataCard text="Anda belum memfollow user." />
+                  <NoDataCard text="Anda belum memiliki pengikut." />
                 </div>
               )
             }

@@ -12,15 +12,19 @@ import {
   RegisterPayloadProps,
   VerifyPayloadProps,
 } from '@/interfaces/auth'
+import { AxiosError, AxiosResponse } from 'axios'
 
 export function useLogin() {
   return useMutation(['login'], (payload: LoginPayloadProps) => login(payload))
 }
 
 export function useRegister() {
-  return useMutation(['login'], (payload: RegisterPayloadProps) =>
-    registerPost(payload)
-  )
+  return useMutation<
+    AxiosResponse<VerifyPayloadProps, any>,
+    AxiosError<{ errorMessage: string }>,
+    RegisterPayloadProps,
+    unknown
+  >(['login'], (payload: RegisterPayloadProps) => registerPost(payload))
 }
 
 export function useRegisterVerify() {

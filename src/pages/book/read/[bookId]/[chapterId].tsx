@@ -45,6 +45,7 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
   const { data: book, isLoading: isLoadingBook } = useGetDetailPublicBookById(
     bookId ?? ''
   )
+
   const {
     data: chapter,
     isLoading: isLoadingChapter,

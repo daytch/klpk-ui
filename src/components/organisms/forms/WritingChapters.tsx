@@ -203,6 +203,7 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
                       }}
                       errorMessage={errors?.content?.message ?? ''}
                     />
+
                     <hr className="border-gold-300" />
                     <div>
                       <Button

@@ -1,14 +1,14 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import Label, { ILabelProps } from '@/components/atoms/Label'
-import { HtmlEditorProps } from '@/components/atoms/TextEditor'
-const TextEditor = dynamic(() => import('../../atoms/TextEditor'), {
+const Editor = dynamic(() => import('@/components/atoms/Editor'), {
   ssr: false,
 })
 import { joinClass } from '@/utils/common'
+import { EditorProps } from '@/components/atoms/Editor'
 
 interface TextEditorFieldProps {
-  textEditorProps: HtmlEditorProps
+  textEditorProps: EditorProps
   labelProps: ILabelProps
   className?: string
   errorMessage?: string
@@ -23,7 +23,7 @@ const TextEditorField: React.FC<TextEditorFieldProps> = ({
   return (
     <div className={joinClass('w-full flex flex-col', className ?? '')}>
       <Label {...labelProps} className="mb-3" />
-      <TextEditor {...textEditorProps} />
+      <Editor {...textEditorProps} />
       <span
         className={joinClass(
           'text-danger/70 text-xs inline-block w-full mt-2',

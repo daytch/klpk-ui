@@ -13,7 +13,7 @@ import {
   PublicBookDataModel,
   PublicChapterDetailDataModel,
 } from '@/interfaces/book'
-import { sanitizeHTML } from '@/utils/common'
+import { formatDate, sanitizeHTML } from '@/utils/common'
 
 type ReadBookTemplateProps = {
   isLoading: boolean
@@ -98,13 +98,14 @@ export default function ReadBookTemplate({
               </div>
             </div>
           </section>
-          <section className="py-10 bg-[#F9F7EF] dark:bg-[#141519]">
+          <section className="py-10 bg-[#F9F7EF] dark:bg-[#141519] ">
             <div className="mx-auto max-w-[565px] px-4">
-              <h2 className="text-center font-gotham text-2xl font-bold mb-8 text-dark-200 dark:text-gold-200">
+              <h2 className="text-center font-gotham text-2xl font-bold mb-8 text-dark-200 dark:text-gold-200 unselectable">
                 {chapter?.name ?? ''}
               </h2>
               <div className="font-sans text-justify text-dark-200 dark:text-kplkWhite space-y-4">
                 <div
+                  className="unselectable"
                   dangerouslySetInnerHTML={{
                     __html: content,
                   }}
@@ -133,7 +134,7 @@ export default function ReadBookTemplate({
                   <ImageText
                     type="synopsis"
                     text="Tanggal Terbit"
-                    description="20 Desember 2022"
+                    description={formatDate(book?.approvalDate ?? '')}
                     icon="/assets/icons/icon-calendar.svg"
                   />
                 </div>
@@ -141,7 +142,7 @@ export default function ReadBookTemplate({
                   <ImageText
                     type="synopsis"
                     text="Genre"
-                    description="Historical"
+                    description={book?.category?.name ?? ''}
                     icon="/assets/icons/icon-category.svg"
                   />
                 </div>
@@ -149,7 +150,7 @@ export default function ReadBookTemplate({
                   <ImageText
                     type="synopsis"
                     text="Progress"
-                    description="Belum Selesai"
+                    description={book?.completed ? 'Selesai' : 'Belum Selesai'}
                     icon="/assets/icons/icon-chart.svg"
                   />
                 </div>
