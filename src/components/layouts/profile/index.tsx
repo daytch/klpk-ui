@@ -18,7 +18,7 @@ import {
 import { createImagePreview } from '@/utils/common'
 import { useToast } from '@/hooks/useToast'
 import IconUpload from '@/components/icons/IconUpload'
-import NoImage from '@/assets/icons/no-image.png'
+import NoImage from '@/assets/icons/no-avatar.svg'
 
 const Header = dynamic(() => import('@/components/organisms/Header'), {
   ssr: false,
@@ -121,14 +121,22 @@ export default function ProfileLayout({
           <div className="rounded-xl overflow-hidden">
             <div className="relative pb-28">
               <div className="w-full h-[145px] relative">
-                <Image
-                  src={previewCover.length ? previewCover : userCoverImage}
-                  alt="profile cover"
-                  width={145}
-                  height={145}
-                  priority
-                  className="w-full h-full object-cover"
-                />
+                {previewCover?.length > 0 ||
+                  (userCoverImage?.length > 0 && (
+                    <Image
+                      src={previewCover.length ? previewCover : userCoverImage}
+                      alt="profile cover"
+                      width={145}
+                      height={145}
+                      priority
+                      className="w-full h-full object-cover"
+                    />
+                  ))}
+                {!previewCover?.length && !userCoverImage?.length && (
+                  <p className="absolute left-1/2 -translate-x-1/2 my-4 text-gold-200 text-base font-normal">
+                    Add cover photo
+                  </p>
+                )}
                 <label className="absolute right-[6px] bottom-[8px] inline-flex items-center bg-dark-200 text-gold-100 border border-gold-100 py-2 px-3 rounded-[50px] text-xs leading-3 space-x-1 font-gotham font-light cursor-pointer">
                   <span>Ganti Background</span> <IconArrow />
                   <input

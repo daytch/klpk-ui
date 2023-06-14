@@ -6,7 +6,7 @@ import { BookChapterDataModel } from '@/interfaces/book'
 import IconChevron from '@/components/icons/IconChevron'
 import Link from '@/components/atoms/Link'
 import { joinClass } from '@/utils/common'
-import IconNoImage from '@/assets/icons/no-image.png'
+import IconNoImage from '@/assets/icons/no-image.svg'
 
 type ChapterDropdownProps = {
   chapters: BookChapterDataModel[]
@@ -73,19 +73,27 @@ export default function ChapterDropdown({
         }}
       >
         <DropdownMenu.Trigger className="inline-flex items-center outline-none relative p-2 px-3 rounded-lg border border-gold-400 dark:border-[#726A64] max-w-full">
-          <div className="w-auto h-auto bg-dark-100">
-            <Image
-              src={!noAvailableCover ? bookCover : IconNoImage}
-              width={33}
-              height={46}
-              alt=""
-              className="rounded-lg object-cover w-[33px] h-[46px]"
-              style={{
-                filter: noAvailableCover
-                  ? 'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)'
-                  : 'none',
-              }}
-            />
+          <div className="w-auto h-auto bg-dark-100 relative">
+            {noAvailableCover ? (
+              <Image
+                src={IconNoImage}
+                width={33}
+                height={46}
+                alt=""
+                style={{
+                  filter:
+                    'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)',
+                }}
+              />
+            ) : (
+              <Image
+                src={bookCover}
+                width={33}
+                height={46}
+                alt=""
+                className="rounded-lg object-cover w-[33px] h-[46px]"
+              />
+            )}
           </div>
           <div className="text-kplkWhite font-gotham text-left ml-4 overflow-hidden whitespace-nowrap flex-1">
             <p className="font-bold text-sm mb-[6px] overflow-hidden text-ellipsis max-w-full">

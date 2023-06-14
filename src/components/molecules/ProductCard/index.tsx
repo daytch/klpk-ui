@@ -4,7 +4,7 @@ import Link from '@/components/atoms/Link'
 import IconStar from '@/components/icons/IconStar'
 import { BookDataModel, PublicBookDataModel } from '@/interfaces/book'
 import { joinClass } from '@/utils/common'
-import IconNoImage from '@/assets/icons/no-image.png'
+import IconNoImage from '@/assets/icons/no-image.svg'
 
 interface ProductCardProps {
   book: BookDataModel | PublicBookDataModel
@@ -37,19 +37,35 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
         <div>
-          <Image
-            priority
-            width={138}
-            height={189}
-            className="absolute top-0 left-0 bottom-0 right-0 z-[1] w-full h-full object-cover"
-            src={book?.cover ?? IconNoImage}
-            alt={book?.title ?? ''}
-            style={{
-              filter: noAvailableCoverImage
-                ? 'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)'
-                : 'none',
-            }}
-          />
+          {noAvailableCoverImage ? (
+            <Image
+              priority
+              width={138}
+              height={189}
+              className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bottom-0 right-0 z-[1] object-cover"
+              src={IconNoImage}
+              alt={book?.title ?? ''}
+              style={{
+                filter: noAvailableCoverImage
+                  ? 'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)'
+                  : 'none',
+              }}
+            />
+          ) : (
+            <Image
+              priority
+              width={138}
+              height={189}
+              className="absolute top-0 left-0 bottom-0 right-0 z-[1] w-full h-full object-cover"
+              src={book?.cover}
+              alt={book?.title ?? ''}
+              style={{
+                filter: noAvailableCoverImage
+                  ? 'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)'
+                  : 'none',
+              }}
+            />
+          )}
         </div>
         {contentTypeView === 'library' && showProgress && (
           <div

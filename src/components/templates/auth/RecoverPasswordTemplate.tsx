@@ -19,7 +19,7 @@ const validationSchema = object({
     .required('Password tidak boleh kosong.')
     .matches(
       passwordPattern,
-      'Password harus mengandung 8-32 karekter, nomor, alfabet, dan spesial karakter.'
+      'Password harus terdiri atas huruf, angka, symbol dan lebih dari delapan karakter.'
     ),
   confirm_password: string()
     .label('confirm password')

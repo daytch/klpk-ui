@@ -10,6 +10,7 @@ interface UploadCoverProps {
   name: string
   cover?: string
   className?: string
+  errorMessage?: string
 }
 
 const UploadCover: React.FC<UploadCoverProps> = ({
@@ -18,8 +19,10 @@ const UploadCover: React.FC<UploadCoverProps> = ({
   cover,
   className,
   disable,
+  errorMessage = '',
 }) => {
   const [preview, setPreview] = useState<string>('')
+  const hasError = errorMessage?.length > 0
 
   const createPreview = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e?.target?.files?.length) return
@@ -89,6 +92,16 @@ const UploadCover: React.FC<UploadCoverProps> = ({
               Edit Cover
             </label>
           </div>
+          {hasError && (
+            <span
+              className={joinClass(
+                'text-danger/70 text-xs inline-block w-full mt-2',
+                hasError ? 'visible' : 'invisible'
+              )}
+            >
+              {errorMessage}
+            </span>
+          )}
         </div>
       )}
     ></Controller>

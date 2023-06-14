@@ -116,14 +116,14 @@ body .tox .tox-tbtn svg {
 }
 
 .dropdown-icon {
-  @apply -rotate-90 transition-all
+  @apply -rotate-90 transition-all;
 }
 
 [data-state='open'] .dropdown-icon {
-  @apply rotate-90
+  @apply rotate-90;
 }
 [data-radix-popper-content-wrapper] {
-  @apply !z-30
+  @apply !z-30;
 }
 
 .notification-progress {
@@ -135,4 +135,105 @@ body .tox .tox-tbtn svg {
   100% {
     width: 0%;
   }
+}
+
+body .ck.ck-editor__main > .ck-editor__editable {
+  background-color: #333;
+  min-height: 150px;
+}
+
+body .ck.ck-toolbar {
+  border: solid 2px #af7f3e;
+}
+
+body .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
+  background-color: #333333;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+body .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
+body .ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners {
+  border-radius: 8px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+body .ck.ck-toolbar__items > button {
+  color: #ffffff;
+}
+
+body .ck.ck-toolbar__items > button:not(.ck-disabled):hover {
+  color: #333;
+  background-color: #cce2fa;
+}
+
+body .ck.ck-toolbar__items > button.ck-disabled {
+  cursor: not-allowed;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+body .ck.ck-editor__main > .ck-editor__editable {
+  border: solid 2px #af7f3e !important;
+  border-top: 0;
+  color: #d6b16d;
+  background-color: transparent;
+}
+
+body .ck.ck-editor__main > .ck-editor__editable.ck-read-only {
+  color: #726a64;
+  cursor: not-allowed;
+}
+
+body .ck-rounded-corners .ck.ck-editor__main > .ck-editor__editable,
+body .ck.ck-editor__main > .ck-editor__editable.ck-rounded-corners {
+  border-radius: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+body .ck.ck-dropdown.ck-heading-dropdown {
+  border: solid 2px #ddd !important;
+  border-radius: 6px;
+  margin-left: 6px;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+body .ck.ck-dropdown.ck-heading-dropdown.ck-disabled {
+  border-color: #726a64 !important;
+}
+
+body
+  .ck.ck-dropdown.ck-heading-dropdown
+  .ck-dropdown__button
+  .ck-button__label {
+  width: auto;
+}
+
+body .ck.ck-button.ck-dropdown__button {
+  color: #fff;
+}
+
+body .ck.ck-button.ck-dropdown__button:not(.ck-disabled):hover {
+  color: #333;
+  background-color: #cce2fa;
+}
+
+body .ck.ck-content.ck-editor__editable > h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+body .ck.ck-content.ck-editor__editable > p {
+  font-size: 14px;
+}
+
+.unselectable {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

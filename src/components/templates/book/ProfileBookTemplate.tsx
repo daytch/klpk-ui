@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useToast } from '@/hooks/useToast'
@@ -12,8 +12,8 @@ import Button from '@/components/atoms/Button'
 import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import { PublicBookDataModel } from '@/interfaces/book'
 import Header from '@/components/organisms/Header'
-import { authGuardAction, formatDate } from '@/utils/common'
-import IconNoImage from '@/assets/icons/no-image.png'
+import { authGuardAction, formatDate, sanitizeHTML } from '@/utils/common'
+import IconNoImage from '@/assets/icons/no-image.svg'
 
 type ProfileBookTemplateProps = {
   book?: PublicBookDataModel
@@ -24,12 +24,22 @@ export default function ProfileBookTemplate({
   book,
   onRefetchData,
 }: ProfileBookTemplateProps) {
+  const [cleanSynopsis, setCleanSynopsis] = useState('')
   const { query, push } = useRouter()
   const { token } = useAuth()
   const subscribeBook = useSubsribeBook()
   const unSubscribeBook = useUnSubscribeBook()
   const toast = useToast()
   const noAvailableCoverImage = !book?.cover?.length
+
+  const createCleanHTML = async (content: string) => {
+    const cleanHtml = await sanitizeHTML(content)
+    setCleanSynopsis(cleanHtml)
+  }
+
+  useEffect(() => {
+    createCleanHTML(book?.synopsis ?? '')
+  }, [book?.synopsis])
 
   useEffect(() => {
     if (typeof window === undefined) return
@@ -131,18 +141,27 @@ export default function ProfileBookTemplate({
                 {(book?.rating ?? 0).toFixed(1)}
               </span>
             </div>
-            <div className="w-full h-full bg-dark-100">
-              <Image
-                src={book?.cover ?? IconNoImage}
-                fill
-                alt={book?.title ?? ''}
-                className="object-cover"
-                style={{
-                  filter: noAvailableCoverImage
-                    ? 'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)'
-                    : 'none',
-                }}
-              />
+            <div className="w-full h-full bg-dark-100 relative">
+              {noAvailableCoverImage ? (
+                <Image
+                  src={IconNoImage}
+                  width={68}
+                  height={68}
+                  alt={book?.title ?? ''}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  style={{
+                    filter:
+                      'invert(88%) sepia(99%) saturate(3360%) hue-rotate(182deg) brightness(122%) contrast(91%)',
+                  }}
+                />
+              ) : (
+                <Image
+                  src={book?.cover}
+                  fill
+                  alt={book?.title ?? ''}
+                  className="object-cover"
+                />
+              )}
             </div>
           </div>
           <div className="relative z-10 font-gotham text-kplkWhite flex flex-col justify-center overflow-hidden flex-1">
@@ -189,16 +208,20 @@ export default function ProfileBookTemplate({
         </div>
       </section>
 
-      <section className="bg-dark-100 pt-12 pb-24">
+      <section className="bg-dark-100 pt-12 pb-24 unselectable">
         <div className="container">
           <div className="lg:flex justify-between space-y-12 lg:space-y-0 lg:space-x-12">
             <div className="flex-1">
               <h3 className="font-gotham font-bold text-gold-200 text-2xl leading-6 mb-6">
                 Sinopsis
               </h3>
-              <p className="font-gotham text-kplkWhite text-sm font-light mb-16">
-                {book?.synopsis ?? ''}
-              </p>
+              <div
+                className="font-gotham text-kplkWhite text-sm font-light mb-16"
+                dangerouslySetInnerHTML={{
+                  __html: cleanSynopsis,
+                }}
+              />
+
               <hr className="border-gold-300 mb-4" />
               <div className="flex items-center flex-wrap space-x-10">
                 <div className="flex-1">

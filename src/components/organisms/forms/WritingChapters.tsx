@@ -15,13 +15,24 @@ import {
   useUploadBookCover,
 } from '@/services/my-book/mutation'
 import { useToast } from '@/hooks/useToast'
+import { MAX_FILE_SIZE } from '@/utils/constants'
 
 const schema = object({
   name: string().required('Judul bab wajib diisi.'),
   content: string().required('Isi bab wajib diisi.'),
-  cover: mixed().test('file type', 'Format tidak didukung', () => {
-    return true
-  }),
+  cover: mixed()
+    .test('file type', 'Format tidak didukung', () => {
+      return true
+    })
+    .test(
+      'file-size',
+      'File terlalu besar. Ukuran maksimal file hanya 2 MB',
+      (value: FileList) => {
+        if (!value) return true
+        const fileSize = value[0]?.size
+        return fileSize < MAX_FILE_SIZE
+      }
+    ),
 })
 
 type FormValue = InferType<typeof schema>
@@ -203,6 +214,7 @@ const WritingChapterForm: React.FC<WritingChapterFormProps> = ({
                       }}
                       errorMessage={errors?.content?.message ?? ''}
                     />
+
                     <hr className="border-gold-300" />
                     <div>
                       <Button
