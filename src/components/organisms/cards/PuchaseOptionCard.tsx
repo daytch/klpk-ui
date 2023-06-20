@@ -121,7 +121,7 @@ export default function PuchaseOptionCard({
         icon={SuccessIcon}
         isOpen={successPurchaseBook}
         title="Berhasil"
-        message="Berhasil di bayar!"
+        message="Anda berhasil membeli bab ini, selamat membaca! "
         buttonConfirmText="Mengerti"
         onConfirmAction={handleConfirmSuccessPayment}
         onClose={handleCloseModal}
@@ -143,9 +143,11 @@ export default function PuchaseOptionCard({
         icon={SuccessIcon}
         isOpen={showConfirm && purchaseBook !== undefined}
         title={`Apakah anda yakin ingin membeli ${
-          purchaseType === 'book' ? 'Buku' : 'Bab'
+          purchaseType === 'book' ? 'buku' : 'bab'
         } ini`}
-        message="Traksasi tidak dapat dibatalkan"
+        message={`Jika sudah membeli ${
+          purchaseType === 'book' ? 'buku' : 'bab'
+        } ini, maka transaksi tidak dapat dibatalkan`}
         buttonConfirmText="Lanjutkan"
         buttonCancelText="Batal"
         onCancelAction={handleCloseModal}

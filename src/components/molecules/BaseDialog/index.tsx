@@ -25,7 +25,7 @@ export default function BaseDialog({
   return (
     <React.Fragment>
       {isOpen && (
-        <Portal section={'symbol'} id={'toast-container'} className={''}>
+        <Portal section={'div'} id={'toast-container'} className={''}>
           <div
             className="p-4 w-screen h-screen max-w-[100vw] max-h-[100vh] flex items-center justify-center bg-black/80 fixed top-0 bottom-0 left-0 right-0"
             onClick={onClose}

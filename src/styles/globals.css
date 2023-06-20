@@ -11,7 +11,7 @@ input:-internal-autofill-selected {
 }
 
 #toast-container {
-  @apply fixed top-4 left-0 right-0 flex justify-center z-30;
+  @apply fixed top-4 flex justify-center z-30 left-1/2 -translate-x-1/2 min-w-[200px];
 }
 
 .bg-auth {

@@ -111,8 +111,8 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
                 <Image
                   src="/assets/images/logo.png"
                   alt="KLPK"
-                  width={64}
-                  height={62}
+                  width={80}
+                  height={80}
                 />
               </Link>
 
