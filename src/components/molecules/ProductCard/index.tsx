@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from '@/components/atoms/Link'
 import IconStar from '@/components/icons/IconStar'
 import { BookDataModel, PublicBookDataModel } from '@/interfaces/book'
-import { joinClass } from '@/utils/common'
+import { joinClass, sanitizeHTML } from '@/utils/common'
 import IconNoImage from '@/assets/icons/no-image.svg'
 
 interface ProductCardProps {
@@ -19,11 +19,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const showProgress = 'readProgress' in book
   const isFinishRead = showProgress && book.readProgress === 100
   const noAvailableCoverImage = !book?.cover?.length
+  const [synopsis, setSynopsis] = useState('')
 
   const detailBookLink =
     contentTypeView === 'default' || contentTypeView === 'library'
       ? `/book/detail/${book.id}`
       : `/menulis/buku/${book.id}`
+
+  const createCleanSynopsisHtml = async (content: string) => {
+    const cleanHtml = await sanitizeHTML(content)
+    setSynopsis(cleanHtml)
+  }
+
+  useEffect(() => {
+    createCleanSynopsisHtml(book?.synopsis ?? '')
+  }, [book?.synopsis])
 
   return (
     <Link to={detailBookLink} className="flex flex-col space-y-2">
@@ -109,9 +119,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <p className="font-gotham font-extralight text-xs text-gold-400">
             {book?.category?.name ?? ''}
           </p>
-          <p className="font-gotham font-extralight text-xs text-kplkWhite whitespace-nowrap overflow-hidden text-ellipsis">
-            {book?.synopsis ?? ''}
-          </p>
+          <div
+            className="font-gotham font-extralight text-xs text-kplkWhite whitespace-nowrap overflow-hidden text-ellipsis"
+            dangerouslySetInnerHTML={{
+              __html: synopsis,
+            }}
+          />
         </div>
       )}
     </Link>

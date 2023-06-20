@@ -67,15 +67,17 @@ export default function ProfileLayout({
 
   const userCoverImage = useMemo(() => {
     if (!profile?.photos || !profile.photos.length) return ''
+    if (previewCover?.length) return previewCover
     const cover = profile.photos.find((photo) => photo.type === 'cover')
     return cover?.url ?? ''
-  }, [profile])
+  }, [profile, previewCover])
 
   const userAvatarImage = useMemo(() => {
     if (!profile?.photos || !profile.photos.length) return NoImage
+    if (previewAvatar?.length) return previewAvatar
     const cover = profile.photos.find((photo) => photo.type === 'avatar')
     return cover?.url ?? NoImage
-  }, [profile])
+  }, [profile, previewAvatar])
 
   const handleUploadCover = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -121,17 +123,16 @@ export default function ProfileLayout({
           <div className="rounded-xl overflow-hidden">
             <div className="relative pb-28">
               <div className="w-full h-[145px] relative">
-                {previewCover?.length > 0 ||
-                  (userCoverImage?.length > 0 && (
-                    <Image
-                      src={previewCover.length ? previewCover : userCoverImage}
-                      alt="profile cover"
-                      width={145}
-                      height={145}
-                      priority
-                      className="w-full h-full object-cover"
-                    />
-                  ))}
+                {userCoverImage?.length > 0 && (
+                  <Image
+                    src={userCoverImage}
+                    alt="profile cover"
+                    width={145}
+                    height={145}
+                    priority
+                    className="w-full h-full object-cover"
+                  />
+                )}
                 {!previewCover?.length && !userCoverImage?.length && (
                   <p className="absolute left-1/2 -translate-x-1/2 my-4 text-gold-200 text-base font-normal">
                     Add cover photo
@@ -149,7 +150,7 @@ export default function ProfileLayout({
               <div className="absolute left-1/2 -translate-x-1/2 top-[90px] flex flex-col justify-center items-center">
                 <div className="relative group">
                   <Image
-                    src={previewAvatar.length ? previewAvatar : userAvatarImage}
+                    src={userAvatarImage}
                     width={90}
                     height={90}
                     alt="user avatar"

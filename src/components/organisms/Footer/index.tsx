@@ -50,23 +50,25 @@ const Footer = () => {
             <ul className="space-y-6 ">
               <li>
                 <Link
-                  to="/"
+                  to="/tentang-aplikasi"
                   className="font-gotham text-sm text-gold-300 leading-3 font-light"
                 >
                   Tentang Aplikasi
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/"
+                <a
+                  href="https://wa.me/6281330896550"
+                  target="_blank"
                   className="font-gotham text-sm text-gold-300 leading-3 font-light"
+                  rel="noreferrer"
                 >
                   Pusat Bantuan
-                </Link>
+                </a>
               </li>
               <li>
                 <Link
-                  to="/"
+                  to="/terms-conditions"
                   className="font-gotham text-sm text-gold-300 leading-3 font-light"
                 >
                   Syarat & Ketentuan
@@ -74,7 +76,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/"
+                  to="/privacy_policy"
                   className="font-gotham text-sm text-gold-300 leading-3 font-light"
                 >
                   Kebijakan Privasi
@@ -89,14 +91,14 @@ const Footer = () => {
             <ul className="space-y-6 ">
               <li>
                 <SocialLink
-                  text="KL-PK"
+                  text="Komunitas Literasi Patrick Kellan"
                   icon={<IconFacebook />}
                   link="https://www.facebook.com/groups/248122912848958/?ref=share&mibextid=KtfwRi"
                 />
               </li>
               <li>
                 <SocialLink
-                  text="@kp-pk"
+                  text="@patrick_kellan2"
                   icon={<IconInstagram />}
                   link="https://www.instagram.com/patrick_kellan2/?hl=en"
                 />
