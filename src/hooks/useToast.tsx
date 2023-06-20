@@ -56,7 +56,7 @@ export const ToastProvider: React.FC<Props> = ({ children }) => {
   return (
     <ToastContext.Provider value={{ addToast }}>
       {show && (
-        <Portal section={'div'} id={'toast-container'} className={''}>
+        <Portal section={'div'} id={'toastr-container'} className={''}>
           <Toast type={data.type} message={data.message} onHide={hideToast} />
         </Portal>
       )}
