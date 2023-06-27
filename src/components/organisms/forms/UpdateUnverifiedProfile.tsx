@@ -80,6 +80,7 @@ export default function UpdateUnverifiedProfile({
             placeholder: 'Username',
             isInvalid: Boolean(errors?.username?.message),
             errormessage: errors?.username?.message ?? '',
+            disabled: profile?.verified,
           }}
         />
         <TextField

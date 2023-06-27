@@ -131,6 +131,7 @@ export default function UpdateVerifiedProfile({
             placeholder: 'Email',
             isInvalid: Boolean(errors?.email?.message),
             errormessage: errors?.email?.message ?? '',
+            disabled: profile?.verified,
           }}
         />
       </div>

@@ -3,9 +3,10 @@ import Image from 'next/image'
 import { joinClass } from '@/utils/common'
 import { ProfilePhotoDataModel } from '@/interfaces/profile'
 import Link from '@/components/atoms/Link'
+import NoImage from '@/assets/icons/no-avatar.svg'
 
 type ProfileUserCardProps = {
-  id: string,
+  id: string
   profilePhoto?: ProfilePhotoDataModel[]
   name: string
   isActive?: boolean
@@ -24,7 +25,7 @@ export default function ProfileUserCard({
   const userAvatarImage = useMemo(() => {
     if (!profilePhoto || !profilePhoto.length) return ''
     const cover = profilePhoto.find((photo) => photo.type === 'avatar')
-    return cover?.url ?? ''
+    return cover?.url ?? NoImage
   }, [profilePhoto])
 
   const handleClickButton = () => {
@@ -36,7 +37,7 @@ export default function ProfileUserCard({
   }
   return (
     <div className="flex items-center justify-between space-x-4">
-      <Link to={`/profile/penulis/${id}`} className='block'>
+      <Link to={`/profile/penulis/${id}`} className="block">
         <div className="flex items-center space-x-6 text-kplkWhite">
           <Image
             src={userAvatarImage}
@@ -58,6 +59,6 @@ export default function ProfileUserCard({
       >
         {isActive ? 'Following' : 'Follow'}
       </button>
-    </div >
+    </div>
   )
 }

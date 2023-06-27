@@ -100,13 +100,15 @@ export function createTableTextTransactionHistory(
       break
 
     case 'bookPurchase':
-      textResult = `Pembelian Buku - ${parseMetadata?.product?.bookTitle ?? ''}`
+      textResult = `Pembelian Buku - ${
+        parseMetadata?.product?.bookTitle ?? ''
+      } ${amount} koin`
       break
 
     case 'chapterPurchase':
       textResult = `Pembelian ${parseMetadata?.product?.chapterName ?? ''} - ${
         parseMetadata?.product?.bookTitle ?? ''
-      }`
+      } ${amount} koin`
       break
 
     case 'withdraw':
