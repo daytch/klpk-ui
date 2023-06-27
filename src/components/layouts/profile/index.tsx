@@ -66,16 +66,16 @@ export default function ProfileLayout({
   const toast = useToast()
 
   const userCoverImage = useMemo(() => {
-    if (!profile?.photos || !profile.photos.length) return ''
+    if (!profile?.photos || !profile?.photos?.length) return ''
     if (previewCover?.length) return previewCover
-    const cover = profile.photos.find((photo) => photo.type === 'cover')
+    const cover = profile?.photos?.find((photo) => photo?.type === 'cover')
     return cover?.url ?? ''
   }, [profile, previewCover])
 
   const userAvatarImage = useMemo(() => {
-    if (!profile?.photos || !profile.photos.length) return NoImage
+    if (!profile?.photos || !profile?.photos.length) return NoImage
     if (previewAvatar?.length) return previewAvatar
-    const cover = profile.photos.find((photo) => photo.type === 'avatar')
+    const cover = profile?.photos.find((photo) => photo?.type === 'avatar')
     return cover?.url ?? NoImage
   }, [profile, previewAvatar])
 
@@ -177,7 +177,7 @@ export default function ProfileLayout({
                   <p className="text-kplkWhite text-xs font-thin">
                     {profile?.username ?? ''}
                   </p>
-                  {viewMode === 'default' && (
+                  {viewMode === 'default' && !profile?.verified && (
                     <Button
                       type="button"
                       onClick={() => setViewMode('verif-profile')}

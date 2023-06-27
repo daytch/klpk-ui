@@ -33,7 +33,7 @@ const tabs = [
     tab: 'transaksi',
   },
   {
-    text: 'Riwayat Withdaw',
+    text: 'Riwayat Withdraw',
     url: '/transaksi/withdraw',
     tab: 'withdraw',
   },

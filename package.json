@@ -29,6 +29,7 @@
     "axios": "^1.2.2",
     "dayjs": "^1.11.7",
     "dompurify": "^3.0.1",
+    "embla-carousel-autoplay": "7.0.8",
     "embla-carousel-react": "^7.0.8",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.2",

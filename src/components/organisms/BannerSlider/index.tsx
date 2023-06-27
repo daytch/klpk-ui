@@ -15,6 +15,7 @@ const BannerSlider: React.FC<IBannerSliderProps> = ({ banners }) => {
       }}
       hasDots
       items={banners}
+      autoPlay
     >
       {banners.map((banner, index) => (
         <div

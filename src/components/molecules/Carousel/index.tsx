@@ -1,5 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import useEmblaCarousel, {
+  EmblaOptionsType,
+  EmblaPluginType,
+} from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 import IconChevron from '@/components/icons/IconChevron'
 import { joinClass } from '@/utils/common'
 
@@ -10,6 +14,7 @@ interface ICarouselProps {
   options?: EmblaOptionsType
   children: React.ReactNode
   className?: string
+  autoPlay?: boolean
 }
 
 const Carousel: React.FC<ICarouselProps> = ({
@@ -19,8 +24,14 @@ const Carousel: React.FC<ICarouselProps> = ({
   options,
   children,
   className,
+  autoPlay,
 }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(options)
+  const emblaPlugin: EmblaPluginType[] = useMemo(() => {
+    if (autoPlay) return [Autoplay()]
+    return []
+  }, [autoPlay])
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, emblaPlugin)
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
