@@ -54,6 +54,7 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
   const [selectedCoint, setSelectedCoint] = useState<CoinPackageDataModel>()
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [showWithdrawModal, setShowWithDrawModal] = useState(false)
+  const [successMessage, setSuccessMessage] = useState<string>('')
   const { query, asPath } = useRouter()
   const toast = useToast()
 
@@ -63,6 +64,7 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
       String(query?.order_id).length > 0 &&
       Number(query?.status_code) === 200
     ) {
+      setSuccessMessage('Topup berhasil.')
       setShowSuccessModal(true)
       refetchMe()
     }
@@ -138,6 +140,9 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
                 onClose={() => setShowWithDrawModal(false)}
                 onSuccessWithdraw={() => {
                   refetchMe()
+                  setSuccessMessage(
+                    'Permintaan withdraw akan direview oleh admin.'
+                  )
                   setShowWithDrawModal(false)
                   setShowSuccessModal(true)
                 }}
@@ -197,14 +202,16 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
       <SuccessDialog
         isOpen={showSuccessModal}
         onClose={() => {
+          setSuccessMessage('')
           setShowSuccessModal(false)
           handleSelectTab(asPath)
         }}
         onConfirm={() => {
+          setSuccessMessage('')
           setShowSuccessModal(false)
           handleSelectTab(asPath)
         }}
-        message="Topup berhasil."
+        message={successMessage ?? 'Berhasil.'}
       />
       <Footer />
     </>
