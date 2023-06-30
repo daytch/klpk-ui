@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useRef } from 'react'
 import Image from 'next/image'
-import { useGetSearchBook } from '@/services/my-book/query'
 import GeneralLayout from '@/components/layouts/general'
 import ImageText from '@/components/molecules/ImageText'
 import Button from '@/components/atoms/Button'
@@ -12,6 +11,7 @@ import { useToast } from '@/hooks/useToast'
 import { useFollowUser, useUnFollowUser } from '@/services/profile/mutation'
 import { authGuardAction, selectUserPhotos } from '@/utils/common'
 import { useAuth } from '@/store/useAuth'
+import { useGetInfiniteBooks } from '@/services/book/query'
 
 type WriterProfileTemplateProps = {
   profile: ProfileUserDataModel | null
@@ -25,7 +25,7 @@ export default function WriterProfileTemplate({
   const { token } = useAuth()
   const writerNoBook = profile !== null && profile.booksCount === 0
   const observer = useRef<IntersectionObserver>()
-  const { data, hasNextPage, fetchNextPage, isLoading } = useGetSearchBook({
+  const { data, hasNextPage, fetchNextPage, isLoading } = useGetInfiniteBooks({
     pageParam: 1,
     params: { limit: 10, userId: profile?.id },
     enabled: !writerNoBook,
