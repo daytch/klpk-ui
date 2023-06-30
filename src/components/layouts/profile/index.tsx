@@ -96,6 +96,7 @@ export default function ProfileLayout({
             toast.addToast('success', 'Berhasil menyimpan cover.')
           },
           onError() {
+            setPreviewCover('')
             toast.addToast('error', 'Gagal menyimpan cover. Coba lagi.')
           },
         })
@@ -108,6 +109,7 @@ export default function ProfileLayout({
             toast.addToast('success', 'Berhasil menyimpan cover.')
           },
           onError() {
+            setPreviewAvatar('')
             toast.addToast('error', 'Gagal menyimpan cover. Coba lagi.')
           },
         })
