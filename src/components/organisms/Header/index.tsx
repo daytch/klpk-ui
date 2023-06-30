@@ -54,7 +54,7 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
   const handleBackButton = async () => {
     const Router = (await import('next/router')).default
     if (Router.pathname === '/menulis/buku/[bookId]') {
-      Router.push('/menulis')
+      Router.push('/menulis?writingTab=live')
     } else if (Router.pathname === '/menulis/buku/[bookId]/[chapter]') {
       Router.push({
         pathname: '/menulis/buku/[bookId]',
@@ -72,7 +72,7 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
         },
       })
     } else {
-      Router.push('/menulis')
+      Router.push('/menulis?writingTab=live')
     }
   }
 
@@ -154,7 +154,7 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
                     <WalletDropdown />
                     <Link
                       className="inline-flex items-center text-gold-200 space-x-2"
-                      to="/menulis"
+                      to="/menulis?writingTab=live"
                     >
                       <IconBrush />
                       <span>Menulis</span>

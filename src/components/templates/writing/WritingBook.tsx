@@ -105,7 +105,7 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
         isOpen={showSuccess}
         onConfirm={() => {
           setShowSuccess(false)
-          push('/menulis')
+          push('/menulis?writingTab=live')
         }}
         onCloseDialog={() => setShowSuccess(false)}
       />
