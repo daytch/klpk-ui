@@ -4,12 +4,12 @@ import { APP_NAME } from '@/utils/constants'
 import ReadBookTemplate from '@/components/templates/book/ReadBookTemplate'
 import { queryClient } from '@/utils/react-query'
 import { GetServerSideProps } from 'next'
-import { getDetailChapterById } from '@/services/book/api'
+import { getDetailPublicChapterById } from '@/services/book/api'
 import {
   useGetDetailChapterById,
   useGetDetailPublicBookById,
 } from '@/services/book/query'
-import { getMyBookFromId } from '@/services/my-book/api'
+import { getPublicBookById } from '@/services/my-book/api'
 import NotFoundPage from '@/pages/404'
 
 type ReadBookPageProps = {
@@ -27,10 +27,10 @@ export const getServerSideProps: GetServerSideProps<ReadBookPageProps> = async (
 
   await Promise.all([
     queryClient.prefetchQuery(['get-detail-public-book', bookId], () =>
-      getMyBookFromId(bookId as string)
+      getPublicBookById(bookId as string)
     ),
     await queryClient.prefetchQuery(['get-detail-detail-chapter', params], () =>
-      getDetailChapterById(params)
+      getDetailPublicChapterById(params)
     ),
   ])
 
@@ -75,7 +75,7 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
       <ReadBookTemplate
         isLoading={isLoadingBook || isLoadingChapter}
         isForbidden={isForbidden}
-        book={book}
+        book={book as any}
         onSuccessPurchase={refetchChapter}
         chapter={chapter}
       />

@@ -99,3 +99,14 @@ export async function getPublicBooks(params?: GetMyBookParams) {
     return Promise.reject(error)
   }
 }
+
+export async function getPublicBookById(id: string) {
+  try {
+    const response = await apiService.get<DetailBookDataModel>(
+      `/public-books/${id}`
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}

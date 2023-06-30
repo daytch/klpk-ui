@@ -5,10 +5,10 @@ import { useRouter } from 'next/router'
 import {
   getBestSellerBooks,
   getDetailChapterById,
-  getDetailPublicBookById,
   getBooks,
   getTopWriters,
 } from './api'
+import { getPublicBookById } from '../my-book/api'
 
 export function useGetBooks(params: PublicParamsBooks, enabled: boolean) {
   return useQuery({
@@ -73,7 +73,7 @@ export function useGetDetailPublicBookById(bookId: string) {
   const { query } = useRouter()
   return useQuery({
     queryKey: ['get-detail-public-book', bookId, query],
-    queryFn: () => getDetailPublicBookById(bookId),
+    queryFn: () => getPublicBookById(bookId),
   })
 }
 

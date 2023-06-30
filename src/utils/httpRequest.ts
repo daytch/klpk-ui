@@ -52,9 +52,9 @@ export const httpRequest = () => {
         !originalRequest._retry &&
         count >= 2
       ) {
-        localStorage.clear()
-        getState().logout()
-        location.href = '/'
+        // localStorage.clear()
+        // getState().logout()
+        // location.href = '/'
       }
       return Promise.reject(error)
     }

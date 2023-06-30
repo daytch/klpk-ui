@@ -16,13 +16,13 @@ const AboutKLPLApps = () => {
           </div>
           <div className="leading-[180%]">
             <h2 className="text-2xl font-bold text-gold-200 mb-3">
-              KBM App. Sarana menulis dan membaca untuk kamu.
+              KLPK App. Sarana menulis dan membaca untuk kamu.
             </h2>
             <p className="text-base text-kplkWhite mb-2">
               Kamu yang hobi menulis dan membaca, sekarang nggak perlu bingung
               harus mencari sebuah platform kepenulisan yang seru, menarik, aman
               dan menguntungkan untuk para pengguna. Dengan memiliki aplikasi
-              KBM App di handphone akan semakin menambah wawasan, keseruan dan
+              KLPK App di handphone akan semakin menambah wawasan, keseruan dan
               kesempatan memiliki penghasilan di setiap bulannya.
             </p>
             <p className="text-base text-kplkWhite mb-2">
@@ -33,7 +33,7 @@ const AboutKLPLApps = () => {
           </div>
           <div className="leading-[180%]">
             <h2 className="text-lg font-bold text-gold-200 mb-3">
-              Berbagai fitur KBM App yang membuat aktivitas menulis dan
+              Berbagai fitur KLPK App yang membuat aktivitas menulis dan
               membacamu semakin seru antara lain:
             </h2>
             <h3 className="text-lg font-bold text-gold-200 mb-3">Fanboard</h3>
@@ -45,7 +45,7 @@ const AboutKLPLApps = () => {
             </p>
             <h3 className="text-lg font-bold text-gold-200 mb-3">Inbox</h3>
             <p className="text-base text-kplkWhite mb-2">
-              Tak kalah dengan media sosial lainnya, di aplikasi KBM App kamu
+              Tak kalah dengan media sosial lainnya, di aplikasi KLPK App kamu
               juga bisa mengirimkan pesan secara personal.
             </p>
             <h3 className="text-lg font-bold text-gold-200 mb-3">
@@ -54,7 +54,7 @@ const AboutKLPLApps = () => {
             <p className="text-base text-kplkWhite mb-2">
               Dari fitur yang satu ini kamu nggak perlu khawatir ketika
               keseruanmu terhalang dengan koin yang habis. Bersama teman sesama
-              pengguna KBM App akan membuat kamu bisa saling kirim koin emas
+              pengguna KLPK App akan membuat kamu bisa saling kirim koin emas
               lho.
             </p>
             <h3 className="text-lg font-bold text-gold-200 mb-3">
@@ -74,7 +74,7 @@ const AboutKLPLApps = () => {
               romance yang buat kamu baper, novel horor yang buat kamu
               merinding, novel inspirasi yang buat kamu semangat dan masih
               banyak lainnya bakal buat kamu ketagihan ikuti cerita yang ada di
-              KBM App.
+              KLPK App.
             </p>
             <h3 className="text-lg font-bold text-gold-200 mb-3">
               Belajar dari Bintang
@@ -89,13 +89,13 @@ const AboutKLPLApps = () => {
               Cuan dari Menulis
             </h3>
             <p className="text-base text-kplkWhite mb-2">
-              Saat kamu bergabung bersama KBM App, tentunya semua keseruan dan
+              Saat kamu bergabung bersama KLPK App, tentunya semua keseruan dan
               keuntungan bisa kamu dapatkan. Selain itu dengan novel berbayar
               ketika pembaca nikmati kisah yang kamu tulis akan menjadi bagi
               hasil setiap bulannya.
             </p>
             <p className="text-base text-kplkWhite mb-2">
-              Ingin tahu lebih lengkap tentang KBM App? Ikuti kami di media
+              Ingin tahu lebih lengkap tentang KLPK App? Ikuti kami di media
               sosial untuk dapatkan informasi terbaru mengenai tips menulis,
               rekomendasi cerita dan event pada bagian bawah website.
             </p>
