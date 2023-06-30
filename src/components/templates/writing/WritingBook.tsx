@@ -86,15 +86,13 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
                   !isUpdateMode ||
                   !detailBook?.chapters.length ||
                   publishBook.isLoading ||
-                  detailBook?.status === 'live' ||
-                  detailBook?.status === 'pending'
+                  detailBook?.status === 'live'
                 }
                 isFullWidth={false}
                 onClick={handlePublishBook}
               >
-                {detailBook?.status === 'draft' && 'Terbitkan'}
+                {detailBook?.status !== 'live' && 'Terbitkan'}
                 {detailBook?.status === 'live' && 'Sudah Terbit'}
-                {detailBook?.status === 'pending' && 'Sedang Direview'}
               </Button>
             </div>
           </div>
