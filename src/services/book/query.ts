@@ -4,9 +4,9 @@ import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import {
   getBestSellerBooks,
-  getDetailChapterById,
   getBooks,
   getTopWriters,
+  getDetailPublicChapterById,
 } from './api'
 import { getPublicBookById } from '../my-book/api'
 
@@ -86,7 +86,7 @@ export function useGetDetailChapterById(
 ) {
   return useQuery({
     queryKey: ['get-detail-detail-chapter', params],
-    queryFn: () => getDetailChapterById(params),
+    queryFn: () => getDetailPublicChapterById(params),
     onError: (error: AxiosError) => {
       errorCallback(error)
     },
