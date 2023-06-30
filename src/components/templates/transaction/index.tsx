@@ -29,7 +29,12 @@ const TransactionHistoryTemplate: React.FC<TransactionHistoryTemplateProps> = ({
         </p>
       )}
       {!isError && isLoading && <Spinner />}
-      {!isError && !isLoading && <TransactionHistoryTable data={data} />}
+      {!isError && !isLoading && (
+        <TransactionHistoryTable
+          data={data}
+          type={activeTab === 'withdraw' ? 'withdraw' : 'transaction'}
+        />
+      )}
     </TransactionLayout>
   )
 }

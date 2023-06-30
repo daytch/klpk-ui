@@ -9,12 +9,14 @@ import WithdrawTable from './WithdrawTable'
 
 interface TransactionHistoryTableProps {
   data?: TransactionHistoryDataModel[] | WithdrawDataModel[]
+  type: 'transaction' | 'withdraw'
 }
 
 const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = ({
   data,
+  type,
 }) => {
-  const isTransactionType = data !== undefined && 'metadata' in data[0]
+  const isTransactionType = type === 'transaction'
 
   const handlePagination = async (type: 'prev' | 'next') => {
     const Router = (await import('next/router')).default
