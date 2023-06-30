@@ -14,7 +14,8 @@ interface TransactionHistoryTableProps {
 const TransactionHistoryTable: React.FC<TransactionHistoryTableProps> = ({
   data,
 }) => {
-  const isTransactionType = data !== undefined && 'metadata' in data
+  const isTransactionType = data !== undefined && 'metadata' in data[0]
+
   const handlePagination = async (type: 'prev' | 'next') => {
     const Router = (await import('next/router')).default
     const page = Number(Router.query?.page ?? 1)
