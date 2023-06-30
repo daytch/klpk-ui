@@ -89,10 +89,8 @@ export default function ProfileLayout({
       formData.append('File', e.target.files[0])
       if (type === 'cover') {
         uploadCover.mutate(formData, {
-          onSettled() {
-            setPreviewCover(imagePreview)
-          },
           onSuccess() {
+            setPreviewCover(imagePreview)
             toast.addToast('success', 'Berhasil menyimpan cover.')
           },
           onError() {
@@ -102,10 +100,8 @@ export default function ProfileLayout({
         })
       } else {
         uploadAvatar.mutate(formData, {
-          onSettled() {
-            setPreviewAvatar(imagePreview)
-          },
           onSuccess() {
+            setPreviewAvatar(imagePreview)
             toast.addToast('success', 'Berhasil menyimpan cover.')
           },
           onError() {

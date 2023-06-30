@@ -9,9 +9,12 @@ const apiUrl = '/books'
 
 export async function getBooks(params: PublicParamsBooks) {
   try {
-    const response = await apiService.get<PublicBookDataModel[]>('/books', {
-      params,
-    })
+    const response = await apiService.get<PublicBookDataModel[]>(
+      '/public-books',
+      {
+        params,
+      }
+    )
     return response.data
   } catch (error) {
     return Promise.reject(error)
@@ -92,6 +95,20 @@ export async function purchaseBook(data: {
 }) {
   try {
     const response = await apiService.post('/purchases', data)
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export async function getDetailPublicChapterById(params: {
+  bookId: string
+  chapterId: string
+}) {
+  try {
+    const response = await apiService.get<PublicChapterDetailDataModel>(
+      `/public-books/${params.bookId}/chapters/${params.chapterId}`
+    )
     return response.data
   } catch (error) {
     return Promise.reject(error)

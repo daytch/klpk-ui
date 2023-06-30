@@ -15,11 +15,11 @@ const TermsConditionsPage = () => {
             </h1>
             <p className="text-base text-kplkWhite">
               Welcome to the KLPK App platform. These terms of service ("Terms
-              of Service") are a contract between you and KLPK App. By using KBM
-              App.com (the "Site"), creating your KLPK App account and using the
-              Site or our mobile applications to post various content to the KBM
-              App community, including stories you create, comments and
-              messages, or to access and view KLPK App content or other user
+              of Service") are a contract between you and KLPK App. By using
+              KLPK App.com (the "Site"), creating your KLPK App account and
+              using the Site or our mobile applications to post various content
+              to the KLPK App community, including stories you create, comments
+              and messages, or to access and view KLPK App content or other user
               content (together with the Site, the "Services"), you're agreeing
               to these Terms of Service. If you don't agree to any of these
               terms, you can't use the KLPK App Services.
@@ -44,7 +44,7 @@ const TermsConditionsPage = () => {
               (or anyone you share your account information with) as a result of
               your or their actions under those circumstances. If you find out
               that someone's used your account without your permission, you
-              should report it at support@KBMApp.com
+              should report it at support@KLPKApp.com
             </p>
           </div>
           <div className="leading-[180%]">

@@ -20,3 +20,18 @@ export interface TransactionHistoryParams {
   page?: number
   types?: TransactionHistoryStatus[]
 }
+
+export interface WithdrawDataModel {
+  id: string
+  amount: number
+  price: number
+  transferProof?: string
+  transferDate?: string
+  requestDate?: string
+}
+
+export interface WithdrawHistoryParams {
+  status?: string
+  page?: number
+  limit?: number
+}

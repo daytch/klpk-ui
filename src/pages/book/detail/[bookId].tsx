@@ -7,7 +7,7 @@ import { queryClient } from '@/utils/react-query'
 import { APP_NAME } from '@/utils/constants'
 import ProfileBookTemplate from '@/components/templates/book/ProfileBookTemplate'
 import Spinner from '@/components/molecules/Spinner'
-import { getMyBookFromId } from '@/services/my-book/api'
+import { getPublicBookById } from '@/services/my-book/api'
 
 type WriterProfilePageProps = {
   dehydratedState?: DehydratedState
@@ -22,10 +22,9 @@ export const getServerSideProps: GetServerSideProps<
 
   try {
     await queryClient.fetchQuery(['get-detail-public-book', bookId], () =>
-      getMyBookFromId(bookId as string)
+      getPublicBookById(bookId as string)
     )
   } catch (error) {
-    // console.log('error =>', error)
     notFound = true
   }
 
@@ -55,7 +54,7 @@ export default function ProfileBookPage({ bookId }: { bookId: string }) {
           as="image"
         />
       </Head>
-      <ProfileBookTemplate book={data} onRefetchData={refetch} />
+      <ProfileBookTemplate book={data as any} onRefetchData={refetch} />
     </Fragment>
   )
 }

@@ -1,15 +1,14 @@
 import React from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import TransactionHistoryTemplate from '@/components/templates/transaction'
 import { APP_NAME } from '@/utils/constants'
-import { useRouter } from 'next/router'
-import { useGetTransactionHistories } from '@/services/transaction/query'
+import { useGetWithdrawHistories } from '@/services/transaction/query'
 
 export default function WithdrawHistoryPage() {
   const { query } = useRouter()
-  const { data, isLoading, isError } = useGetTransactionHistories(
+  const { data, isLoading, isError } = useGetWithdrawHistories(
     {
-      types: ['withdraw', 'withdrawRejection'],
       limit: 5,
       page: Number(query?.page ?? 1),
     },

@@ -63,7 +63,7 @@ export default function ProfileDropdown({
             </DropdownMenu.Item>
             <DropdownMenu.Item>
               <Link
-                to="/menulis"
+                to="/menulis?writingTab=live"
                 className="flex items-center border-b border-gold-100 w-[164px] py-2 px-4 text-white space-x-2 cursor-pointer outline-none"
               >
                 <IconBrush color="#D6B16D" />

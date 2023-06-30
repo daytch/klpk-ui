@@ -14,8 +14,8 @@ const PrivacyPolicyPage = () => {
               Privacy Policy
             </h1>
             <p className="text-base text-kplkWhite mb-2">
-              KBM Indonesia built the KBM App as a Free app. This SERVICE is
-              provided by KBM App Indonesia at no cost and is intended for use
+              KLPK Indonesia built the KLPK App as a Free app. This SERVICE is
+              provided by KLPK App Indonesia at no cost and is intended for use
               as is.
             </p>
             <p className="text-base text-kplkWhite mb-2">
@@ -32,7 +32,7 @@ const PrivacyPolicyPage = () => {
             </p>
             <p className="text-base text-kplkWhite mb-2">
               The terms used in this Privacy Policy have the same meanings as in
-              our Terms and Conditions, which is accessible at KBM App unless
+              our Terms and Conditions, which is accessible at KLPK App unless
               otherwise defined in this Privacy Policy.
             </p>
           </div>
@@ -41,11 +41,11 @@ const PrivacyPolicyPage = () => {
               Google Login Policy
             </h2>
             <p className="text-base text-kplkWhite mb-2">
-              By installing the KBM App and logging in by Google, you agree to
+              By installing the KLPK App and logging in by Google, you agree to
               the terms and conditions of sharing data between Google Credential
-              and KBM App. The data taken is only the Account ID, Given Name,
+              and KLPK App. The data taken is only the Account ID, Given Name,
               Family Name, Google Photo Profile, and email address. The data is
-              used for the benefit of your profile in the KBM App and will not
+              used for the benefit of your profile in the KLPK App and will not
               be distributed outside the application. The information will be
               sent to our old and new server (https://ketix.me or
               https://iamhoster.com).
@@ -199,7 +199,7 @@ const PrivacyPolicyPage = () => {
             </h2>
             <p className="text-base text-kplkWhite mb-2">
               If you have any questions or suggestions about our Privacy Policy,
-              do not hesitate to contact us at dev.kbmapp@gmail.com.
+              do not hesitate to contact us at dev.KLPKapp@gmail.com.
             </p>
           </div>
         </div>

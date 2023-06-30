@@ -1,12 +1,15 @@
 import React from 'react'
 import TransactionLayout from '@/components/layouts/transaction'
 import TransactionHistoryTable from '@/components/organisms/tables/TransactionHistoryTable'
-import { TransactionHistoryDataModel } from '@/interfaces/transaction'
+import {
+  TransactionHistoryDataModel,
+  WithdrawDataModel,
+} from '@/interfaces/transaction'
 import Spinner from '@/components/molecules/Spinner'
 
 interface TransactionHistoryTemplateProps {
   activeTab: 'transaksi' | 'withdraw' | 'penjualan'
-  data?: TransactionHistoryDataModel[]
+  data?: TransactionHistoryDataModel[] | WithdrawDataModel[]
   isLoading?: boolean
   isError?: boolean
 }
@@ -26,7 +29,12 @@ const TransactionHistoryTemplate: React.FC<TransactionHistoryTemplateProps> = ({
         </p>
       )}
       {!isError && isLoading && <Spinner />}
-      {!isError && !isLoading && <TransactionHistoryTable data={data} />}
+      {!isError && !isLoading && (
+        <TransactionHistoryTable
+          data={data}
+          type={activeTab === 'withdraw' ? 'withdraw' : 'transaction'}
+        />
+      )}
     </TransactionLayout>
   )
 }
