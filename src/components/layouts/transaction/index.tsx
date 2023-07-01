@@ -72,7 +72,7 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const snapSrcUrl = 'https://app.sandbox.midtrans.com/snap/snap.js'
+    const snapSrcUrl = 'https://app.midtrans.com/snap/snap.js'
     const midtransClientId = MIDTRANS_CLIENT_ID
 
     const script = document.createElement('script')
