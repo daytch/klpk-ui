@@ -11,94 +11,76 @@ const AboutKLPLApps = () => {
         <div className="container space-y-6 py-10">
           <div className="leading-[180%]">
             <h1 className="text-4xl font-bold text-gold-200 mb-3">
-              Tentang Aplikasi
+              About this app
             </h1>
           </div>
           <div className="leading-[180%]">
             <h2 className="text-2xl font-bold text-gold-200 mb-3">
-              KLPK App. Sarana menulis dan membaca untuk kamu.
+              KLPK - A Story Reading App, Read Stories, Novels, Ebooks and Write
+              Stories
             </h2>
             <p className="text-base text-kplkWhite mb-2">
-              Kamu yang hobi menulis dan membaca, sekarang nggak perlu bingung
-              harus mencari sebuah platform kepenulisan yang seru, menarik, aman
-              dan menguntungkan untuk para pengguna. Dengan memiliki aplikasi
-              KLPK App di handphone akan semakin menambah wawasan, keseruan dan
-              kesempatan memiliki penghasilan di setiap bulannya.
+              KLPK. Lahir dari sebuah komunitas dari segala macam usia yang
+              selalu ingin belajar menulis.
             </p>
             <p className="text-base text-kplkWhite mb-2">
-              Keuntungan dan keunggulan yang bisa kamu rasakan juga akan semakin
-              terasa dengan berbagai fitur dan kesempatan mengikuti mentoring
-              GRATIS di setiap pekan.
-            </p>
-          </div>
-          <div className="leading-[180%]">
-            <h2 className="text-lg font-bold text-gold-200 mb-3">
-              Berbagai fitur KLPK App yang membuat aktivitas menulis dan
-              membacamu semakin seru antara lain:
-            </h2>
-            <h3 className="text-lg font-bold text-gold-200 mb-3">Fanboard</h3>
-            <p className="text-base text-kplkWhite mb-2">
-              Papan diskusi yang membuat keseruanmu semakin lengkap. Dengan
-              mengirim pesan atau mengikuti obrolan dalam satu ruang chat
-              bersama para penulis dan pembaca akan semakin terasa akrab dengan
-              obrolan.
-            </p>
-            <h3 className="text-lg font-bold text-gold-200 mb-3">Inbox</h3>
-            <p className="text-base text-kplkWhite mb-2">
-              Tak kalah dengan media sosial lainnya, di aplikasi KLPK App kamu
-              juga bisa mengirimkan pesan secara personal.
-            </p>
-            <h3 className="text-lg font-bold text-gold-200 mb-3">
-              Transfer Koin
-            </h3>
-            <p className="text-base text-kplkWhite mb-2">
-              Dari fitur yang satu ini kamu nggak perlu khawatir ketika
-              keseruanmu terhalang dengan koin yang habis. Bersama teman sesama
-              pengguna KLPK App akan membuat kamu bisa saling kirim koin emas
-              lho.
-            </p>
-            <h3 className="text-lg font-bold text-gold-200 mb-3">
-              Misi Harian
-            </h3>
-            <p className="text-base text-kplkWhite mb-2">
-              Dari misi harian kamu juga bisa dapatkan koin perak gratis untuk
-              nikmati novel yang kamu suka. Bukan hanya untuk nikmati novel
-              favorit tapi kamu juga bisa menukarkannya dengan hadiah menarik.
-            </p>
-            <h3 className="text-lg font-bold text-gold-200 mb-3">
-              Daftar Bacaan Saya
-            </h3>
-            <p className="text-base text-kplkWhite mb-2">
-              Nggak perlu khawatir untuk tertinggal jauh atau bahkan kehilangan
-              novel yang kamu baca. Novel yang kamu baca seperti novel kategori
-              romance yang buat kamu baper, novel horor yang buat kamu
-              merinding, novel inspirasi yang buat kamu semangat dan masih
-              banyak lainnya bakal buat kamu ketagihan ikuti cerita yang ada di
-              KLPK App.
-            </p>
-            <h3 className="text-lg font-bold text-gold-200 mb-3">
-              Belajar dari Bintang
-            </h3>
-            <p className="text-base text-kplkWhite mb-2">
-              Selain itu, selain keseruan dari fitur yang ada kamu juga bisa
-              miliki kesempatan untuk mengikuti mentoring di setiap pekan secara
-              GRATIS bersama tokoh nasional yang mungkin salah satunya adalah
-              idola kamu.
-            </p>
-            <h3 className="text-lg font-bold text-gold-200 mb-3">
-              Cuan dari Menulis
-            </h3>
-            <p className="text-base text-kplkWhite mb-2">
-              Saat kamu bergabung bersama KLPK App, tentunya semua keseruan dan
-              keuntungan bisa kamu dapatkan. Selain itu dengan novel berbayar
-              ketika pembaca nikmati kisah yang kamu tulis akan menjadi bagi
-              hasil setiap bulannya.
+              Menjadi member di KLPK App mendekatkan kamu dengan banyak penulis.
+              Kamu tidak terbatas menjadi pembaca tapi penulis juga.
             </p>
             <p className="text-base text-kplkWhite mb-2">
-              Ingin tahu lebih lengkap tentang KLPK App? Ikuti kami di media
-              sosial untuk dapatkan informasi terbaru mengenai tips menulis,
-              rekomendasi cerita dan event pada bagian bawah website.
+              Membaca cerita original yang ditulis resmi oleh penulisnya
+              langsung. Di KLPK kamu akan menemukan berbagai macam penulis yang
+              memiliki ciri khas menulis tersendiri. Membaca cerita di KLPK akan
+              meningkatkan keinginan kamu untuk menulis. Tidak hanya itu, sumber
+              bacaan di KLPK akan memberikan inspirasi bagi kamu di kehidupan
+              nyata.
             </p>
+            <p className="text-base text-kplkWhite mb-2">
+              Menulis cerita original di KLPK sangatlah mudah. Kamu hanya perlu
+              menuangkan semua inspirasi yang ada didalam pikiranmu dalam
+              kalimat dan merangkainya menjadi sebuah cerita atau kamu dapat
+              menulis informasi atau fakta-fakta yang akan menambah informasi
+              bagi para pembaca di KLPK. Kamu cukup membuat akun dan kemudian
+              mengaktifkan verifikasi akun kamu agar kamu dapat mengaktifkan
+              fitur withdraw. Setelah itu kamu sudah siap menulis di menu
+              menulis.
+            </p>
+            <p className="text-base text-kplkWhite mb-2">
+              Di KLPK ceritamu tidak hanya menjadi cerita yang tersimpan untukmu
+              saja. Tapi KLPK memberikan kesempatan agar ceritamu dapat dibaca
+              oleh banyak orang dan banyak orang akan menjadi saksi perjalanan
+              menulis kamu.
+            </p>
+            <p className="text-base text-kplkWhite mb-2">
+              Fitur yang akan kamu dapatkan di KLPK:
+            </p>
+            <ul className="list-disc space-y-2 pl-4">
+              <li className="text-base text-kplkWhite">
+                Mencari cerita dan penulis
+              </li>
+              <li className="text-base text-kplkWhite">
+                Mengikuti penulis yang kamu sukai gaya ceritanya
+              </li>
+              <li className="text-base text-kplkWhite">
+                Diikuti oleh pembaca kamu yang menyukai ceritamu
+              </li>
+              <li className="text-base text-kplkWhite">
+                Terhubung dengan banyak penulis
+              </li>
+              <li className="text-base text-kplkWhite">
+                Mendapatkan notifikasi ketika penulis kamu menerbitkan buku
+                terbaru
+              </li>
+              <li className="text-base text-kplkWhite">
+                Mendapatkan notifikasi ketika buku kamu di beli oleh pembaca
+              </li>
+              <li className="text-base text-kplkWhite">
+                Mendapatkan notifikasi ketika top up coins ataupun withdraw coin
+              </li>
+              <li className="text-base text-kplkWhite">
+                Tentunya kamu dapat menulis dan membaca disini
+              </li>
+            </ul>
           </div>
         </div>
       </section>
