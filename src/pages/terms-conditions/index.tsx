@@ -11,8 +11,8 @@ const TermsConditionsPage = () => {
         <div className="container space-y-6 py-10">
           <div className="leading-[180%]">
             <h1 className="text-4xl font-bold text-gold-200 mb-3">
-              Terms and Conditions
-              <br /> Effective Date: 30 June, 2023
+              Terms and Conditions <br />
+              Effective Date: 30 June, 2023
             </h1>
             <p className="text-base text-kplkWhite">
               Welcome to the KLPK platform, which is owned and operated by
@@ -28,7 +28,7 @@ const TermsConditionsPage = () => {
           </div>
           <div className="leading-[180%]">
             <h2 className="text-2xl font-bold text-gold-200 mb-3">
-              You don't always need an account
+              You Need an Account
             </h2>
             <p className="text-base text-kplkWhite mb-2">
               You can’t browse very much on the Site or use the Services without
@@ -45,7 +45,7 @@ const TermsConditionsPage = () => {
               (or anyone you share your account information with) as a result of
               your or their actions under those circumstances. If you find out
               that someone’s used your account without your permission, you
-              should report it at Pusat Bantuan
+              should report it at Pusat Bantuan.
             </p>
           </div>
           <div className="leading-[180%]">
@@ -67,9 +67,9 @@ const TermsConditionsPage = () => {
               license to publish your content on the KLPK Services, including
               anything reasonably related to publishing it (like storing,
               displaying, reformatting, and distributing it). You’ll need to
-              decide how you want to license your story content to the Wattpad
+              decide how you want to license your story content to the KLPK
               community. Please read our guide on Copyrights for assistance in
-              making this decision
+              making this decision.
             </p>
             <p className="text-base text-kplkWhite mb-2">
               You’re responsible for the content you post. This means you assume
@@ -89,7 +89,7 @@ const TermsConditionsPage = () => {
 
           <div className="leading-[180%]">
             <h2 className="text-2xl font-bold text-gold-200 mb-3">
-              Things You Should and Shouldn't Do
+              Things You Should and Shouldn’t Do
             </h2>
 
             <ul className="list-disc space-y-2 pl-4">
@@ -121,7 +121,7 @@ const TermsConditionsPage = () => {
               What We Remove
             </h2>
             <p className="text-base text-kplkWhite mb-2">
-              The following are not allowed on KLPK.
+              The following are not allowed on KLPK :
             </p>
             <ul className="list-disc space-y-2 pl-4">
               <li className="text-base text-kplkWhite">Plagiarism</li>
