@@ -19,6 +19,7 @@ import { createImagePreview } from '@/utils/common'
 import { useToast } from '@/hooks/useToast'
 import IconUpload from '@/components/icons/IconUpload'
 import NoImage from '@/assets/icons/no-avatar.svg'
+import { MAX_FILE_SIZE } from '@/utils/constants'
 
 const Header = dynamic(() => import('@/components/organisms/Header'), {
   ssr: false,
@@ -79,36 +80,52 @@ export default function ProfileLayout({
     return cover?.url ?? NoImage
   }, [profile, previewAvatar])
 
+  const handleUpdateCover = (formData: FormData, imagePreview: string) => {
+    uploadCover.mutate(formData, {
+      onSuccess() {
+        setPreviewCover(imagePreview)
+        toast.addToast('success', 'Berhasil menyimpan cover.')
+      },
+      onError() {
+        setPreviewCover('')
+        toast.addToast('error', 'Gagal menyimpan cover. Coba lagi.')
+      },
+    })
+  }
+
+  const handleUpdateAvatar = (formData: FormData, imagePreview: string) => {
+    uploadAvatar.mutate(formData, {
+      onSuccess() {
+        setPreviewAvatar(imagePreview)
+        toast.addToast('success', 'Berhasil menyimpan cover.')
+      },
+      onError() {
+        setPreviewAvatar('')
+        toast.addToast('error', 'Gagal menyimpan cover. Coba lagi.')
+      },
+    })
+  }
+
   const handleUploadCover = (
     e: React.ChangeEvent<HTMLInputElement>,
     type: string
   ) => {
     const formData = new FormData()
     if (e.target.files && e.target.files.length) {
+      const fileSize = e?.target?.files?.[0]?.size
+      const isAllowedToUpload = fileSize < MAX_FILE_SIZE
+      if (!isAllowedToUpload) {
+        return toast.addToast(
+          'error',
+          'File terlalu besar. Maksimal ukuran file hanya 2MB.'
+        )
+      }
       const imagePreview = createImagePreview(e)
       formData.append('File', e.target.files[0])
       if (type === 'cover') {
-        uploadCover.mutate(formData, {
-          onSuccess() {
-            setPreviewCover(imagePreview)
-            toast.addToast('success', 'Berhasil menyimpan cover.')
-          },
-          onError() {
-            setPreviewCover('')
-            toast.addToast('error', 'Gagal menyimpan cover. Coba lagi.')
-          },
-        })
+        handleUpdateCover(formData, imagePreview)
       } else {
-        uploadAvatar.mutate(formData, {
-          onSuccess() {
-            setPreviewAvatar(imagePreview)
-            toast.addToast('success', 'Berhasil menyimpan cover.')
-          },
-          onError() {
-            setPreviewAvatar('')
-            toast.addToast('error', 'Gagal menyimpan cover. Coba lagi.')
-          },
-        })
+        handleUpdateAvatar(formData, imagePreview)
       }
     }
   }
