@@ -80,7 +80,7 @@ export default function UpdateUnverifiedProfile({
             placeholder: 'Username',
             isInvalid: Boolean(errors?.username?.message),
             errormessage: errors?.username?.message ?? '',
-            disabled: profile?.verified,
+            disabled: !profile?.verified,
           }}
         />
         <TextField
@@ -93,6 +93,7 @@ export default function UpdateUnverifiedProfile({
             placeholder: 'No. Handphone',
             isInvalid: Boolean(errors?.phone?.message),
             errormessage: errors?.phone?.message ?? '',
+            disabled: true,
           }}
         />
         <TextField
@@ -105,11 +106,12 @@ export default function UpdateUnverifiedProfile({
             placeholder: 'Email',
             isInvalid: Boolean(errors?.email?.message),
             errormessage: errors?.email?.message ?? '',
+            disabled: true,
           }}
         />
       </div>
       <div className="text-center mt-9">
-        <Button type="submit" isFullWidth={false}>
+        <Button type="submit" isFullWidth={false} disabled={!profile?.verified}>
           Simpan
         </Button>
       </div>
