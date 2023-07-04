@@ -7,6 +7,7 @@ const nextConfig = {
       'placeimg.com',
       'klpk-api.lut.web.id',
       'api.komunitaspatrickkellan.com',
+      'api-dev.komunitaspatrickkellan.com',
     ],
     minimumCacheTTL: 60,
   },
