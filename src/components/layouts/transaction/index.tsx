@@ -7,7 +7,7 @@ import Header from '@/components/organisms/Header'
 import Footer from '@/components/organisms/Footer'
 import Button from '@/components/atoms/Button'
 import CointOption from '@/components/molecules/CointOption'
-import { MIDTRANS_CLIENT_ID } from '@/utils/constants'
+import { MIDTRANS_CLIENT_ID, MIDTRANS_SNAP_URL } from '@/utils/constants'
 import { useGetCoinPackages } from '@/services/payment/query'
 import Spinner from '@/components/molecules/Spinner'
 import { useCreateTopup } from '@/services/payment/mutation'
@@ -72,7 +72,7 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const snapSrcUrl = 'https://app.midtrans.com/snap/snap.js'
+    const snapSrcUrl = MIDTRANS_SNAP_URL
     const midtransClientId = MIDTRANS_CLIENT_ID
 
     const script = document.createElement('script')
