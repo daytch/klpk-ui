@@ -15,7 +15,6 @@ import {
   useUploadUserAvatar,
   useUploadUserCover,
 } from '@/services/profile/mutation'
-import { createImagePreview } from '@/utils/common'
 import { useToast } from '@/hooks/useToast'
 import IconUpload from '@/components/icons/IconUpload'
 import NoImage from '@/assets/icons/no-avatar.svg'
@@ -56,7 +55,7 @@ export default function ProfileLayout({
   profile,
   children,
 }: ProfileLayoutProps) {
-  const { pathname, push } = useRouter()
+  const { pathname, push, reload } = useRouter()
   const [viewMode, setViewMode] = useState<'default' | 'verif-profile'>(
     'default'
   )
@@ -80,10 +79,10 @@ export default function ProfileLayout({
     return cover?.url ?? NoImage
   }, [profile, previewAvatar])
 
-  const handleUpdateCover = (formData: FormData, imagePreview: string) => {
+  const handleUpdateCover = (formData: FormData) => {
     uploadCover.mutate(formData, {
       onSuccess() {
-        setPreviewCover(imagePreview)
+        reload()
         toast.addToast('success', 'Berhasil menyimpan cover.')
       },
       onError() {
@@ -93,10 +92,10 @@ export default function ProfileLayout({
     })
   }
 
-  const handleUpdateAvatar = (formData: FormData, imagePreview: string) => {
+  const handleUpdateAvatar = (formData: FormData) => {
     uploadAvatar.mutate(formData, {
       onSuccess() {
-        setPreviewAvatar(imagePreview)
+        reload()
         toast.addToast('success', 'Berhasil menyimpan cover.')
       },
       onError() {
@@ -120,12 +119,11 @@ export default function ProfileLayout({
           'File terlalu besar. Maksimal ukuran file hanya 2MB.'
         )
       }
-      const imagePreview = createImagePreview(e)
       formData.append('File', e.target.files[0])
       if (type === 'cover') {
-        handleUpdateCover(formData, imagePreview)
+        handleUpdateCover(formData)
       } else {
-        handleUpdateAvatar(formData, imagePreview)
+        handleUpdateAvatar(formData)
       }
     }
   }
@@ -159,6 +157,9 @@ export default function ProfileLayout({
                     type="file"
                     className="hidden"
                     onChange={(e) => handleUploadCover(e, 'cover')}
+                    onClick={(e: any) => {
+                      e.target.value = null
+                    }}
                   />
                 </label>
               </div>
@@ -173,6 +174,9 @@ export default function ProfileLayout({
                     priority
                     style={{
                       imageRendering: 'pixelated',
+                    }}
+                    onClick={(e: any) => {
+                      e.target.value = null
                     }}
                   />
                   <label className="absolute top-0 right-0 bottom-0 left-0 inline-flex items-center justify-center bg-slate-400/80 rounded-full cursor-pointer opacity-0 group-hover:opacity-100">
