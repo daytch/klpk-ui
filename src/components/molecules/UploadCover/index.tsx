@@ -84,6 +84,9 @@ const UploadCover: React.FC<UploadCoverProps> = ({
                 field.onChange(e.target.files)
                 createPreview(e)
               }}
+              onClick={(e: any) => {
+                e.target.value = null
+              }}
             />
             <label
               htmlFor="cover"
