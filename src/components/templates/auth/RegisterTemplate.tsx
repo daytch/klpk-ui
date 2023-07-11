@@ -11,7 +11,7 @@ import AuthLayout from '@/components/layouts/auth'
 import { useToast } from '@/hooks/useToast'
 import { changePhoneNumberFormat } from '@/utils/common'
 import {
-  alphaPattern,
+  alphaNumberPattern,
   passwordPattern,
   phoneNumberPattern,
   usernamePattern,
@@ -33,7 +33,7 @@ const validationSchema = object({
           return createError({ message: 'Username tidak boleh kosong.' })
         const lastCharacter = value[value.length - 1]
 
-        if (!alphaPattern.test(lastCharacter))
+        if (!alphaNumberPattern.test(lastCharacter))
           return createError({
             message:
               'Ketika mengadung Symbol (. Atau _ atau @ ) harus mengandung character bukan symbol setelahnya',
