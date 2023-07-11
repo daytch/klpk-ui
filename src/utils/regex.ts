@@ -4,4 +4,4 @@ export const usernamePattern =
   /^(?=[a-zA-Z0-9._@]{6,32}$)(?!.*[_.@]{2})[^_.@].*[^_.@]$/
 export const NIKPattern = /^\d{16}$/
 export const bankAccountPattern = /^[0-9]*$/
-export const alphaPattern = /^[A-Za-z]+$/
+export const alphaNumberPattern = /^[A-Za-z0-9]+$/
