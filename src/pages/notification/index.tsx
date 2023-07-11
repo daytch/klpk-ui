@@ -1,10 +1,9 @@
 import React, { useCallback, useRef } from 'react'
-import Head from 'next/head'
-import { APP_NAME } from '@/utils/constants'
 import GeneralLayout from '@/components/layouts/general'
 import NoDataCard from '@/components/organisms/cards/NoDataCard'
 import NotificationCard from '@/components/organisms/cards/NotificationCard'
 import { useGetNotifications } from '@/services/notification/query'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const NotificationPage = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isError } =
@@ -32,9 +31,7 @@ const NotificationPage = () => {
 
   return (
     <>
-      <Head>
-        <title>{APP_NAME} | Notifikasi</title>
-      </Head>
+      <PageHead />
       <GeneralLayout>
         <div className="container pt-10 pb-20">
           <div className="w-full bg-dark-200 max-w-lg mx-auto rounded-xl overflow-hidden px-6 py-4 min-h-[604px] space-y-4">

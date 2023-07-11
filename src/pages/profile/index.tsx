@@ -1,18 +1,15 @@
 import React from 'react'
-import Head from 'next/head'
 import ProfileLayout from '@/components/layouts/profile'
-import { APP_NAME } from '@/utils/constants'
 import UpdateProfileForm from '@/components/organisms/forms/UpdateProfile'
 import { useGetMe } from '@/services/profile/query'
+import PageHead from '@/components/templates/seo/PageHead'
 
 export default function ProfileIndexPage() {
   const { data } = useGetMe()
 
   return (
     <>
-      <Head>
-        <title>Profile User | {APP_NAME}</title>
-      </Head>
+      <PageHead />
       <ProfileLayout profile={data}>
         <UpdateProfileForm profile={data} />
       </ProfileLayout>

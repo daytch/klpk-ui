@@ -1,9 +1,8 @@
 import React from 'react'
-import Head from 'next/head'
 import TransactionHistoryTemplate from '@/components/templates/transaction'
-import { APP_NAME } from '@/utils/constants'
 import { useGetTransactionHistories } from '@/services/transaction/query'
 import { useRouter } from 'next/router'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const TransactionHistoryPage = () => {
   const { query } = useRouter()
@@ -18,9 +17,7 @@ const TransactionHistoryPage = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${APP_NAME} | Riwayat Transaksi`}</title>
-      </Head>
+      <PageHead />
       <TransactionHistoryTemplate
         activeTab="transaksi"
         data={data}

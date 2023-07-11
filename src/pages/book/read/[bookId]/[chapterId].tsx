@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { dehydrate, DehydratedState } from '@tanstack/react-query'
-import { APP_NAME } from '@/utils/constants'
 import ReadBookTemplate from '@/components/templates/book/ReadBookTemplate'
 import { queryClient } from '@/utils/react-query'
 import { GetServerSideProps } from 'next'
@@ -11,6 +10,7 @@ import {
 } from '@/services/book/query'
 import { getPublicBookById } from '@/services/my-book/api'
 import NotFoundPage from '@/pages/404'
+import PageHead from '@/components/templates/seo/PageHead'
 
 type ReadBookPageProps = {
   dehydratedState?: DehydratedState
@@ -71,7 +71,7 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
 
   return (
     <>
-      <title>{`${APP_NAME} | Membaca Buku Buku`}</title>
+      <PageHead />
       <ReadBookTemplate
         isLoading={isLoadingBook || isLoadingChapter}
         isForbidden={isForbidden}

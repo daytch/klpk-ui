@@ -1,13 +1,11 @@
-import VerifyTemplate from '@/components/templates/auth/VerifyTemplate'
-import Head from 'next/head'
 import React from 'react'
+import VerifyTemplate from '@/components/templates/auth/VerifyTemplate'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const VerifyPage = () => {
   return (
     <div>
-      <Head>
-        <title>KLPK Verify</title>
-      </Head>
+      <PageHead />
       <VerifyTemplate />
     </div>
   )

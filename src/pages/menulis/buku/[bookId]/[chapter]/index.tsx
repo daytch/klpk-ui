@@ -1,10 +1,9 @@
 import React from 'react'
-import Head from 'next/head'
+import { useRouter } from 'next/router'
 import WritingBookLayout from '@/components/layouts/writing/WritingBook'
 import WritingChapterForm from '@/components/organisms/forms/WritingChapters'
-import { APP_NAME } from '@/utils/constants'
-import { useRouter } from 'next/router'
 import { useGetMyBookFromId } from '@/services/my-book/query'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const ChapterListPage = () => {
   const { query } = useRouter()
@@ -14,9 +13,7 @@ const ChapterListPage = () => {
   )
   return (
     <>
-      <Head>
-        <title>{`${APP_NAME} | Menulis`}</title>
-      </Head>
+      <PageHead />
       <WritingBookLayout headerMode="create">
         <WritingChapterForm detailBook={detailBook} />
       </WritingBookLayout>
