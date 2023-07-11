@@ -33,7 +33,7 @@ const TopWriterSlider: React.FC<TestimonySliderProps> = ({ topWriters }) => {
         {topWriters.map((writer, index) => (
           <div
             key={index}
-            className="grow-0 shrink-0 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 pr-12"
+            className="grow-0 shrink-0 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 pr-12"
           >
             <TestimonyCard writer={writer} />
           </div>

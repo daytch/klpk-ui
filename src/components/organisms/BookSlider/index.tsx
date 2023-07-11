@@ -55,7 +55,7 @@ const BookSlider: React.FC<BookSliderProps> = ({
         {books.map((book, index) => (
           <div
             key={index}
-            className="grow-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-2/12 pr-6"
+            className="grow-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-2/12 w-1/2 sm:w-1/3 md:w-1/4 lg:w-2/12 pr-6"
           >
             <ProductCard book={book} />
           </div>
