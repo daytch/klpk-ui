@@ -1,13 +1,11 @@
-import RegisterTemplate from '@/components/templates/auth/RegisterTemplate'
-import Head from 'next/head'
 import React from 'react'
+import RegisterTemplate from '@/components/templates/auth/RegisterTemplate'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const RegisterPage = () => {
   return (
     <div>
-      <Head>
-        <title>KLPK Register</title>
-      </Head>
+      <PageHead />
       <RegisterTemplate />
     </div>
   )

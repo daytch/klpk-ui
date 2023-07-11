@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react'
-import Head from 'next/head'
 import { dehydrate, DehydratedState } from '@tanstack/react-query'
-import { APP_NAME } from '@/utils/constants'
 import WriterProfileTemplate from '@/components/templates/writer-profile'
 import { GetServerSideProps } from 'next'
 import { getWriterProfile } from '@/services/profile/api'
 import { useGetWriterProfile } from '@/services/profile/query'
 import { queryClient } from '@/utils/react-query'
+import PageHead from '@/components/templates/seo/PageHead'
 
 type WriterProfilePageProps = {
   dehydratedState?: DehydratedState
@@ -42,11 +41,10 @@ export default function WriterProfilePage({
   writerId,
 }: WriterProfilePageProps) {
   const { data, refetch } = useGetWriterProfile(writerId as string)
+
   return (
     <Fragment>
-      <Head>
-        <title>{`${APP_NAME} | Profil Penulis`}</title>
-      </Head>
+      <PageHead />
       <WriterProfileTemplate profile={data ?? null} onRefetchData={refetch} />
     </Fragment>
   )

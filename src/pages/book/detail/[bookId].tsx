@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
-import Head from 'next/head'
 import { dehydrate, DehydratedState } from '@tanstack/react-query'
 import { GetServerSideProps } from 'next'
 import { useGetDetailPublicBookById } from '@/services/book/query'
 import { queryClient } from '@/utils/react-query'
-import { APP_NAME } from '@/utils/constants'
 import ProfileBookTemplate from '@/components/templates/book/ProfileBookTemplate'
 import Spinner from '@/components/molecules/Spinner'
 import { getPublicBookById } from '@/services/my-book/api'
+import PageHead from '@/components/templates/seo/PageHead'
 
 type WriterProfilePageProps = {
   dehydratedState?: DehydratedState
@@ -46,14 +45,7 @@ export default function ProfileBookPage({ bookId }: { bookId: string }) {
 
   return (
     <Fragment>
-      <Head>
-        <title>{`${APP_NAME} | Profil Buku`}</title>
-        <link
-          rel="preload"
-          href="/assets/images/dummy/dummy-hero-profile-book.jpg"
-          as="image"
-        />
-      </Head>
+      <PageHead />
       <ProfileBookTemplate book={data as any} onRefetchData={refetch} />
     </Fragment>
   )

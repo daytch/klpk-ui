@@ -1,9 +1,8 @@
 import React from 'react'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import TransactionHistoryTemplate from '@/components/templates/transaction'
-import { APP_NAME } from '@/utils/constants'
 import { useGetWithdrawHistories } from '@/services/transaction/query'
+import PageHead from '@/components/templates/seo/PageHead'
 
 export default function WithdrawHistoryPage() {
   const { query } = useRouter()
@@ -17,9 +16,7 @@ export default function WithdrawHistoryPage() {
 
   return (
     <>
-      <Head>
-        <title>{`${APP_NAME} | Riwayat Withdraw`}</title>
-      </Head>
+      <PageHead />
       <TransactionHistoryTemplate
         activeTab="withdraw"
         data={data}

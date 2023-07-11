@@ -1,10 +1,9 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
 import WritingBookLayout from '@/components/layouts/writing/WritingBook'
-import { APP_NAME } from '@/utils/constants'
 import { useGetMyBookFromId } from '@/services/my-book/query'
 import WritingBookTemplate from '@/components/templates/writing/WritingBook'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const UpdateBookPage = () => {
   const { query } = useRouter()
@@ -15,9 +14,7 @@ const UpdateBookPage = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${APP_NAME} | Menulis`}</title>
-      </Head>
+      <PageHead />
       <WritingBookLayout headerMode="create">
         <WritingBookTemplate detailBook={detailBook} />
       </WritingBookLayout>

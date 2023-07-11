@@ -1,9 +1,8 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useGetInfiniteBooks } from '@/services/book/query'
-import Head from 'next/head'
-import { APP_NAME } from '@/utils/constants'
 import SearchBookTemplate from '@/components/templates/book/SearchBookTemplate'
+import PageHead from '@/components/templates/seo/PageHead'
 
 export default function StorySearchBookPage() {
   const router = useRouter()
@@ -19,9 +18,7 @@ export default function StorySearchBookPage() {
 
   return (
     <>
-      <Head>
-        <title>{`${APP_NAME} | Cari Buku`}</title>
-      </Head>
+      <PageHead />
       <SearchBookTemplate
         pagesBook={data}
         isLoading={isLoading}

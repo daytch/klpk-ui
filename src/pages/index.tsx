@@ -1,9 +1,7 @@
 import React from 'react'
-import Head from 'next/head'
 import { dehydrate } from '@tanstack/react-query'
 import { GetServerSideProps } from 'next'
 import HomepageTemplate from '@/components/templates/homepage'
-import { APP_NAME } from '@/utils/constants'
 import { useGetCategories } from '@/services/category/query'
 import { queryClient } from '@/utils/react-query'
 import {
@@ -13,6 +11,7 @@ import {
 } from '@/services/book/query'
 import { getBanners } from '@/services/banner/api'
 import { useGetBanners } from '@/services/banner/query'
+import PageHead from '@/components/templates/seo/PageHead'
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   res.setHeader(
@@ -43,9 +42,7 @@ const Homepage = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${APP_NAME} | Homepage`}</title>
-      </Head>
+      <PageHead />
       <HomepageTemplate
         categories={categories ?? []}
         todayBestSellers={dailyBestSeller ?? []}
