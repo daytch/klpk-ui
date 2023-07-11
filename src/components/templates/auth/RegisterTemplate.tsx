@@ -1,3 +1,9 @@
+import React from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'next/router'
+import { useForm } from 'react-hook-form'
+import { string, ref, object, InferType, mixed } from 'yup'
+
 import Button from '@/components/atoms/Button'
 import Link from '@/components/atoms/Link'
 import TextField from '@/components/molecules/TextField'
@@ -5,24 +11,38 @@ import AuthLayout from '@/components/layouts/auth'
 import { useToast } from '@/hooks/useToast'
 import { changePhoneNumberFormat } from '@/utils/common'
 import {
+  alphaPattern,
   passwordPattern,
   phoneNumberPattern,
   usernamePattern,
 } from '@/utils/regex'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useRouter } from 'next/router'
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import { string, ref, object, InferType } from 'yup'
 import { useRegister } from '@/services/auth/mutation'
 
 const validationSchema = object({
   fullName: string().required('Nama tidak boleh kosong.'),
-  username: string()
-    .required('Username tidak boleh kosong.')
-    .matches(
-      usernamePattern,
-      'Panjang username antara 6 - 32 dan hanya terdiri dari angka, huruf dan karakter.'
+  username: mixed()
+    .typeError(
+      'Panjang username antara 6 - 32 dan hanya terdiri dari angka, huruf dan Symbol ( . atau _ atau @ )'
+    )
+    .test(
+      'usernameInValid',
+      'Panjang username antara 6 - 32 dan hanya terdiri dari angka, huruf dan Symbol ( . atau _ atau @ )',
+      (value: any, validationContext) => {
+        const { createError } = validationContext
+        if (!value || !value.length)
+          return createError({ message: 'Username tidak boleh kosong.' })
+        const lastCharacter = value[value.length - 1]
+
+        if (!alphaPattern.test(lastCharacter))
+          return createError({
+            message:
+              'Ketika mengadung Symbol (. Atau _ atau @ ) harus mengandung character bukan symbol setelahnya',
+          })
+
+        if (!usernamePattern.test(value)) return false
+
+        return true
+      }
     ),
   email: string().email().required('Email tidak boleh kosong.'),
   phone: string()
@@ -117,7 +137,7 @@ const RegisterTemplate = () => {
               ...register('username', { required: false }),
               isInvalid: Boolean(errors?.username?.message),
               placeholder: 'Username',
-              errormessage: errors?.username?.message,
+              errormessage: errors?.username?.message as string,
             }}
           />
           <TextField

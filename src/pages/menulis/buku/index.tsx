@@ -1,15 +1,12 @@
 import React from 'react'
-import Head from 'next/head'
 import WritingBookLayout from '@/components/layouts/writing/WritingBook'
-import { APP_NAME } from '@/utils/constants'
 import WritingBookTemplate from '@/components/templates/writing/WritingBook'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const StartWritingBookPage = () => {
   return (
     <>
-      <Head>
-        <title>{`${APP_NAME} | Menulis`}</title>
-      </Head>
+      <PageHead />
       <WritingBookLayout headerMode="create">
         <WritingBookTemplate />
       </WritingBookLayout>

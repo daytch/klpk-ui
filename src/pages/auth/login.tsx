@@ -1,13 +1,11 @@
-import LoginTemplate from '@/components/templates/auth/LoginTemplate'
-import Head from 'next/head'
 import React from 'react'
+import LoginTemplate from '@/components/templates/auth/LoginTemplate'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const LoginPage = () => {
   return (
     <div>
-      <Head>
-        <title>KLPK Login</title>
-      </Head>
+      <PageHead />
       <LoginTemplate />
     </div>
   )

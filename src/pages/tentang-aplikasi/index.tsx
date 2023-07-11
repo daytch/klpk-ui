@@ -1,12 +1,10 @@
-import Head from 'next/head'
 import React from 'react'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const AboutKLPLApps = () => {
   return (
     <>
-      <Head>
-        <title>Tentang Aplikasi</title>
-      </Head>
+      <PageHead />
       <section>
         <div className="container space-y-6 py-10">
           <div className="leading-[180%]">

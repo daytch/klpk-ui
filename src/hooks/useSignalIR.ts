@@ -50,7 +50,6 @@ export default function useSignalIR() {
         isAlreadyConnected.current = true
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.log(error)
       }
     }
 
@@ -92,7 +91,6 @@ export default function useSignalIR() {
       await connection.invoke('Read', { id })
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error)
     }
   }
 
@@ -104,7 +102,6 @@ export default function useSignalIR() {
       isAlreadyConnected.current = false
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error)
     }
   }
 

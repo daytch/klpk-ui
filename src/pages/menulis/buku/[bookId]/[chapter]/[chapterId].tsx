@@ -1,13 +1,12 @@
 import React from 'react'
-import Head from 'next/head'
 import WritingBookLayout from '@/components/layouts/writing/WritingBook'
 import WritingChapterForm from '@/components/organisms/forms/WritingChapters'
-import { APP_NAME } from '@/utils/constants'
 import {
   useGetMyBookChapterFromId,
   useGetMyBookFromId,
 } from '@/services/my-book/query'
 import { useRouter } from 'next/router'
+import PageHead from '@/components/templates/seo/PageHead'
 
 const UpdateChapterPage = () => {
   const { query } = useRouter()
@@ -25,9 +24,7 @@ const UpdateChapterPage = () => {
 
   return (
     <>
-      <Head>
-        <title>{`${APP_NAME} | Update Bab`}</title>
-      </Head>
+      <PageHead />
       <WritingBookLayout headerMode="create">
         <WritingChapterForm detailBook={detailBook} chapter={chapterDetail} />
       </WritingBookLayout>
