@@ -23,6 +23,7 @@ type ReadBookTemplateProps = {
   book?: PublicBookDataModel
   chapter?: PublicChapterDetailDataModel
   isPurchaseable?: boolean
+  isAccessible?: boolean
 }
 
 export default function ReadBookTemplate({
@@ -32,6 +33,7 @@ export default function ReadBookTemplate({
   chapter,
   book,
   isPurchaseable = true,
+  isAccessible = true,
 }: ReadBookTemplateProps) {
   const { setTheme, theme } = useTheme()
   const { query, push } = useRouter()
@@ -72,7 +74,7 @@ export default function ReadBookTemplate({
           <Spinner />
         </div>
       )}
-      {!isLoading && !isPurchaseable && (
+      {!isLoading && !isPurchaseable && !isAccessible && (
         <>
           <section className="bg-[#676867] dark:bg-black py-[11px] sticky top-[84px] z-10">
             <div className="mx-auto max-w-[565px] px-4">
