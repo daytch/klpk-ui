@@ -1,4 +1,5 @@
 import React from 'react'
+import { useGetPriceSetting } from '@/services/payment/query'
 import Link from '@/components/atoms/Link'
 import IconArrow from '@/components/icons/IconArrow'
 import IconStar from '@/components/icons/IconStar'
@@ -12,6 +13,7 @@ interface BookSliderProps {
   subTitle: string
   isBestSeller?: boolean
   moreLink: string
+  isCompletedBooks?: boolean
 }
 
 const BookSlider: React.FC<BookSliderProps> = ({
@@ -20,7 +22,13 @@ const BookSlider: React.FC<BookSliderProps> = ({
   subTitle,
   isBestSeller = false,
   moreLink,
+  isCompletedBooks = false,
 }) => {
+  const { data: priceSetting } = useGetPriceSetting(
+    isCompletedBooks && Boolean(books?.length)
+  )
+  const priceBook =
+    isCompletedBooks && priceSetting ? priceSetting.coinForBook : 0
   if (!books?.length) return <></>
 
   return (
@@ -57,7 +65,11 @@ const BookSlider: React.FC<BookSliderProps> = ({
             key={index}
             className="grow-0 shrink-0 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-2/12 w-1/2 sm:w-1/3 md:w-1/4 lg:w-2/12 pr-6"
           >
-            <ProductCard book={book} />
+            <ProductCard
+              book={book}
+              isCompletedBooks={isCompletedBooks}
+              priceBook={priceBook}
+            />
           </div>
         ))}
       </Carousel>

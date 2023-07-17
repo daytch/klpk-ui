@@ -44,7 +44,7 @@ function ChapterButton({ chapter, isLast = false }: ChapterButtonProps) {
       >
         {chapter.name}
       </p>
-      {!chapter.accessible && (
+      {(!chapter.accessible || !chapter.purchasable) && (
         <Image
           src="/assets/icons/icon-lock.svg"
           width={24}
@@ -108,7 +108,7 @@ export default function ChapterDropdown({
         <DropdownMenu.Portal>
           <DropdownMenu.Content
             sideOffset={-3}
-            className="min-w-[254px] bg-dark-200 rounded-lg z-10 mt-2 overflow-hidden"
+            className="min-w-[254px] bg-dark-200 rounded-lg z-10 mt-2 max-w-[260px] max-h-[65vh] overflow-auto scrollbar"
           >
             {chapters &&
               chapters.length > 0 &&

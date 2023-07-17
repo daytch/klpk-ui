@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { TopWriterDataModel } from '@/interfaces/writer'
-import GravatarIcon from '@/assets/icons/gravatar.svg'
+import GravatarIcon from '@/assets/icons/no-avatar.svg'
 import Link from '@/components/atoms/Link'
 
 interface ITopWriterCardProps {
