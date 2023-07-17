@@ -47,7 +47,7 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
         <div className="container border-b border-gold-300 pt-11 pb-14">
           <BookSlider
             moreLink="/story/daily-best-seller"
-            title="Today Best Seller"
+            title="Today Best Sellers"
             subTitle="Based on Favorite Choose"
             isBestSeller
             books={todayBestSellers}
@@ -79,6 +79,7 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
             title="Completed Story"
             subTitle="Buku yang bisa anda beli"
             books={completedStories}
+            isCompletedBooks
           />
         </div>
       </section>

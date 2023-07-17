@@ -12,6 +12,7 @@ import { useFollowUser, useUnFollowUser } from '@/services/profile/mutation'
 import { authGuardAction, selectUserPhotos } from '@/utils/common'
 import { useAuth } from '@/store/useAuth'
 import { useGetInfiniteBooks } from '@/services/book/query'
+import GravatarIcon from '@/assets/icons/no-avatar.svg'
 
 type WriterProfileTemplateProps = {
   profile: ProfileUserDataModel | null
@@ -89,7 +90,7 @@ export default function WriterProfileTemplate({
             <div className="block mx-auto w-[120px] h-[120px] bg-dark-100 rounded-full overflow-hidden mb-4">
               <Image
                 priority
-                src={userAvatar.length ? userAvatar : '/assets/images/logo.png'}
+                src={userAvatar.length ? userAvatar : GravatarIcon}
                 alt=""
                 width={120}
                 height={120}

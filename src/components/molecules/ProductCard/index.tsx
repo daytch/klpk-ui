@@ -5,15 +5,20 @@ import IconStar from '@/components/icons/IconStar'
 import { BookDataModel, PublicBookDataModel } from '@/interfaces/book'
 import { joinClass, sanitizeHTML } from '@/utils/common'
 import IconNoImage from '@/assets/icons/no-image.svg'
+import IconCoin from '@/components/icons/IconCoin'
 
 interface ProductCardProps {
   book: BookDataModel | PublicBookDataModel
   contentTypeView?: 'default' | 'writing' | 'library'
+  isCompletedBooks?: boolean
+  priceBook?: number
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   book,
   contentTypeView = 'default',
+  isCompletedBooks = false,
+  priceBook,
 }) => {
   const showRating = 'rating' in book
   const showProgress = 'readProgress' in book
@@ -109,6 +114,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <p className="capitalize font-gotham font-bold text-kplkWhite text-sm leading-3">
             {book?.title ?? ''}
           </p>
+          {isCompletedBooks && (
+            <p className="text-base text-gold-200 font-bold mt-2 leading-4 flex items-center space-x-1">
+              <IconCoin />
+              <span className="inline-block">{priceBook} Koin</span>
+            </p>
+          )}
         </div>
       )}
       {contentTypeView === 'writing' && (

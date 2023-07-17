@@ -23,8 +23,7 @@ export default function ProfileUserCard({
   onInactiveActionClick = () => {},
 }: ProfileUserCardProps) {
   const userAvatarImage = useMemo(() => {
-    if (!profilePhoto || !profilePhoto.length) return ''
-    const cover = profilePhoto.find((photo) => photo.type === 'avatar')
+    const cover = profilePhoto?.find((photo) => photo.type === 'avatar')
     return cover?.url ?? NoImage
   }, [profilePhoto])
 

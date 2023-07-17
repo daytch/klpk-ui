@@ -18,3 +18,9 @@ export type TCoinRate = {
   withdrawRate: number
   minimumWithdrawAmount: number
 }
+
+export type TPriceSetting = {
+  coinForBook: number
+  coinForChapter: number
+  maximumFreeChaptersCount: number
+}

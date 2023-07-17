@@ -19,6 +19,7 @@ export interface BookChapterDataModel {
   content?: string
   accessible?: boolean
   subscribeToAccess?: boolean
+  purchasable?: boolean
 }
 
 export interface DetailBookDataModel extends BookDataModel {
