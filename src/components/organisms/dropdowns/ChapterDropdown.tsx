@@ -44,7 +44,7 @@ function ChapterButton({ chapter, isLast = false }: ChapterButtonProps) {
       >
         {chapter.name}
       </p>
-      {(!chapter.accessible || !chapter.purchasable) && (
+      {!chapter.accessible && (
         <Image
           src="/assets/icons/icon-lock.svg"
           width={24}
