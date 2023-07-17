@@ -7,7 +7,7 @@ type NoDataCardProps = {
 
 export default function NoDataCard({ text }: NoDataCardProps) {
   return (
-    <div className="px-4 pt-14 pb-10 flex flex-col items-center text-center">
+    <div className="px-4 pt-14 pb-10 flex flex-col items-center text-center w-full">
       <Image
         alt="no history"
         src="/assets/images/empty-data.svg"

@@ -14,6 +14,7 @@ import {
   PublicChapterDetailDataModel,
 } from '@/interfaces/book'
 import { formatDate, sanitizeHTML } from '@/utils/common'
+import NoDataCard from '@/components/organisms/cards/NoDataCard'
 
 type ReadBookTemplateProps = {
   isLoading: boolean
@@ -21,6 +22,7 @@ type ReadBookTemplateProps = {
   onSuccessPurchase: () => void
   book?: PublicBookDataModel
   chapter?: PublicChapterDetailDataModel
+  isPurchaseable?: boolean
 }
 
 export default function ReadBookTemplate({
@@ -29,6 +31,7 @@ export default function ReadBookTemplate({
   onSuccessPurchase,
   chapter,
   book,
+  isPurchaseable = true,
 }: ReadBookTemplateProps) {
   const { setTheme, theme } = useTheme()
   const { query, push } = useRouter()
@@ -69,7 +72,37 @@ export default function ReadBookTemplate({
           <Spinner />
         </div>
       )}
-      {!isLoading && isForbidden && !chapter && (
+      {!isLoading && !isPurchaseable && (
+        <>
+          <section className="bg-[#676867] dark:bg-black py-[11px] sticky top-[84px] z-10">
+            <div className="mx-auto max-w-[565px] px-4">
+              <div className="flex items-center justify-between">
+                <ChapterDropdown
+                  chapters={book?.chapters ?? []}
+                  bookAuthor={book?.writer?.fullName ?? ''}
+                  bookTitle={book?.title ?? ''}
+                  bookCover={book?.cover ?? ''}
+                />
+                <Toggle
+                  text="Light Mode"
+                  isChecked={theme === 'light'}
+                  onChange={() =>
+                    theme == 'dark' ? setTheme('light') : setTheme('dark')
+                  }
+                />
+              </div>
+            </div>
+          </section>
+          <section className="py-10">
+            <div className="mx-auto max-w-[565px] px-4 bg-dark-300 rounded-lg flex items-center">
+              <div className="flex items-center justify-between w-full">
+                <NoDataCard text="Harap membeli BAB secara berurutan." />
+              </div>
+            </div>
+          </section>
+        </>
+      )}
+      {!isLoading && isForbidden && !chapter && isPurchaseable && (
         <PuchaseOptionCard
           isCompleteBook={book?.completed ?? false}
           onSuccessPurchase={onSuccessPurchase}

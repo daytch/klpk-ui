@@ -38,13 +38,15 @@ export default function ProfileDropdown({
         }}
       >
         <DropdownMenu.Trigger className="inline-flex outline-none relative">
-          <Image
-            src={profilePicture?.url ?? NoImage}
-            width={35}
-            height={35}
-            alt=""
-            className="rounded-full"
-          />
+          <div className="w-[35px] h-[35px] overflow-hidden rounded-full ">
+            <Image
+              src={profilePicture?.url ?? NoImage}
+              width={35}
+              height={35}
+              alt=""
+              className=" object-cover"
+            />
+          </div>
           <div className="w-2 h-2 bg-[#5CCC5A] rounded-full absolute z-[2] top-0 right-0" />
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
