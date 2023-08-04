@@ -108,14 +108,32 @@ const PrivacyPolicyPage = () => {
             </h2>
             <p className="text-base text-kplkWhite mb-2">
               If you have any questions, concerns, or requests regarding this
-              Privacy Policy, please contact us at: Komunitas Literasi Patrick
-              Kellan{' '}
-              <a href="mailto:redaksiklpk@gmail.com"> redaksiklpk@gmail.com</a>
+              Privacy Policy, <br />
+              please contact us at: Komunitas Literasi Patrick Kellan{' '}
+              <a href="mailto:komunitaspatrickkellan@gmail.com">
+                {' '}
+                komunitaspatrickkellan@gmail.com
+              </a>
+              <br />
+              Contact Number :{' '}
+              <a
+                href="https://wa.me/6281330896550"
+                target="_blank"
+                className="font-gotham text-sm text-kplkWhite leading-3 font-light"
+                rel="noreferrer"
+              >
+                +6281330896550
+              </a>
             </p>
+            <br />
             <p className="text-base text-kplkWhite mb-2">
-              Jl H. Agus Salim Kaliawi,
+              CV JOSH KELLAN <br />
+              DUSUN VI, Desa/Kelurahan Tempuran, <br />
+              Kec. Trimurjo, Kab. LampungTengah, <br />
+              Provinsi Lampung, Kode Pos: 34172
+              {/* Jl H. Agus Salim Kaliawi,
               <br /> Tanjung Karang Pusat. <br />
-              Bandar Lampung 35115
+              Bandar Lampung 35115 */}
             </p>
           </div>
         </div>
