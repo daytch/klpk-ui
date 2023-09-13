@@ -3,17 +3,31 @@ import {
   TransactionHistoryDataModel,
   TransactionHistoryStatus,
 } from '@/interfaces/transaction'
-import { createTableTextTransactionHistory, formatDate } from '@/utils/common'
+import {
+  createTableTextTransactionHistory,
+  formatDate,
+  getTopupStatus,
+} from '@/utils/common'
 
 const TransactionTable = ({
   data,
 }: {
   data?: TransactionHistoryDataModel[]
 }) => {
+  const isTopup = data?.[0]?.type === 'topup'
+
   return (
     <table className="w-full border border-dark-100">
       <thead>
         <tr>
+          {isTopup && (
+            <th
+              scope="col"
+              className="font-gotham font-bold px-3 py-2 bg-dark-200 text-kplkWhite text-xs text-left"
+            >
+              ID
+            </th>
+          )}
           <th
             scope="col"
             className="font-gotham font-bold px-3 py-2 bg-dark-200 text-kplkWhite text-xs text-left w-[60%]"
@@ -26,6 +40,14 @@ const TransactionTable = ({
           >
             Tanggal
           </th>
+          {isTopup && (
+            <th
+              scope="col"
+              className="font-gotham font-bold px-3 py-2 bg-dark-200 text-kplkWhite text-xs text-left"
+            >
+              Status Topup
+            </th>
+          )}
         </tr>
       </thead>
       <tbody>
@@ -43,6 +65,11 @@ const TransactionTable = ({
           data?.length > 0 &&
           data.map((item, index) => (
             <tr key={index}>
+              {isTopup && (
+                <td className="text-xs text-kplkWhite font-thin py-2 px-3 border-b border-dark-100 text-left">
+                  {item?.id ?? ''}
+                </td>
+              )}
               <td className="text-xs text-kplkWhite font-thin py-2 px-3 border-b border-dark-100 text-left">
                 {createTableTextTransactionHistory(
                   item.type as TransactionHistoryStatus,
@@ -53,6 +80,11 @@ const TransactionTable = ({
               <td className="text-xs text-kplkWhite font-thin py-2 px-3 border-b border-dark-100 text-left">
                 {formatDate(item.transactionDate, 'DD MMMM YYYY')}
               </td>
+              {isTopup && (
+                <td className="text-xs text-kplkWhite font-thin py-2 px-3 border-b border-dark-100 text-left">
+                  {getTopupStatus(item.metadata ?? '')}
+                </td>
+              )}
             </tr>
           ))}
       </tbody>

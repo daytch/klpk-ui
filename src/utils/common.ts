@@ -147,6 +147,15 @@ export function createTableTextTransactionHistory(
   return textResult
 }
 
+export function getTopupStatus(metadata: string): string {
+  const parseMetadata = JSON.parse(metadata)
+  const status = parseMetadata?.product?.topupRequestStatus || ''
+  if (status === 'succeeded') return 'Sukses'
+  if (status === 'pending') return 'Pending'
+  if (status === 'failed') return 'Gagal'
+  return ''
+}
+
 export function formatDate(date: string | Date, format = 'DD MMMM YYYY') {
   if (!dayjs(date).isValid()) return ''
   return dayjs(date).format(format)
