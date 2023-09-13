@@ -7,7 +7,6 @@ import Header from '@/components/organisms/Header'
 import Footer from '@/components/organisms/Footer'
 import Button from '@/components/atoms/Button'
 import CointOption from '@/components/molecules/CointOption'
-import { MIDTRANS_CLIENT_ID, MIDTRANS_SNAP_URL } from '@/utils/constants'
 import { useGetCoinPackages } from '@/services/payment/query'
 import Spinner from '@/components/molecules/Spinner'
 import { useCreateTopup } from '@/services/payment/mutation'
@@ -70,23 +69,6 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
     }
   }, [query?.order_id, query?.status_code])
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    const snapSrcUrl = MIDTRANS_SNAP_URL
-    const midtransClientId = MIDTRANS_CLIENT_ID
-
-    const script = document.createElement('script')
-    script.src = snapSrcUrl
-    script.setAttribute('data-client-key', midtransClientId)
-    script.async = true
-
-    document.body.appendChild(script)
-
-    return () => {
-      document.body.removeChild(script)
-    }
-  }, [])
-
   const handleSelectTab = async (url: string) => {
     const Router = (await import('next/router')).default
     Router.push(url, undefined, { scroll: false })
@@ -98,7 +80,11 @@ const TransactionLayout: React.FC<TransactionLayoutProps> = ({
       { coinPackageId: selectedCoint.id },
       {
         onSuccess(data: TopupResponse) {
-          window.snap.pay(data.paymentToken)
+          const a = document.createElement('a')
+          a.href = data?.paymentToken || ''
+          a.setAttribute('target', '_blank')
+          a.click()
+          a.remove()
         },
         onError() {
           toast.addToast('error', 'Gagal memproses topup. Coba lagi.')
