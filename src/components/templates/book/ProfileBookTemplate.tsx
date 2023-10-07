@@ -14,6 +14,7 @@ import { PublicBookDataModel } from '@/interfaces/book'
 import Header from '@/components/organisms/Header'
 import { authGuardAction, formatDate, sanitizeHTML } from '@/utils/common'
 import IconNoImage from '@/assets/icons/no-image.svg'
+import IconCoin from '@/components/icons/IconCoin'
 
 type ProfileBookTemplateProps = {
   book?: PublicBookDataModel
@@ -174,7 +175,7 @@ export default function ProfileBookTemplate({
             >
               {book?.writer?.fullName ?? ''}
             </Link>
-            <div className="flex items-center flex-wrap space-x-4 mb-6">
+            <div className="flex items-center flex-wrap space-x-4 mb-4">
               <ImageText
                 text={`${book?.readersCount ?? 0} Dibaca`}
                 icon="/assets/icons/icon-eye.svg"
@@ -188,6 +189,10 @@ export default function ProfileBookTemplate({
                 icon="/assets/icons/icon-user2.svg"
               />
             </div>
+            <p className="text-base text-gold-200 font-bold mb-6 leading-4 flex items-center space-x-1">
+              <IconCoin />
+              <span className="inline-block">{book?.price || 0} Koin</span>
+            </p>
             <div className="flex items-center space-x-4">
               <Button
                 onClick={handleStartReading}

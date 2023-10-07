@@ -1,5 +1,4 @@
 import React from 'react'
-import { useGetPriceSetting } from '@/services/payment/query'
 import Link from '@/components/atoms/Link'
 import IconArrow from '@/components/icons/IconArrow'
 import IconStar from '@/components/icons/IconStar'
@@ -24,13 +23,6 @@ const BookSlider: React.FC<BookSliderProps> = ({
   moreLink,
   isCompletedBooks = false,
 }) => {
-  const { data: priceSetting } = useGetPriceSetting(
-    isCompletedBooks && Boolean(books?.length)
-  )
-  const priceBook =
-    isCompletedBooks && priceSetting ? priceSetting.coinForBook : 0
-  if (!books?.length) return <></>
-
   return (
     <div className="space-y-6">
       <div className="flex items-end justify-between">
@@ -68,7 +60,7 @@ const BookSlider: React.FC<BookSliderProps> = ({
             <ProductCard
               book={book}
               isCompletedBooks={isCompletedBooks}
-              priceBook={priceBook}
+              showPrice
             />
           </div>
         ))}
