@@ -147,6 +147,15 @@ export function createTableTextTransactionHistory(
   return textResult
 }
 
+export function getTopupStatus(metadata: string): string {
+  const parseMetadata = JSON.parse(metadata)
+  const status = parseMetadata?.product?.topupRequestStatus || ''
+  if (status === 'succeeded') return 'Sukses'
+  if (status === 'pending') return 'Pending'
+  if (status === 'failed') return 'Gagal'
+  return ''
+}
+
 export function formatDate(date: string | Date, format = 'DD MMMM YYYY') {
   if (!dayjs(date).isValid()) return ''
   return dayjs(date).format(format)
@@ -166,4 +175,15 @@ export function createNotificationTitle(type: string) {
     title = 'Pesan'
   }
   return title
+}
+
+export function createEmailBody(payload: {
+  email: string
+
+  firstName: string
+  lastName: string
+  message: string
+}): string {
+  const { email, firstName, lastName, message } = payload
+  return `${message}%0D%0A%0D%0ABest Regards,%0D%0ANama: ${firstName} ${lastName}%0D%0AEmail: ${email}`
 }

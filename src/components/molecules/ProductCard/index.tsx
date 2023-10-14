@@ -11,14 +11,13 @@ interface ProductCardProps {
   book: BookDataModel | PublicBookDataModel
   contentTypeView?: 'default' | 'writing' | 'library'
   isCompletedBooks?: boolean
-  priceBook?: number
+  showPrice?: boolean
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   book,
   contentTypeView = 'default',
-  isCompletedBooks = false,
-  priceBook,
+  showPrice,
 }) => {
   const showRating = 'rating' in book
   const showProgress = 'readProgress' in book
@@ -114,10 +113,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <p className="capitalize font-gotham font-bold text-kplkWhite text-sm leading-3">
             {book?.title ?? ''}
           </p>
-          {isCompletedBooks && (
+          {showPrice && (
             <p className="text-base text-gold-200 font-bold mt-2 leading-4 flex items-center space-x-1">
               <IconCoin />
-              <span className="inline-block">{priceBook} Koin</span>
+              <span className="inline-block">{book?.price || 0} Koin</span>
             </p>
           )}
         </div>

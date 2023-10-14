@@ -145,13 +145,21 @@ export default function WriterProfileTemplate({
                           key={`${pageIndex}-${bookIndex}`}
                           ref={lastBookElement}
                         >
-                          <ProductCard book={book} contentTypeView="default" />
+                          <ProductCard
+                            book={book}
+                            contentTypeView="default"
+                            showPrice
+                          />
                         </div>
                       )
                     }
                     return (
                       <div key={`${pageIndex}-${bookIndex}`}>
-                        <ProductCard book={book} contentTypeView="default" />
+                        <ProductCard
+                          book={book}
+                          contentTypeView="default"
+                          showPrice
+                        />
                       </div>
                     )
                   })

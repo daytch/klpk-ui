@@ -68,13 +68,13 @@ const SearchBookTemplate: React.FC<SearchBookTemplateProps> = ({
                         key={`${pageIndex}-${bookIndex}`}
                         ref={lastBookElement}
                       >
-                        <ProductCard book={book} />
+                        <ProductCard book={book} showPrice />
                       </div>
                     )
                   }
                   return (
                     <div key={`${pageIndex}-${bookIndex}`}>
-                      <ProductCard book={book} />
+                      <ProductCard book={book} showPrice />
                     </div>
                   )
                 })

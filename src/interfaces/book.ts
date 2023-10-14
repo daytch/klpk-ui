@@ -11,6 +11,7 @@ export interface BookDataModel {
   status: 'draft' | 'pending' | 'live'
   completed: boolean
   category: BookCategoryDataModel
+  price?: number
 }
 
 export interface BookChapterDataModel {
@@ -78,6 +79,7 @@ export type PublicBookDataModel = {
   subscribed: boolean
   purchased: boolean
   chapters: PublicBookChapterDataModel[]
+  price?: number
 }
 
 export interface PublicChapterDetailDataModel extends PayloadChapter {
