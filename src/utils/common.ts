@@ -176,3 +176,14 @@ export function createNotificationTitle(type: string) {
   }
   return title
 }
+
+export function createEmailBody(payload: {
+  email: string
+
+  firstName: string
+  lastName: string
+  message: string
+}): string {
+  const { email, firstName, lastName, message } = payload
+  return `${message}%0D%0A%0D%0ABest Regards,%0D%0ANama: ${firstName} ${lastName}%0D%0AEmail: ${email}`
+}

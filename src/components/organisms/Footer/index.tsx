@@ -68,6 +68,14 @@ const Footer = () => {
               </li>
               <li>
                 <Link
+                  to="/contact-us"
+                  className="font-gotham text-sm text-gold-300 leading-3 font-light"
+                >
+                  Hubungi Kami
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/terms-conditions"
                   className="font-gotham text-sm text-gold-300 leading-3 font-light"
                 >
