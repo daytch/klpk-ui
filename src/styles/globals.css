@@ -243,8 +243,20 @@ body .ck.ck-content.ck-editor__editable > p {
 }
 
 .book-content * {
-  color: white !important;
   font-family: sans-serif !important;
   font-size: 16px !important;
   line-height: 2;
+}
+
+.synopsis-content * {
+  color: #f9f7ef !important;
+  font-family: 'Gotham', sans-serif;
+}
+
+html.dark .book-content * {
+  color: #f9f7ef !important;
+}
+
+.html.light .book-content * {
+  color: #0d0e10 !important;
 }
