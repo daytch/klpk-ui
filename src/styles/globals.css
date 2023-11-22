@@ -241,3 +241,10 @@ body .ck.ck-content.ck-editor__editable > p {
   -ms-user-select: none;
   user-select: none;
 }
+
+.book-content * {
+  color: white !important;
+  font-family: sans-serif !important;
+  font-size: 16px !important;
+  line-height: 2;
+}

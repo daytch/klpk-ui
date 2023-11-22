@@ -225,6 +225,10 @@ export default function ProfileBookTemplate({
                 dangerouslySetInnerHTML={{
                   __html: cleanSynopsis,
                 }}
+                style={{
+                  color: 'rgb(249 247 239/1)!important',
+                  fontFamily: 'Gotham,sans-serif!important',
+                }}
               />
 
               <hr className="border-gold-300 mb-4" />
