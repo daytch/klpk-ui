@@ -221,13 +221,9 @@ export default function ProfileBookTemplate({
                 Sinopsis
               </h3>
               <div
-                className="font-gotham text-kplkWhite text-sm font-light mb-16"
+                className="font-gotham text-kplkWhite text-sm font-light mb-16 synopsis-content"
                 dangerouslySetInnerHTML={{
                   __html: cleanSynopsis,
-                }}
-                style={{
-                  color: 'rgb(249 247 239/1)!important',
-                  fontFamily: 'Gotham,sans-serif!important',
                 }}
               />
 
