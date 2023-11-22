@@ -125,7 +125,11 @@ const Footer = () => {
             </h2>
             <ul className="space-y-6 ">
               <li>
-                <a href="/" target="_blank">
+                <a
+                  rel="noreferrer"
+                  href="https://play.google.com/store/apps/details?id=com.komunitaspatrickkellan.klpk"
+                  target="_blank"
+                >
                   <Image
                     src={IconGooglePlay}
                     width={120}
@@ -135,7 +139,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="/" target="_blank">
+                <a href="#" target="_blank">
                   <Image
                     src={IconAppStore}
                     width={120}
