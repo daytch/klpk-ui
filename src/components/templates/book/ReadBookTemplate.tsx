@@ -138,7 +138,7 @@ export default function ReadBookTemplate({
               <h2 className="text-center font-gotham text-2xl font-bold mb-8 text-dark-200 dark:text-gold-200 unselectable">
                 {chapter?.name ?? ''}
               </h2>
-              <div className="font-sans text-justify text-dark-200 dark:text-kplkWhite space-y-4">
+              <div className="font-sans text-justify text-dark-200 dark:text-kplkWhite space-y-4 book-content">
                 <div
                   className="unselectable"
                   dangerouslySetInnerHTML={{
