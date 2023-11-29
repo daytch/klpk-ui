@@ -5,10 +5,11 @@ import IconSearch from '@/components/icons/IconSearch'
 import Link from '@/components/atoms/Link'
 import { useAuth } from '@/store/useAuth'
 import IconBrush from '@/components/icons/IconBrush'
-import ProfileDropdown from '../dropdowns/ProfileDropdown'
-import WalletDropdown from '../dropdowns/WalletDropdown'
+import { useGetMe } from '@/services/profile/query'
 import IconChevron from '@/components/icons/IconChevron'
 import useSignalIR from '@/hooks/useSignalIR'
+import ProfileDropdown from '../dropdowns/ProfileDropdown'
+import WalletDropdown from '../dropdowns/WalletDropdown'
 import NotificationDropdown from '../dropdowns/NotificationDropdown'
 import NotificationDialog from '../dialogs/NotificationDialog'
 
@@ -32,12 +33,14 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
   const { refreshToken } = useAuth()
   const { unReadMessage, handleDisconnect, messages, message, open, setOpen } =
     useSignalIR()
+  const { data: profile } = useGetMe()
 
   const showBackButton = mode === 'write' || mode === 'create'
   const isAuthenticated = useMemo(
     () => hasHydrated && !!refreshToken?.length,
     [refreshToken, hasHydrated]
   )
+  const isVerified = profile?.verified || false
 
   const handleSearchBook = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -147,7 +150,7 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
                 </Link>
               </div>
             )}
-            {isAuthenticated && (
+            {isAuthenticated && isVerified && (
               <div className="flex items-center justify-end space-x-4 lg:space-x-6 flex-1">
                 {mode === 'default' && (
                   <>
@@ -175,7 +178,10 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
                   notifications={messages}
                 />
 
-                <ProfileDropdown onCloseSignalIR={handleDisconnect} />
+                <ProfileDropdown
+                  profile={profile}
+                  onCloseSignalIR={handleDisconnect}
+                />
               </div>
             )}
           </div>
