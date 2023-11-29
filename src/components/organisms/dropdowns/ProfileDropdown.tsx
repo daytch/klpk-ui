@@ -7,19 +7,22 @@ import IconUser from '@/components/icons/IconUser'
 import IconBrush from '@/components/icons/IconBrush'
 import IconLogout from '@/components/icons/IconLogout'
 import { useAuth } from '@/store/useAuth'
-import { useGetMe } from '@/services/profile/query'
+import { ProfileUserDataModel } from '@/interfaces/profile'
 
 type ProfileDropdownProps = {
   onCloseSignalIR: () => void
+  profile?: ProfileUserDataModel | undefined
 }
 
 export default function ProfileDropdown({
   onCloseSignalIR,
+  profile,
 }: ProfileDropdownProps) {
   const { logout } = useAuth()
-  const { data } = useGetMe()
 
-  const profilePicture = data?.photos?.find((photo) => photo?.type === 'avatar')
+  const profilePicture = profile?.photos?.find(
+    (photo) => photo?.type === 'avatar'
+  )
 
   const handleLogout = async () => {
     const Router = (await import('next/router')).default
