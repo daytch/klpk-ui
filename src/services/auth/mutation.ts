@@ -3,6 +3,7 @@ import {
   login,
   recoverPassword,
   registerPost,
+  resendVerifyRegister,
   resetPassword,
   verifyRegister,
   verifyResetPasswordToken,
@@ -30,6 +31,13 @@ export function useRegister() {
 export function useRegisterVerify() {
   return useMutation(['verify-register'], (payload: VerifyPayloadProps) =>
     verifyRegister(payload)
+  )
+}
+
+export function useResendRegisterVerify() {
+  return useMutation(
+    ['resend-verify-register'],
+    (payload: VerifyPayloadProps) => resendVerifyRegister(payload)
   )
 }
 

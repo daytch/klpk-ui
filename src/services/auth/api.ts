@@ -58,3 +58,9 @@ export async function getRefreshToken(token: string) {
     return Promise.reject(error)
   }
 }
+
+export function resendVerifyRegister(payload: VerifyPayloadProps) {
+  return apiService.post('/auth/resendverification', {
+    ...payload,
+  })
+}
