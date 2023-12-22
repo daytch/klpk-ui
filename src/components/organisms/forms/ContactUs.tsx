@@ -19,7 +19,7 @@ const schema = yup.object({
 })
 
 type FormValue = yup.InferType<typeof schema>
-const targetEmail = 'komunitaspatrickkellan@gmail.com'
+const targetEmail = 'pengaduan@komunitaspatrickkellan.com'
 
 function ContactUs() {
   const {

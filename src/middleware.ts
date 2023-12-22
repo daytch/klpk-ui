@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 const PUBLIC_FILE = /\.(.*)$/
 const MOBILE_REGEX = /android|iphone|kindle|ipad/i
-const ALLOW_MOBILE = ['/auth/verify']
+const ALLOW_MOBILE = ['/auth/verify', '/auth/recover-password']
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
