@@ -1,13 +1,22 @@
 import { useEffect } from 'react'
 const disabledKeys = ['c', 'C', 'x', 'J', 'u', 'I']
 
+function isApple() {
+  const expression = /(Mac|iPhone|iPod|iPad)/i
+  return expression.test(navigator.platform)
+}
+
 export default function useDisableCopy() {
   const disableContextMenu = (e: MouseEvent) => {
     e.preventDefault()
   }
 
   const disableCopy = (e: KeyboardEvent) => {
-    if ((e.ctrlKey && disabledKeys.includes(e.key)) || e.key === 'F12') {
+    let controlKey = e.ctrlKey
+    if (isApple()) {
+      controlKey = e.metaKey
+    }
+    if ((controlKey && disabledKeys.includes(e.key)) || e.key === 'F12') {
       e.preventDefault()
     }
   }
