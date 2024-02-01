@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import useDisableCopy from '@/hooks/useDisableCopy'
 import { useToast } from '@/hooks/useToast'
 import { useAuth } from '@/store/useAuth'
 import { useSubsribeBook, useUnSubscribeBook } from '@/services/book/mutation'
@@ -28,6 +29,7 @@ export default function ProfileBookTemplate({
   const [cleanSynopsis, setCleanSynopsis] = useState('')
   const { query, push } = useRouter()
   const { token } = useAuth()
+  useDisableCopy()
   const subscribeBook = useSubsribeBook()
   const unSubscribeBook = useUnSubscribeBook()
   const toast = useToast()
