@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import Footer from '@/components/organisms/Footer'
+import useDisableCopy from '@/hooks/useDisableCopy'
 import Toggle from '@/components/molecules/Toggle'
 import ChapterDropdown from '@/components/organisms/dropdowns/ChapterDropdown'
 import Button from '@/components/atoms/Button'
@@ -38,6 +39,7 @@ export default function ReadBookTemplate({
   const { setTheme, theme } = useTheme()
   const { query, push } = useRouter()
   const [content, setContent] = useState('')
+  useDisableCopy()
 
   const nextChapterLink: string | undefined = useMemo(() => {
     const currentChapterId = query.chapterId as string
