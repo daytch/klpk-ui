@@ -30,13 +30,13 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
       <section className="pt-14 pb-2">
         <div className="container">
           <div
-            class="bg-blue-100 border-t-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md mb-5"
+            className="bg-blue-100 border-t-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md mb-5"
             role="alert"
           >
-            <div class="flex">
-              <div class="py-1">
+            <div className="flex">
+              <div className="py-1">
                 <svg
-                  class="fill-current h-6 w-6 text-blue-500 mr-4"
+                  className="fill-current h-6 w-6 text-blue-500 mr-4"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                 >
@@ -44,8 +44,8 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
                 </svg>
               </div>
               <div>
-                <p class="font-bold">Info Penting !!!</p>
-                <p class="text-sm">
+                <p className="font-bold">Info Penting !!!</p>
+                <p className="text-sm">
                   Untuk sementara kamu bisa download KLPK Apps dari{' '}
                   <a
                     target="_blank"
