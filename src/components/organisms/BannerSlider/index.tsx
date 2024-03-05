@@ -20,7 +20,7 @@ const BannerSlider: React.FC<IBannerSliderProps> = ({ banners }) => {
       {banners.map((banner, index) => (
         <div
           key={index}
-          className="h-[458px] shrink-0 grow-0 basis-full rounded-lg overflow-hidden aspect-[4/1] aspect-4-1"
+          className="h-[400px] shrink-0 grow-0 basis-full rounded-lg overflow-hidden aspect-[4/1] aspect-4-1"
         >
           <Image
             loading="eager"
