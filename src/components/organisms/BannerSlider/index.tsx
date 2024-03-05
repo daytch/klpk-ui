@@ -27,7 +27,7 @@ const BannerSlider: React.FC<IBannerSliderProps> = ({ banners }) => {
             src={banner}
             alt=""
             width={950}
-            height={458}
+            height={400}
             className="w-full h-full object-fill"
           />
         </div>
