@@ -22,6 +22,7 @@ export function middleware(request: NextRequest) {
   // return NextResponse.rewrite(new URL('/download-app', request.url))
 
   return MOBILE_REGEX.test(userAgent || '')
-    ? NextResponse.rewrite(new URL('/download-app', request.url))
+    ? // remove download page when open from mobile
+      NextResponse.next() // NextResponse.rewrite(new URL('/download-app', request.url))
     : NextResponse.next()
 }
