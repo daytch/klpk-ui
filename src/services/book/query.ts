@@ -7,6 +7,8 @@ import {
   getBooks,
   getTopWriters,
   getDetailPublicChapterById,
+  getRecommendedBooks,
+  getShortStoryBooks
 } from './api'
 import { getPublicBookById } from '../my-book/api'
 
@@ -91,6 +93,23 @@ export function useGetDetailChapterById(
       errorCallback(error)
     },
     retry: 0,
+    refetchOnWindowFocus: false,
+  })
+}
+
+
+export function useGetRecommendedBooks() {
+  return useQuery({
+    queryKey: ['get-recommended-books'],
+    queryFn: () => getRecommendedBooks(),
+    refetchOnWindowFocus: false,
+  })
+}
+
+export function useGetShortStoryBooks() {
+  return useQuery({
+    queryKey: ['get-short-story'],
+    queryFn: () => getShortStoryBooks(),
     refetchOnWindowFocus: false,
   })
 }

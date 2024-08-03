@@ -10,6 +10,8 @@ import { BannerDataModel } from '@/interfaces/banner'
 
 interface IHomepageTemplate {
   categories?: BookCategoryDataModel[]
+  recommendedStory?: PublicBookDataModel[]
+  shortStory?: PublicBookDataModel[]
   todayBestSellers?: PublicBookDataModel[]
   monthlyBestSellers?: PublicBookDataModel[]
   completedStories?: PublicBookDataModel[]
@@ -19,6 +21,8 @@ interface IHomepageTemplate {
 
 const HomepageTemplate: React.FC<IHomepageTemplate> = ({
   categories = [],
+  recommendedStory=[],
+  shortStory = [],
   todayBestSellers = [],
   monthlyBestSellers = [],
   completedStories = [],
@@ -29,7 +33,7 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
     <GeneralLayout>
       <section className="pt-14 pb-2">
         <div className="container">
-          <div
+          {/* <div
             className="bg-blue-100 border-t-4 border-blue-500 rounded-b text-blue-900 px-4 py-3 shadow-md mb-5"
             role="alert"
           >
@@ -59,7 +63,7 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
           <BannerSlider banners={banners.map((banner) => banner.url)} />
         </div>
       </section>
@@ -71,6 +75,30 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
               <CategoryButton key={category.id} category={category} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="">
+        <div className="container border-b border-gold-300 pt-11 pb-14">
+          <BookSlider
+            moreLink="/story/recommended-story"
+            title="Recommended story"
+            subTitle=""
+           // isBestSeller
+            books={recommendedStory}
+          />
+        </div>
+      </section>
+
+      <section className="">
+        <div className="container border-b border-gold-300 pt-11 pb-14">
+          <BookSlider
+            moreLink="/story/short-story"
+            title="Short story"
+            subTitle=""
+            // isBestSeller
+            books={shortStory}
+          />
         </div>
       </section>
 
@@ -97,12 +125,6 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
         </div>
       </section>
 
-      <section>
-        <div className="container border-b border-gold-300 pt-11 pb-14">
-          <TestimonySlider topWriters={topWriters} />
-        </div>
-      </section>
-
       <section className="">
         <div className="container !px-4 pt-11 pb-14">
           <BookSlider
@@ -114,6 +136,13 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
           />
         </div>
       </section>
+      
+      <section>
+        <div className="container border-b border-gold-300 pt-11 pb-14">
+          <TestimonySlider topWriters={topWriters} />
+        </div>
+      </section>
+
     </GeneralLayout>
   )
 }
