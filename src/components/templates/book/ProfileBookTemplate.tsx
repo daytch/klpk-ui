@@ -14,7 +14,7 @@ import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import { PublicBookDataModel } from '@/interfaces/book'
 import Header from '@/components/organisms/Header'
 import { authGuardAction, formatDate, sanitizeHTML } from '@/utils/common'
-import IconNoImage from '@/assets/icons/no-image.svg'
+import IconNoImage from '@/assets/icons/no-image.webp'
 import IconCoin from '@/components/icons/IconCoin'
 
 type ProfileBookTemplateProps = {

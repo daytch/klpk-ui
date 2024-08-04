@@ -1,4 +1,6 @@
 import {
+  AuthorModelData,
+  AuthorParams,
   ProfileFollowDataModel,
   ProfileParams,
   ProfileUserDataModel,
@@ -82,6 +84,20 @@ export async function getFollowings(params: ProfileParams) {
   try {
     const response = await apiService.get<ProfileFollowDataModel[]>(
       `/profiles/${params.userId}/followings`,
+      {
+        params,
+      }
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export async function getAuthors(params: AuthorParams) {
+  try {
+    const response = await apiService.get<AuthorModelData[]>(
+      `/users/search?order=asc`,
       {
         params,
       }

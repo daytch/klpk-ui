@@ -47,10 +47,8 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
     if (!search.length) return
     const Router = (await import('next/router')).default
     Router.push({
-      pathname: '/story/search',
-      query: {
-        search,
-      },
+      pathname: '/search/books',
+      query: {keyword: search},
     })
   }
 

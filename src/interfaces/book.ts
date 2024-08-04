@@ -49,7 +49,7 @@ export type GetMyBookParams = {
   limit?: number
   page?: number
   userId?: string
-  search?: string
+  keyword?: string
 }
 
 export type PublicBookChapterDataModel = {

@@ -4,7 +4,7 @@ import Link from '@/components/atoms/Link'
 import IconStar from '@/components/icons/IconStar'
 import { BookDataModel, PublicBookDataModel } from '@/interfaces/book'
 import { joinClass, sanitizeHTML } from '@/utils/common'
-import IconNoImage from '@/assets/icons/no-image.svg'
+import IconNoImage from '@/assets/icons/no-image.webp'
 import IconCoin from '@/components/icons/IconCoin'
 
 interface ProductCardProps {
