@@ -179,11 +179,36 @@ export function createNotificationTitle(type: string) {
 
 export function createEmailBody(payload: {
   email: string
-
   firstName: string
   lastName: string
   message: string
 }): string {
   const { email, firstName, lastName, message } = payload
   return `${message}%0D%0A%0D%0ABest Regards,%0D%0ANama: ${firstName} ${lastName}%0D%0AEmail: ${email}`
+}
+
+export function limitChapterSix() {
+  if (typeof window === undefined) return
+  if (window) {
+    const uA = navigator.userAgent || navigator.vendor || window.opera
+    if (
+      (/iPad|iPhone|iPod/.test(uA) && !window.MSStream) ||
+      (uA.includes('Mac') && 'ontouchend' in document)
+    )
+      return 'iOS'
+
+    let i = 0
+    const os = ['Windows', 'Android', 'Unix', 'Mac', 'Linux', 'BlackBerry']
+    for (i = 0; i < os.length; i++)
+      if (new RegExp(os[i], 'i').test(uA)) return os[i]
+
+    if (os[i] === 'Android') {
+      window.open('https://apps.apple.com/fi/app/klpk/id6449801134', '_blank')
+    } else if (os[i] === 'Mac') {
+      window.open(
+        'https://play.google.com/store/apps/details?id=com.komunitaspatrickkellan.klpk',
+        '_blank'
+      )
+    }
+  }
 }

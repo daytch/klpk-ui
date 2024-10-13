@@ -150,15 +150,19 @@ export default function ReadBookTemplate({
                 <Button
                   isFullWidth
                   disabled={isLastChapter}
-                  onClick={() =>
-                    push({
-                      pathname: '/book/read/[bookId]/[chapterId]',
-                      query: {
-                        bookId: query.bookId,
-                        chapterId: nextChapterLink,
-                      },
-                    })
-                  }
+                  onClick={() => {
+                    if (orderNumber > 6) {
+                      limitChapterSix()
+                    } else {
+                      push({
+                        pathname: '/book/read/[bookId]/[chapterId]',
+                        query: {
+                          bookId: query.bookId,
+                          chapterId: nextChapterLink,
+                        },
+                      })
+                    }
+                  }}
                   variant="primary"
                   className="dark:bg-transparent dark:ring-gold-100 dark:text-gold-100 dark:border-gold-100 dark:border"
                 >

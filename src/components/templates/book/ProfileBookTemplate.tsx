@@ -1,3 +1,5 @@
+'use client'
+
 import React, { Fragment, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -13,13 +15,20 @@ import Button from '@/components/atoms/Button'
 import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import { PublicBookDataModel } from '@/interfaces/book'
 import Header from '@/components/organisms/Header'
-import { authGuardAction, formatDate, sanitizeHTML } from '@/utils/common'
+import { authGuardAction, formatDate, limitChapterSix, sanitizeHTML } from '@/utils/common'
 import IconNoImage from '@/assets/icons/no-image.svg'
 import IconCoin from '@/components/icons/IconCoin'
 
 type ProfileBookTemplateProps = {
   book?: PublicBookDataModel
   onRefetchData: () => void
+}
+
+declare global {
+  interface Window {
+    MSStream: any
+    opera: any
+  }
 }
 
 export default function ProfileBookTemplate({
@@ -48,6 +57,23 @@ export default function ProfileBookTemplate({
     if (typeof window === undefined) return
     document.body.classList.add('bg-none')
 
+    function getOS() {
+      if (typeof window === undefined) return
+      if (window) {
+        const uA = navigator.userAgent || navigator.vendor || window.opera
+        if (
+          (/iPad|iPhone|iPod/.test(uA) && !window.MSStream) ||
+          (uA.includes('Mac') && 'ontouchend' in document)
+        )
+          return 'iOS'
+
+        let i = 0
+        const os = ['Windows', 'Android', 'Unix', 'Mac', 'Linux', 'BlackBerry']
+        for (i = 0; i < os.length; i++)
+          if (new RegExp(os[i], 'i').test(uA)) return os[i]
+      }
+    }
+
     return () => document.body.classList.remove('bg-none')
   }, [])
 
@@ -66,7 +92,8 @@ export default function ProfileBookTemplate({
 
   const handleSelectChapter = (
     type: 'synopsis' | 'chapter',
-    chapterId?: string
+    chapterId?: string,
+    orderNumber: number
   ) => {
     if (type === 'synopsis') {
       push({
@@ -78,13 +105,17 @@ export default function ProfileBookTemplate({
       return
     }
     authGuardAction(token, () => {
-      push({
-        pathname: '/book/read/[bookId]/[chapterId]',
-        query: {
-          bookId: query.bookId,
-          chapterId: chapterId ?? '',
-        },
-      })
+      if (orderNumber > 6) {
+        limitChapterSix()
+      } else {
+        push({
+          pathname: '/book/read/[bookId]/[chapterId]',
+          query: {
+            bookId: query.bookId,
+            chapterId: chapterId ?? '',
+          },
+        })
+      }
     })
   }
 
@@ -275,6 +306,7 @@ export default function ProfileBookTemplate({
                   }}
                   onClick={handleSelectChapter}
                   viewMode="read"
+                  idx={-1}
                 />
                 {book.chapters.map((chapter, index) => (
                   <ChapterCard
@@ -283,6 +315,7 @@ export default function ProfileBookTemplate({
                     key={chapter.id}
                     chapter={chapter}
                     viewMode="read"
+                    idx={index}
                   />
                 ))}
               </div>
