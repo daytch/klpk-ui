@@ -70,7 +70,6 @@ export default function ReadBookTemplate({
   }, [])
 
   const readNextChapter = (listChapters: Chapter[]) => {
-    debugger
     const orderNumber = listChapters.find(
       (c) => c.chapterId === nextChapterLink
     )?.orderNumber
