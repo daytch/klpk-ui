@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
@@ -14,8 +16,10 @@ import {
   PublicBookDataModel,
   PublicChapterDetailDataModel,
 } from '@/interfaces/book'
-import { formatDate, sanitizeHTML } from '@/utils/common'
+import { formatDate, limitChapterSix, sanitizeHTML } from '@/utils/common'
 import NoDataCard from '@/components/organisms/cards/NoDataCard'
+import { useChapter } from '@/store/useChapter'
+import { Chapter } from '@/interfaces/chapter'
 
 type ReadBookTemplateProps = {
   isLoading: boolean
@@ -40,6 +44,7 @@ export default function ReadBookTemplate({
   const { query, push } = useRouter()
   const [content, setContent] = useState('')
   useDisableCopy()
+  const { chapters } = useChapter()
 
   const nextChapterLink: string | undefined = useMemo(() => {
     const currentChapterId = query.chapterId as string
@@ -63,6 +68,24 @@ export default function ReadBookTemplate({
 
     return () => document.body.classList.remove('bg-none')
   }, [])
+
+  const readNextChapter = (listChapters: Chapter[]) => {
+    debugger
+    const orderNumber = listChapters.find(
+      (c) => c.chapterId === nextChapterLink
+    )?.orderNumber
+    if (orderNumber && orderNumber > 6) {
+      limitChapterSix()
+    } else {
+      push({
+        pathname: '/book/read/[bookId]/[chapterId]',
+        query: {
+          bookId: query.bookId,
+          chapterId: nextChapterLink,
+        },
+      })
+    }
+  }
 
   useEffect(() => {
     bookChapterContent(chapter?.content ?? '')
@@ -150,19 +173,7 @@ export default function ReadBookTemplate({
                 <Button
                   isFullWidth
                   disabled={isLastChapter}
-                  onClick={() => {
-                    if (orderNumber > 6) {
-                      limitChapterSix()
-                    } else {
-                      push({
-                        pathname: '/book/read/[bookId]/[chapterId]',
-                        query: {
-                          bookId: query.bookId,
-                          chapterId: nextChapterLink,
-                        },
-                      })
-                    }
-                  }}
+                  onClick={() => readNextChapter(chapters)}
                   variant="primary"
                   className="dark:bg-transparent dark:ring-gold-100 dark:text-gold-100 dark:border-gold-100 dark:border"
                 >

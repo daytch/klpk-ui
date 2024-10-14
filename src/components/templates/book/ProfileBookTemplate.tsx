@@ -18,6 +18,8 @@ import Header from '@/components/organisms/Header'
 import { authGuardAction, formatDate, limitChapterSix, sanitizeHTML } from '@/utils/common'
 import IconNoImage from '@/assets/icons/no-image.svg'
 import IconCoin from '@/components/icons/IconCoin'
+import { useChapter } from '@/store/useChapter'
+import { Chapter } from '@/interfaces/chapter'
 
 type ProfileBookTemplateProps = {
   book?: PublicBookDataModel
@@ -43,7 +45,7 @@ export default function ProfileBookTemplate({
   const unSubscribeBook = useUnSubscribeBook()
   const toast = useToast()
   const noAvailableCoverImage = !book?.cover?.length
-
+  const { addChapter, chapters } = useChapter()
   const createCleanHTML = async (content: string) => {
     const cleanHtml = await sanitizeHTML(content)
     setCleanSynopsis(cleanHtml)
@@ -51,28 +53,20 @@ export default function ProfileBookTemplate({
 
   useEffect(() => {
     createCleanHTML(book?.synopsis ?? '')
+    const listChapters: Chapter[] = []
+    book?.chapters.map((chapter, idx) => {
+      listChapters.push({
+        bookId: query.bookId as string,
+        chapterId: chapter.id,
+        orderNumber: idx + 1,
+      } as Chapter)
+    })
+    addChapter(listChapters)
   }, [book?.synopsis])
 
   useEffect(() => {
     if (typeof window === undefined) return
     document.body.classList.add('bg-none')
-
-    function getOS() {
-      if (typeof window === undefined) return
-      if (window) {
-        const uA = navigator.userAgent || navigator.vendor || window.opera
-        if (
-          (/iPad|iPhone|iPod/.test(uA) && !window.MSStream) ||
-          (uA.includes('Mac') && 'ontouchend' in document)
-        )
-          return 'iOS'
-
-        let i = 0
-        const os = ['Windows', 'Android', 'Unix', 'Mac', 'Linux', 'BlackBerry']
-        for (i = 0; i < os.length; i++)
-          if (new RegExp(os[i], 'i').test(uA)) return os[i]
-      }
-    }
 
     return () => document.body.classList.remove('bg-none')
   }, [])
@@ -92,9 +86,9 @@ export default function ProfileBookTemplate({
 
   const handleSelectChapter = (
     type: 'synopsis' | 'chapter',
-    chapterId?: string,
-    orderNumber: number
+    chapterId?: string
   ) => {
+    
     if (type === 'synopsis') {
       push({
         pathname: '/book/detail/[bookId]',
@@ -104,19 +98,20 @@ export default function ProfileBookTemplate({
       })
       return
     }
-    authGuardAction(token, () => {
-      if (orderNumber > 6) {
-        limitChapterSix()
-      } else {
-        push({
-          pathname: '/book/read/[bookId]/[chapterId]',
-          query: {
-            bookId: query.bookId,
-            chapterId: chapterId ?? '',
-          },
-        })
-      }
-    })
+    const orderNum = chapters.find(
+      (c) => c.chapterId === chapterId
+    )?.orderNumber
+    if (orderNum && orderNum < 7) {
+      push({
+        pathname: '/book/read/[bookId]/[chapterId]',
+        query: {
+          bookId: query.bookId,
+          chapterId: chapterId ?? '',
+        },
+      })
+    }else{
+      limitChapterSix()
+    }
   }
 
   const handleSubscribeBook = () => {
@@ -308,16 +303,18 @@ export default function ProfileBookTemplate({
                   viewMode="read"
                   idx={-1}
                 />
-                {book.chapters.map((chapter, index) => (
-                  <ChapterCard
-                    onClick={handleSelectChapter}
-                    orderNumber={index + 1}
-                    key={chapter.id}
-                    chapter={chapter}
-                    viewMode="read"
-                    idx={index}
-                  />
-                ))}
+                {book.chapters.map((chapter, index) => {
+                  return (
+                    <ChapterCard
+                      onClick={handleSelectChapter}
+                      orderNumber={index + 1}
+                      key={chapter.id}
+                      chapter={chapter}
+                      viewMode="read"
+                      idx={index}
+                    />
+                  )
+                })}
               </div>
             </div>
           </div>

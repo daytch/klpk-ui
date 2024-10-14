@@ -4,24 +4,19 @@ import Image from 'next/image'
 import { BookChapterDataModel } from '@/interfaces/book'
 import Link from '@/components/atoms/Link'
 import IconPen from '@/components/icons/IconPen'
-import { limitChapterSix } from '@/utils/common'
+import { useChapter } from '@/store/useChapter'
 
 interface ChapterCardProps {
   orderNumber: number
   chapter: BookChapterDataModel
   viewMode?: 'writing' | 'read'
-  onClick?: (
-    type: 'synopsis' | 'chapter',
-    chapterId?: string,
-    orderNumber: number
-  ) => void
+  onClick?: (type: 'synopsis' | 'chapter', chapterId?: string) => void
   isCompletedBook?: boolean
   idx: number
 }
 
 const ChapterCard: React.FC<ChapterCardProps> = ({
   chapter,
-  orderNumber,
   viewMode = 'writing',
   onClick = () => {},
   isCompletedBook,
@@ -30,6 +25,9 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
   const { asPath } = useRouter()
   const { id, name } = chapter
 
+  const { chapters } = useChapter()
+  const orderNumber = chapters.find((x) => x.chapterId === id)?.orderNumber
+  
   const chapterUpdateLink = `${asPath}/chapter/${id}`
   const isSynopsisContent = chapter.content === 'synopsis'
 
@@ -47,15 +45,10 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
     return (
       <button
         onClick={() => {
-          if (orderNumber > 6) {
-            limitChapterSix()
-          } else {
-            onClick(
-              isSynopsisContent ? 'synopsis' : 'chapter',
-              id.length ? id : '',
-              orderNumber
-            )
-          }
+          onClick(
+            isSynopsisContent ? 'synopsis' : 'chapter',
+            id.length ? id : ''
+          )
         }}
         type="button"
         className="flex  items-center justify-start p-5 bg-dark-100 rounded-xl w-full"

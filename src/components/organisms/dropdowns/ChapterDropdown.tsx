@@ -112,14 +112,17 @@ export default function ChapterDropdown({
           >
             {chapters &&
               chapters.length > 0 &&
-              chapters.map((chapter, index) => (
-                <DropdownMenu.Item key={index}>
-                  <ChapterButton
-                    chapter={chapter}
-                    isLast={index === chapters.length - 1}
-                  />
-                </DropdownMenu.Item>
-              ))}
+              chapters.map(
+                (chapter, index) =>
+                  index < 6 && (
+                    <DropdownMenu.Item key={index}>
+                      <ChapterButton
+                        chapter={chapter}
+                        isLast={index === chapters.length - 1}
+                      />
+                    </DropdownMenu.Item>
+                  )
+              )}
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
       </DropdownMenu.Root>

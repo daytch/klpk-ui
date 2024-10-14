@@ -191,24 +191,28 @@ export function limitChapterSix() {
   if (typeof window === undefined) return
   if (window) {
     const uA = navigator.userAgent || navigator.vendor || window.opera
+    let OS = ''
     if (
       (/iPad|iPhone|iPod/.test(uA) && !window.MSStream) ||
       (uA.includes('Mac') && 'ontouchend' in document)
     )
-      return 'iOS'
+      OS = 'iOS'
 
     let i = 0
     const os = ['Windows', 'Android', 'Unix', 'Mac', 'Linux', 'BlackBerry']
-    for (i = 0; i < os.length; i++)
-      if (new RegExp(os[i], 'i').test(uA)) return os[i]
+    for (i = 0; i < os.length; i++) {
+      if (new RegExp(os[i], 'i').test(uA)) {
+        OS = os[i]
+      }
+    }
 
-    if (os[i] === 'Android') {
-      window.open('https://apps.apple.com/fi/app/klpk/id6449801134', '_blank')
-    } else if (os[i] === 'Mac') {
+    if (OS === 'Android' || OS === 'Windows') {
       window.open(
         'https://play.google.com/store/apps/details?id=com.komunitaspatrickkellan.klpk',
         '_blank'
       )
+    } else if (OS === 'Mac' || OS === 'iOS') {
+      window.open('https://apps.apple.com/fi/app/klpk/id6449801134', '_blank')
     }
   }
 }
