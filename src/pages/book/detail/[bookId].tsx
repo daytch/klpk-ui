@@ -43,9 +43,20 @@ export default function ProfileBookPage({ bookId }: { bookId: string }) {
 
   if (isLoading) return <Spinner />
 
+  const title = data?.title ? `${data.title} — KLPK` : 'KLPK APP'
+  const description = data?.synopsis ?? undefined
+  const image = data?.cover ?? undefined
+  const url = `https://komunitaspatrickkellan.com/book/detail/${bookId}`
+
   return (
     <Fragment>
-      <PageHead />
+      <PageHead
+        title={title}
+        description={description}
+        image={image}
+        url={url}
+        deepLinkPath={`book/detail/${bookId}`}
+      />
       <ProfileBookTemplate book={data as any} onRefetchData={refetch} />
     </Fragment>
   )
