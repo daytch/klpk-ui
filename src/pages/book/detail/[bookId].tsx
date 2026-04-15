@@ -7,7 +7,7 @@ import ProfileBookTemplate from '@/components/templates/book/ProfileBookTemplate
 import Spinner from '@/components/molecules/Spinner'
 import { getPublicBookById } from '@/services/my-book/api'
 import PageHead from '@/components/templates/seo/PageHead'
-import { serverApiService } from '@/utils/serverHttpRequest'
+import { serverApiService, toMetaDescription } from '@/utils/serverHttpRequest'
 import { DetailBookDataModel } from '@/interfaces/book'
 
 type WriterProfilePageProps = {
@@ -31,18 +31,16 @@ export const getServerSideProps: GetServerSideProps<
     const res = await serverApiService.get<DetailBookDataModel>(`/public-books/${bookId}`)
     const book = res.data
     seoTitle = book?.title ? `${book.title} — KLPK` : 'KLPK APP'
-    seoDescription = book?.synopsis ?? ''
+    seoDescription = toMetaDescription(book?.synopsis ?? '')
     seoImage = book?.cover ?? ''
   } catch (error) {
     notFound = true
   }
 
-  // Fetch untuk hydration client-side (boleh gagal, tidak affect SEO)
-  try {
-    await queryClient.fetchQuery(['get-detail-public-book', bookId], () =>
-      getPublicBookById(bookId as string)
-    )
-  } catch (_) {}
+  // Fetch untuk hydration client-side, ignore error karena SEO sudah handled
+  await queryClient.fetchQuery(['get-detail-public-book', bookId], () =>
+    getPublicBookById(bookId as string)
+  ).catch(() => null)
 
   if (notFound) {
     return { notFound: true }

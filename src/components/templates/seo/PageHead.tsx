@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React from 'react'
 
-const APP_PACKAGE = 'com.klpk'
+const APP_PACKAGE = 'com.komunitaspatrickkellan.klpk'
 const APP_NAME = 'KLPK'
 const BASE_URL = 'https://komunitaspatrickkellan.com'
 const DEFAULT_OG_IMAGE = 'https://komunitaspatrickkellan.com/assets/images/logo.png'

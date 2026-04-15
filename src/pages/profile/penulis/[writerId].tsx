@@ -6,7 +6,7 @@ import { getWriterProfile } from '@/services/profile/api'
 import { useGetWriterProfile } from '@/services/profile/query'
 import { queryClient } from '@/utils/react-query'
 import PageHead from '@/components/templates/seo/PageHead'
-import { serverApiService } from '@/utils/serverHttpRequest'
+import { serverApiService, toMetaDescription } from '@/utils/serverHttpRequest'
 import { ProfileUserDataModel } from '@/interfaces/profile'
 
 type WriterProfilePageProps = {
@@ -30,18 +30,16 @@ export const getServerSideProps: GetServerSideProps<
     const res = await serverApiService.get<ProfileUserDataModel>(`/profiles/${writerId}`)
     const profile = res.data
     seoTitle = profile?.fullName ? `${profile.fullName} — KLPK` : 'KLPK APP'
-    seoDescription = profile?.bio ?? ''
+    seoDescription = toMetaDescription(profile?.bio ?? '')
     seoImage = profile?.photos?.[0]?.url ?? ''
   } catch (error) {
     notFound = true
   }
 
-  // Fetch untuk hydration client-side (boleh gagal, tidak affect SEO)
-  try {
-    await queryClient.fetchQuery(['get-writer-profile', writerId], () =>
-      getWriterProfile(writerId as string)
-    )
-  } catch (_) {}
+  // Fetch untuk hydration client-side, ignore error karena SEO sudah handled
+  await queryClient.fetchQuery(['get-writer-profile', writerId], () =>
+    getWriterProfile(writerId as string)
+  ).catch(() => null)
 
   if (notFound) {
     return { notFound: true }
