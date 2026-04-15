@@ -30,15 +30,19 @@ export const getServerSideProps: GetServerSideProps<
   try {
     const res = await serverApiService.get<DetailBookDataModel>(`/public-books/${bookId}`)
     const book = res.data
-    await queryClient.fetchQuery(['get-detail-public-book', bookId], () =>
-      getPublicBookById(bookId as string)
-    )
     seoTitle = book?.title ? `${book.title} — KLPK` : 'KLPK APP'
     seoDescription = book?.synopsis ?? ''
     seoImage = book?.cover ?? ''
   } catch (error) {
     notFound = true
   }
+
+  // Fetch untuk hydration client-side (boleh gagal, tidak affect SEO)
+  try {
+    await queryClient.fetchQuery(['get-detail-public-book', bookId], () =>
+      getPublicBookById(bookId as string)
+    )
+  } catch (_) {}
 
   if (notFound) {
     return { notFound: true }
