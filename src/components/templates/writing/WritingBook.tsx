@@ -76,6 +76,7 @@ const WritingBookTemplate: React.FC<WritingBookTemplateProps> = ({
                     key={index}
                     chapter={chapter}
                     orderNumber={index + 1}
+                    idx={index}
                   />
                 ))}
             </div>

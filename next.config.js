@@ -8,6 +8,7 @@ const nextConfig = {
       'klpk-api.lut.web.id',
       'api.komunitaspatrickkellan.com',
       'api-dev.komunitaspatrickkellan.com',
+      'localhost',
     ],
     minimumCacheTTL: 60,
   },

@@ -67,9 +67,9 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
     }
   )
 
-  const currentChapter = book?.chapters?.find(
+  const isPurchaseable = book?.chapters?.find(
     (chapter) => chapter?.id === chapterId
-  )
+  )?.purchasable
 
   if (isNotFound) return <NotFoundPage />
 
@@ -79,8 +79,7 @@ export default function ReadBookPage({ chapterId, bookId }: ReadBookPageProps) {
       <ReadBookTemplate
         isLoading={isLoadingBook || isLoadingChapter}
         isForbidden={isForbidden}
-        isPurchaseable={currentChapter?.purchasable}
-        isAccessible={currentChapter?.accessible}
+        isPurchaseable={isPurchaseable}
         book={book as any}
         onSuccessPurchase={refetchChapter}
         chapter={chapter}

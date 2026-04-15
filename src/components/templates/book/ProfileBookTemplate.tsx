@@ -1,3 +1,5 @@
+'use client'
+
 import React, { Fragment, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -13,13 +15,22 @@ import Button from '@/components/atoms/Button'
 import ChapterCard from '@/components/organisms/cards/ChapterCard'
 import { PublicBookDataModel } from '@/interfaces/book'
 import Header from '@/components/organisms/Header'
-import { authGuardAction, formatDate, sanitizeHTML } from '@/utils/common'
+import { authGuardAction, formatDate, limitChapterSix, sanitizeHTML } from '@/utils/common'
 import IconNoImage from '@/assets/icons/no-image.webp'
 import IconCoin from '@/components/icons/IconCoin'
+import { useChapter } from '@/store/useChapter'
+import { Chapter } from '@/interfaces/chapter'
 
 type ProfileBookTemplateProps = {
   book?: PublicBookDataModel
   onRefetchData: () => void
+}
+
+declare global {
+  interface Window {
+    MSStream: any
+    opera: any
+  }
 }
 
 export default function ProfileBookTemplate({
@@ -34,7 +45,7 @@ export default function ProfileBookTemplate({
   const unSubscribeBook = useUnSubscribeBook()
   const toast = useToast()
   const noAvailableCoverImage = !book?.cover?.length
-
+  const { addChapter, chapters } = useChapter()
   const createCleanHTML = async (content: string) => {
     const cleanHtml = await sanitizeHTML(content)
     setCleanSynopsis(cleanHtml)
@@ -42,6 +53,15 @@ export default function ProfileBookTemplate({
 
   useEffect(() => {
     createCleanHTML(book?.synopsis ?? '')
+    const listChapters: Chapter[] = []
+    book?.chapters.map((chapter, idx) => {
+      listChapters.push({
+        bookId: query.bookId as string,
+        chapterId: chapter.id,
+        orderNumber: idx + 1,
+      } as Chapter)
+    })
+    addChapter(listChapters)
   }, [book?.synopsis])
 
   useEffect(() => {
@@ -68,6 +88,7 @@ export default function ProfileBookTemplate({
     type: 'synopsis' | 'chapter',
     chapterId?: string
   ) => {
+    
     if (type === 'synopsis') {
       push({
         pathname: '/book/detail/[bookId]',
@@ -77,7 +98,10 @@ export default function ProfileBookTemplate({
       })
       return
     }
-    authGuardAction(token, () => {
+    const orderNum = chapters.find(
+      (c) => c.chapterId === chapterId
+    )?.orderNumber
+    if (orderNum && orderNum < 7) {
       push({
         pathname: '/book/read/[bookId]/[chapterId]',
         query: {
@@ -85,7 +109,9 @@ export default function ProfileBookTemplate({
           chapterId: chapterId ?? '',
         },
       })
-    })
+    }else{
+      limitChapterSix()
+    }
   }
 
   const handleSubscribeBook = () => {
@@ -275,16 +301,20 @@ export default function ProfileBookTemplate({
                   }}
                   onClick={handleSelectChapter}
                   viewMode="read"
+                  idx={-1}
                 />
-                {book.chapters.map((chapter, index) => (
-                  <ChapterCard
-                    onClick={handleSelectChapter}
-                    orderNumber={index + 1}
-                    key={chapter.id}
-                    chapter={chapter}
-                    viewMode="read"
-                  />
-                ))}
+                {book.chapters.map((chapter, index) => {
+                  return (
+                    <ChapterCard
+                      onClick={handleSelectChapter}
+                      orderNumber={index + 1}
+                      key={chapter.id}
+                      chapter={chapter}
+                      viewMode="read"
+                      idx={index}
+                    />
+                  )
+                })}
               </div>
             </div>
           </div>
