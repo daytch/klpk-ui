@@ -6,6 +6,8 @@ import { getWriterProfile } from '@/services/profile/api'
 import { useGetWriterProfile } from '@/services/profile/query'
 import { queryClient } from '@/utils/react-query'
 import PageHead from '@/components/templates/seo/PageHead'
+import { serverApiService } from '@/utils/serverHttpRequest'
+import { ProfileUserDataModel } from '@/interfaces/profile'
 
 type WriterProfilePageProps = {
   dehydratedState?: DehydratedState
@@ -25,7 +27,9 @@ export const getServerSideProps: GetServerSideProps<
   let seoImage = ''
 
   try {
-    const profile = await queryClient.fetchQuery(['get-writer-profile', writerId], () =>
+    const res = await serverApiService.get<ProfileUserDataModel>(`/profiles/${writerId}`)
+    const profile = res.data
+    await queryClient.fetchQuery(['get-writer-profile', writerId], () =>
       getWriterProfile(writerId as string)
     )
     seoTitle = profile?.fullName ? `${profile.fullName} — KLPK` : 'KLPK APP'
