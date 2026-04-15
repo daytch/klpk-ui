@@ -1,7 +1,7 @@
-import { ProfileParams } from '@/interfaces/profile'
+import { AuthorParams, ProfileParams } from '@/interfaces/profile'
 import { useAuth } from '@/store/useAuth'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { getFollowers, getFollowings, getMe, getWriterProfile } from './api'
+import { getAuthors, getFollowers, getFollowings, getMe, getWriterProfile } from './api'
 
 export function useGetMe() {
   const { token } = useAuth()
@@ -67,4 +67,30 @@ export function useGetWriterProfile(userId: string) {
     queryKey: ['get-writer-profile', userId],
     queryFn: () => getWriterProfile(userId),
   })
+}
+
+export function useGetInfiniteAuthors({
+  params,
+  enabled = true,
+  pageParam = 1,
+}: {
+  params: Omit<AuthorParams, 'page'>
+  enabled?: boolean
+  pageParam?: number
+}) {
+  return useInfiniteQuery(
+    ['infinite-search-author', pageParam, params],
+    ({ pageParam }) => {
+      const newParam = { ...params, page: pageParam }
+      return getAuthors(newParam)
+    },
+    {
+      enabled,
+      keepPreviousData: true,
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.length ? allPages.length + 1 : undefined
+      },
+      refetchOnWindowFocus: false,
+    }
+  )
 }

@@ -6,7 +6,7 @@ import { BookChapterDataModel } from '@/interfaces/book'
 import IconChevron from '@/components/icons/IconChevron'
 import Link from '@/components/atoms/Link'
 import { joinClass } from '@/utils/common'
-import IconNoImage from '@/assets/icons/no-image.svg'
+import IconNoImage from '@/assets/icons/no-image.webp'
 
 type ChapterDropdownProps = {
   chapters: BookChapterDataModel[]

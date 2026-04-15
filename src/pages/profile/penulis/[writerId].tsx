@@ -42,9 +42,20 @@ export default function WriterProfilePage({
 }: WriterProfilePageProps) {
   const { data, refetch } = useGetWriterProfile(writerId as string)
 
+  const title = data?.fullName ? `${data.fullName} — KLPK` : 'KLPK APP'
+  const description = data?.bio ?? undefined
+  const image = data?.photos?.[0]?.url ?? undefined
+  const url = `https://komunitaspatrickkellan.com/profile/penulis/${writerId}`
+
   return (
     <Fragment>
-      <PageHead />
+      <PageHead
+        title={title}
+        description={description}
+        image={image}
+        url={url}
+        deepLinkPath={`profile/penulis/${writerId}`}
+      />
       <WriterProfileTemplate profile={data ?? null} onRefetchData={refetch} />
     </Fragment>
   )

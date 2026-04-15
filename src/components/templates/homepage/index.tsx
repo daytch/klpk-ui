@@ -10,6 +10,8 @@ import { BannerDataModel } from '@/interfaces/banner'
 
 interface IHomepageTemplate {
   categories?: BookCategoryDataModel[]
+  recommendedStory?: PublicBookDataModel[]
+  shortStory?: PublicBookDataModel[]
   todayBestSellers?: PublicBookDataModel[]
   monthlyBestSellers?: PublicBookDataModel[]
   completedStories?: PublicBookDataModel[]
@@ -19,6 +21,8 @@ interface IHomepageTemplate {
 
 const HomepageTemplate: React.FC<IHomepageTemplate> = ({
   categories = [],
+  recommendedStory=[],
+  shortStory = [],
   todayBestSellers = [],
   monthlyBestSellers = [],
   completedStories = [],
@@ -46,6 +50,30 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
       <section className="">
         <div className="container border-b border-gold-300 pt-11 pb-14">
           <BookSlider
+            moreLink="/story/recommended-story"
+            title="Recommended story"
+            subTitle=""
+           // isBestSeller
+            books={recommendedStory}
+          />
+        </div>
+      </section>
+
+      <section className="">
+        <div className="container border-b border-gold-300 pt-11 pb-14">
+          <BookSlider
+            moreLink="/story/short-story"
+            title="Short story"
+            subTitle=""
+            // isBestSeller
+            books={shortStory}
+          />
+        </div>
+      </section>
+
+      <section className="">
+        <div className="container border-b border-gold-300 pt-11 pb-14">
+          <BookSlider
             moreLink="/story/daily-best-seller"
             title="Today Best Sellers"
             subTitle="Based on Favorite Choose"
@@ -66,12 +94,6 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
         </div>
       </section>
 
-      <section>
-        <div className="container border-b border-gold-300 pt-11 pb-14">
-          <TestimonySlider topWriters={topWriters} />
-        </div>
-      </section>
-
       <section className="">
         <div className="container !px-4 pt-11 pb-14">
           <BookSlider
@@ -83,6 +105,13 @@ const HomepageTemplate: React.FC<IHomepageTemplate> = ({
           />
         </div>
       </section>
+      
+      <section>
+        <div className="container border-b border-gold-300 pt-11 pb-14">
+          <TestimonySlider topWriters={topWriters} />
+        </div>
+      </section>
+
     </GeneralLayout>
   )
 }

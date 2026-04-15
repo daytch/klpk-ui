@@ -1,18 +1,16 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { useGetInfiniteBooks } from '@/services/book/query'
-import SearchBookTemplate from '@/components/templates/book/SearchBookTemplate'
+import SearchBookTemplate from '@/components/templates/search/SearchTemplate'
 import PageHead from '@/components/templates/seo/PageHead'
+import { useGetInfiniteAuthors } from '@/services/profile/query'
 
-export default function StorySearchBookPage() {
+export default function AuthorsPage() {
   const router = useRouter()
-  const { search, category, completed } = router.query
+  const { keyword } = router.query
   const { data, isLoading, isError, hasNextPage, fetchNextPage } =
-    useGetInfiniteBooks({
+    useGetInfiniteAuthors({
       params: {
-        search: String(search || ''),
-        category: String(category || ''),
-        completed: completed === 'true' ? true : undefined,
+        search: String(keyword || ''),
       },
     })
 
@@ -20,7 +18,8 @@ export default function StorySearchBookPage() {
     <>
       <PageHead />
       <SearchBookTemplate
-        pagesBook={data}
+        activeTab='authors'
+        data={data}
         isLoading={isLoading}
         isError={isError}
         hasNextPage={hasNextPage}

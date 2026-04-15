@@ -8,6 +8,8 @@ import {
   useGetBestSellerBooks,
   useGetBooks,
   useGetTopWriters,
+  useGetRecommendedBooks,
+  useGetShortStoryBooks,
 } from '@/services/book/query'
 import { getBanners } from '@/services/banner/api'
 import { useGetBanners } from '@/services/banner/query'
@@ -30,6 +32,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 }
 
 const Homepage = () => {
+  const { data: recommendedBooks } = useGetRecommendedBooks()
+  const { data: shortStoryBooks } = useGetShortStoryBooks()
   const { data: categories } = useGetCategories()
   const { data: dailyBestSeller } = useGetBestSellerBooks('daily', true, 10)
   const { data: monthlyBestSeller } = useGetBestSellerBooks('monthly', true, 10)
@@ -45,6 +49,8 @@ const Homepage = () => {
       <PageHead />
       <HomepageTemplate
         categories={categories ?? []}
+        recommendedStory={recommendedBooks ?? []}
+        shortStory={shortStoryBooks ?? []}
         todayBestSellers={dailyBestSeller ?? []}
         monthlyBestSellers={monthlyBestSeller ?? []}
         completedStories={completedBooks ?? []}

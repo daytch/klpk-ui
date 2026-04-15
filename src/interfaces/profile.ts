@@ -58,3 +58,16 @@ export type UpdateProfilePayload = {
   phone: string
   bio?: string
 }
+
+export type AuthorParams = {
+  search?: string
+} & APIBaseParams
+
+export type AuthorModelData = {
+  id: string;
+  fullName: string;
+  email: string;
+  username: string;
+  bio?: any;
+  photos: { type: string; url: string }[];
+}

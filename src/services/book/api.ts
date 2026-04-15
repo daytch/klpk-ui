@@ -46,6 +46,28 @@ export async function getTopWriters() {
   }
 }
 
+export async function getRecommendedBooks() {
+  try {
+    const response = await apiService.get<PublicBookDataModel[]>(
+      '/public-books?recommended=true'
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+export async function getShortStoryBooks() {
+  try {
+    const response = await apiService.get<PublicBookDataModel[]>(
+      '/public-books?shortStory=true'
+    )
+    return response.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 export async function getDetailPublicBookById(bookId: string) {
   try {
     const response = await apiService.get<PublicBookDataModel>(
