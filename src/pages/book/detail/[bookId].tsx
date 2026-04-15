@@ -7,6 +7,8 @@ import ProfileBookTemplate from '@/components/templates/book/ProfileBookTemplate
 import Spinner from '@/components/molecules/Spinner'
 import { getPublicBookById } from '@/services/my-book/api'
 import PageHead from '@/components/templates/seo/PageHead'
+import { serverApiService } from '@/utils/serverHttpRequest'
+import { DetailBookDataModel } from '@/interfaces/book'
 
 type WriterProfilePageProps = {
   dehydratedState?: DehydratedState
@@ -26,7 +28,9 @@ export const getServerSideProps: GetServerSideProps<
   let seoImage = ''
 
   try {
-    const book = await queryClient.fetchQuery(['get-detail-public-book', bookId], () =>
+    const res = await serverApiService.get<DetailBookDataModel>(`/public-books/${bookId}`)
+    const book = res.data
+    await queryClient.fetchQuery(['get-detail-public-book', bookId], () =>
       getPublicBookById(bookId as string)
     )
     seoTitle = book?.title ? `${book.title} — KLPK` : 'KLPK APP'

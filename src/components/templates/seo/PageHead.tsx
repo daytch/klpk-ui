@@ -4,6 +4,7 @@ import React from 'react'
 const APP_PACKAGE = 'com.klpk'
 const APP_NAME = 'KLPK'
 const BASE_URL = 'https://komunitaspatrickkellan.com'
+const DEFAULT_OG_IMAGE = 'https://komunitaspatrickkellan.com/assets/images/logo.png'
 
 type PageHeadProps = {
   title?: string
@@ -22,6 +23,7 @@ const PageHead = ({
   url = `${BASE_URL}/`,
   deepLinkPath,
 }: PageHeadProps) => {
+  const ogImage = image || DEFAULT_OG_IMAGE
   const androidUrl = deepLinkPath ? `klpkmobile://app/${deepLinkPath}` : undefined
   const iosUrl = deepLinkPath ? `klpkmobile://app/${deepLinkPath}` : undefined
 
@@ -41,14 +43,14 @@ const PageHead = ({
       <meta property="og:description" content={description} />
       <meta property="og:type" content="article" />
       <meta property="og:url" content={url} />
-      {image && <meta property="og:image" content={image} />}
-      {image && <meta property="og:image:width" content="640" />}
-      {image && <meta property="og:image:height" content="442" />}
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content="640" />
+      <meta property="og:image:height" content="442" />
 
       {/* Twitter */}
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={description} />
-      {image && <meta property="twitter:image" content={image} />}
+      <meta property="twitter:image" content={ogImage} />
 
       {/* Facebook App Links — tells FB IAB to open native app instead of WebView */}
       {androidUrl && (
