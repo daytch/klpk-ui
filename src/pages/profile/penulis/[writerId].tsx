@@ -29,15 +29,19 @@ export const getServerSideProps: GetServerSideProps<
   try {
     const res = await serverApiService.get<ProfileUserDataModel>(`/profiles/${writerId}`)
     const profile = res.data
-    await queryClient.fetchQuery(['get-writer-profile', writerId], () =>
-      getWriterProfile(writerId as string)
-    )
     seoTitle = profile?.fullName ? `${profile.fullName} — KLPK` : 'KLPK APP'
     seoDescription = profile?.bio ?? ''
     seoImage = profile?.photos?.[0]?.url ?? ''
   } catch (error) {
     notFound = true
   }
+
+  // Fetch untuk hydration client-side (boleh gagal, tidak affect SEO)
+  try {
+    await queryClient.fetchQuery(['get-writer-profile', writerId], () =>
+      getWriterProfile(writerId as string)
+    )
+  } catch (_) {}
 
   if (notFound) {
     return { notFound: true }
