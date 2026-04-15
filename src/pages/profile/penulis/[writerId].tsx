@@ -10,6 +10,9 @@ import PageHead from '@/components/templates/seo/PageHead'
 type WriterProfilePageProps = {
   dehydratedState?: DehydratedState
   writerId?: string
+  seoTitle?: string
+  seoDescription?: string
+  seoImage?: string
 }
 
 export const getServerSideProps: GetServerSideProps<
@@ -17,42 +20,46 @@ export const getServerSideProps: GetServerSideProps<
 > = async (ctx) => {
   let notFound = false
   const writerId = ctx.query.writerId?.toString()
+  let seoTitle = 'KLPK APP'
+  let seoDescription = ''
+  let seoImage = ''
 
   try {
-    await queryClient.fetchQuery(['get-writer-profile', writerId], () =>
+    const profile = await queryClient.fetchQuery(['get-writer-profile', writerId], () =>
       getWriterProfile(writerId as string)
     )
+    seoTitle = profile?.fullName ? `${profile.fullName} — KLPK` : 'KLPK APP'
+    seoDescription = profile?.bio ?? ''
+    seoImage = profile?.photos?.[0]?.url ?? ''
   } catch (error) {
     notFound = true
   }
 
   if (notFound) {
-    return {
-      notFound: true,
-    }
+    return { notFound: true }
   }
 
   return {
-    props: { writerId, dehydratedState: dehydrate(queryClient) },
+    props: { writerId, dehydratedState: dehydrate(queryClient), seoTitle, seoDescription, seoImage },
   }
 }
 
 export default function WriterProfilePage({
   writerId,
+  seoTitle,
+  seoDescription,
+  seoImage,
 }: WriterProfilePageProps) {
   const { data, refetch } = useGetWriterProfile(writerId as string)
 
-  const title = data?.fullName ? `${data.fullName} — KLPK` : 'KLPK APP'
-  const description = data?.bio ?? undefined
-  const image = data?.photos?.[0]?.url ?? undefined
   const url = `https://komunitaspatrickkellan.com/profile/penulis/${writerId}`
 
   return (
     <Fragment>
       <PageHead
-        title={title}
-        description={description}
-        image={image}
+        title={seoTitle}
+        description={seoDescription}
+        image={seoImage}
         url={url}
         deepLinkPath={`profile/penulis/${writerId}`}
       />
