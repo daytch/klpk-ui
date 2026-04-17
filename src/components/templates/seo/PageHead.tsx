@@ -5,6 +5,7 @@ const APP_PACKAGE = 'com.komunitaspatrickkellan.klpk'
 const APP_NAME = 'KLPK'
 const BASE_URL = 'https://komunitaspatrickkellan.com'
 const DEFAULT_OG_IMAGE = 'https://komunitaspatrickkellan.com/assets/images/logo.png'
+const FB_APP_ID = '4071474173106193'
 
 type PageHeadProps = {
   title?: string
@@ -37,6 +38,7 @@ const PageHead = ({
       <meta name="description" content={description} />
       <meta name="keywords" content="Penulis, Pembaca, Cerita, Novel, Cerpen, Roman, Ebook, Buku, KLPK, Komunitas" />
       <meta name="author" content="KLPK" />
+      <meta property="fb:app_id" content={FB_APP_ID} />
 
       {/* Open Graph */}
       <meta property="og:title" content={title} />
