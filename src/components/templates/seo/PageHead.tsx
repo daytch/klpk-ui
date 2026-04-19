@@ -6,6 +6,8 @@ const APP_NAME = 'KLPK'
 const BASE_URL = 'https://komunitaspatrickkellan.com'
 const DEFAULT_OG_IMAGE = 'https://komunitaspatrickkellan.com/assets/images/logo.png'
 const FB_APP_ID = '4071474173106193'
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.komunitaspatrickkellan.klpk'
+const APP_STORE_URL = 'https://apps.apple.com/fi/app/klpk/id6449801134'
 
 type PageHeadProps = {
   title?: string
@@ -25,7 +27,10 @@ const PageHead = ({
   deepLinkPath,
 }: PageHeadProps) => {
   const ogImage = image || DEFAULT_OG_IMAGE
-  const androidUrl = deepLinkPath ? `klpkmobile://app/${deepLinkPath}` : undefined
+  // Intent URL: buka app kalau terinstall, fallback ke Play Store kalau tidak
+  const androidUrl = deepLinkPath
+    ? `intent://app/${deepLinkPath}#Intent;scheme=klpkmobile;package=${APP_PACKAGE};S.browser_fallback_url=${encodeURIComponent(PLAY_STORE_URL)};end`
+    : undefined
   const iosUrl = deepLinkPath ? `klpkmobile://app/${deepLinkPath}` : undefined
 
   return (
@@ -66,10 +71,43 @@ const PageHead = ({
         <>
           <meta property="al:ios:url" content={iosUrl} />
           <meta property="al:ios:app_name" content={APP_NAME} />
+          <meta property="al:ios:app_store_id" content="6449801134" />
         </>
       )}
       {(androidUrl || iosUrl) && (
         <meta property="al:web:url" content={url} />
+      )}
+
+      {/* Fallback: redirect to store if app not installed and opened in mobile browser */}
+      {deepLinkPath && (
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var ua = navigator.userAgent || '';
+                var isAndroid = /android/i.test(ua);
+                var isIOS = /iphone|ipad|ipod/i.test(ua);
+                var isFBBrowser = /FBAN|FBAV|FB_IAB/i.test(ua);
+                // Only redirect in mobile browser, not FB IAB (FB handles App Links itself)
+                if (!isFBBrowser) {
+                  if (isAndroid) {
+                    var appUrl = 'klpkmobile://app/${deepLinkPath}';
+                    var fallback = '${PLAY_STORE_URL}';
+                    var timeout = setTimeout(function() { window.location = fallback; }, 1500);
+                    window.location = appUrl;
+                    window.addEventListener('blur', function() { clearTimeout(timeout); });
+                  } else if (isIOS) {
+                    var appUrl = 'klpkmobile://app/${deepLinkPath}';
+                    var fallback = '${APP_STORE_URL}';
+                    var timeout = setTimeout(function() { window.location = fallback; }, 1500);
+                    window.location = appUrl;
+                    window.addEventListener('blur', function() { clearTimeout(timeout); });
+                  }
+                }
+              })();
+            `,
+          }}
+        />
       )}
     </Head>
   )
