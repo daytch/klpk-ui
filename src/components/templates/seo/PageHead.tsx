@@ -76,31 +76,27 @@ const PageHead = ({
         <meta property="al:web:url" content={`${BASE_URL}/download-app`} />
       )}
 
-      {/* Fallback: redirect to store if app not installed and opened in mobile browser */}
-      {deepLinkPath && (
+      {/* Script untuk handle deep link dari FB IAB */}
+      {(androidUrl || iosUrl) && (
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                var ua = navigator.userAgent || '';
-                var isAndroid = /android/i.test(ua);
-                var isIOS = /iphone|ipad|ipod/i.test(ua);
-                var isFBBrowser = /FBAN|FBAV|FB_IAB/i.test(ua);
-                // Only redirect in mobile browser, not FB IAB (FB handles App Links itself)
-                if (!isFBBrowser) {
-                  if (isAndroid) {
-                    var appUrl = 'klpkmobile://app/${deepLinkPath}';
-                    var fallback = '${PLAY_STORE_URL}';
-                    var timeout = setTimeout(function() { window.location = fallback; }, 1500);
-                    window.location = appUrl;
-                    window.addEventListener('blur', function() { clearTimeout(timeout); });
-                  } else if (isIOS) {
-                    var appUrl = 'klpkmobile://app/${deepLinkPath}';
-                    var fallback = '${APP_STORE_URL}';
-                    var timeout = setTimeout(function() { window.location = fallback; }, 1500);
-                    window.location = appUrl;
-                    window.addEventListener('blur', function() { clearTimeout(timeout); });
-                  }
+                const ua = navigator.userAgent || '';
+                const isFBIAB = /FBAN|FBAV/.test(ua);
+                const isAndroid = /android/i.test(ua);
+                const isIOS = /iphone|ipad|ipod/i.test(ua);
+                
+                if (isFBIAB) {
+                  // Delay untuk beri waktu FB IAB handle deep link dulu
+                  setTimeout(function() {
+                    // Kalau masih di halaman ini (deep link fail), redirect ke store
+                    if (isAndroid) {
+                      window.top.location.href = '${PLAY_STORE_URL}';
+                    } else if (isIOS) {
+                      window.top.location.href = '${APP_STORE_URL}';
+                    }
+                  }, 2500);
                 }
               })();
             `,

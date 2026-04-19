@@ -12,11 +12,22 @@ export default function DownloadAppPage() {
     const ua = navigator.userAgent || ''
     const isAndroid = /android/i.test(ua)
     const isIOS = /iphone|ipad|ipod/i.test(ua)
+    const isFBIAB = /FBAN|FBAV/.test(ua) // Detect Facebook IAB
 
     if (isAndroid) {
-      window.location.href = PLAY_STORE_URL
+      if (isFBIAB) {
+        // Force redirect dari FB IAB dengan window.top
+        window.top!.location.href = PLAY_STORE_URL
+      } else {
+        window.location.href = PLAY_STORE_URL
+      }
     } else if (isIOS) {
-      window.location.href = APP_STORE_URL
+      if (isFBIAB) {
+        // Force redirect dari FB IAB dengan window.top
+        window.top!.location.href = APP_STORE_URL
+      } else {
+        window.location.href = APP_STORE_URL
+      }
     }
   }, [])
 
