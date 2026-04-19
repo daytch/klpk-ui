@@ -1,22 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import PageHead from '@/components/templates/seo/PageHead'
 import IconGooglePlay from '@/assets/icons/google-play.png'
 import IconAppStore from '@/assets/icons/app-store.png'
 
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.komunitaspatrickkellan.klpk'
+const APP_STORE_URL = 'https://apps.apple.com/fi/app/klpk/id6449801134'
+
 export default function DownloadAppPage() {
+  useEffect(() => {
+    const ua = navigator.userAgent || ''
+    const isAndroid = /android/i.test(ua)
+    const isIOS = /iphone|ipad|ipod/i.test(ua)
+
+    if (isAndroid) {
+      window.location.href = PLAY_STORE_URL
+    } else if (isIOS) {
+      window.location.href = APP_STORE_URL
+    }
+  }, [])
+
   return (
     <>
-      <PageHead />
+      <PageHead
+        title="Download KLPK App"
+        description="Download aplikasi KLPK di Play Store atau App Store."
+      />
       <div className="max-w-md px-6 mx-auto min-h-screen flex items-center justify-center flex-col">
         <h2 className="font-semibold text-gold-200 font-gotham mb-[18px] text-base">
           Download App
         </h2>
-        <ul className="space-y-6 ">
+        <ul className="space-y-6">
           <li>
             <a
               rel="noreferrer"
-              href="https://play.google.com/store/apps/details?id=com.komunitaspatrickkellan.klpk"
+              href={PLAY_STORE_URL}
               target="_blank"
             >
               <Image
@@ -28,7 +46,7 @@ export default function DownloadAppPage() {
             </a>
           </li>
           <li>
-            <a href="#" target="_blank">
+            <a href={APP_STORE_URL} target="_blank" rel="noreferrer">
               <Image
                 src={IconAppStore}
                 width={120}

@@ -27,10 +27,8 @@ const PageHead = ({
   deepLinkPath,
 }: PageHeadProps) => {
   const ogImage = image || DEFAULT_OG_IMAGE
-  // Intent URL: buka app kalau terinstall, fallback ke Play Store kalau tidak
-  const androidUrl = deepLinkPath
-    ? `intent://app/${deepLinkPath}#Intent;scheme=klpkmobile;package=${APP_PACKAGE};S.browser_fallback_url=${encodeURIComponent(PLAY_STORE_URL)};end`
-    : undefined
+  // Custom scheme untuk FB App Links — FB handle fallback ke Play Store via al:android:package
+  const androidUrl = deepLinkPath ? `klpkmobile://app/${deepLinkPath}` : undefined
   const iosUrl = deepLinkPath ? `klpkmobile://app/${deepLinkPath}` : undefined
 
   return (
@@ -75,7 +73,7 @@ const PageHead = ({
         </>
       )}
       {(androidUrl || iosUrl) && (
-        <meta property="al:web:url" content={url} />
+        <meta property="al:web:url" content={`${BASE_URL}/download-app`} />
       )}
 
       {/* Fallback: redirect to store if app not installed and opened in mobile browser */}
