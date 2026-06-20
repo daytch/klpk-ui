@@ -66,15 +66,17 @@ export default function ProfileDropdown({
                 <span>Profil</span>
               </Link>
             </DropdownMenu.Item>
-            <DropdownMenu.Item>
-              <Link
-                to="/menulis?writingTab=live"
-                className="flex items-center border-b border-gold-100 w-[164px] py-2 px-4 text-white space-x-2 cursor-pointer outline-none"
-              >
-                <IconBrush color="#D6B16D" />
-                <span>Menulis</span>
-              </Link>
-            </DropdownMenu.Item>
+            {profile?.verified && (
+              <DropdownMenu.Item>
+                <Link
+                  to="/menulis?writingTab=live"
+                  className="flex items-center border-b border-gold-100 w-[164px] py-2 px-4 text-white space-x-2 cursor-pointer outline-none"
+                >
+                  <IconBrush color="#D6B16D" />
+                  <span>Menulis</span>
+                </Link>
+              </DropdownMenu.Item>
+            )}
             <DropdownMenu.Item>
               <Link
                 to="/bacaan-saya"

@@ -46,10 +46,11 @@ export async function getTopWriters() {
   }
 }
 
-export async function getRecommendedBooks() {
+export async function getRecommendedBooks(limit = 10) {
   try {
     const response = await apiService.get<PublicBookDataModel[]>(
-      '/public-books?recommended=true'
+      '/public-books',
+      { params: { recommended: true, limit } }
     )
     return response.data
   } catch (error) {
@@ -57,10 +58,11 @@ export async function getRecommendedBooks() {
   }
 }
 
-export async function getShortStoryBooks() {
+export async function getShortStoryBooks(limit = 10) {
   try {
     const response = await apiService.get<PublicBookDataModel[]>(
-      '/public-books?shortStory=true'
+      '/public-books',
+      { params: { shortStory: true, limit } }
     )
     return response.data
   } catch (error) {

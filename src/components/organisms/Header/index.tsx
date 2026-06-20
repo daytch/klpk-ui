@@ -148,11 +148,12 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
                 </Link>
               </div>
             )}
-            {isAuthenticated && isVerified && (
+            {isAuthenticated && (
               <div className="flex items-center justify-end space-x-4 lg:space-x-6 flex-1">
                 {mode === 'default' && (
                   <>
                     <WalletDropdown />
+                    {isVerified && (
                     <Link
                       className="inline-flex items-center text-gold-200 space-x-2"
                       to="/menulis?writingTab=live"
@@ -160,9 +161,10 @@ const Header: React.FC<IProps> = ({ mode = 'default' }) => {
                       <IconBrush />
                       <span>Menulis</span>
                     </Link>
+                    )}
                   </>
                 )}
-                {mode === 'write' && (
+                {isVerified && mode === 'write' && (
                   <Link
                     className="inline-flex items-center text-gold-200 space-x-2"
                     to="/menulis/buku"
