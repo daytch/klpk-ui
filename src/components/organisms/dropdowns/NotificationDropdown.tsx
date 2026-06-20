@@ -27,15 +27,15 @@ const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
       >
         <DropdownMenu.Trigger className="inline-flex outline-none relative">
           <Image
-            src="/assets/icons/icon-notification.svg"
-            width={24}
-            height={24}
-            alt=""
+            src={
+              unReadMessage > 0
+                ? '/assets/icons/notification-bell-unread.png'
+                : '/assets/icons/notification-bell.png'
+            }
+            width={28}
+            height={28}
+            alt="Notifikasi"
           />
-
-          {unReadMessage !== 0 && (
-            <span className="inline-block w-[6px] h-[6px] bg-[#FF3535] rounded-full absolute z-[2] top-[5px] right-1 ring-1 ring-white" />
-          )}
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content

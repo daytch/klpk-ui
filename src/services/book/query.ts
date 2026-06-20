@@ -40,7 +40,8 @@ export function useGetInfiniteBooks({
       enabled,
       keepPreviousData: true,
       getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length ? allPages.length + 1 : undefined
+        const limit = params.limit ?? 10
+        return lastPage.length < limit ? undefined : allPages.length + 1
       },
       refetchOnWindowFocus: false,
     }
@@ -98,18 +99,18 @@ export function useGetDetailChapterById(
 }
 
 
-export function useGetRecommendedBooks() {
+export function useGetRecommendedBooks(limit = 10) {
   return useQuery({
-    queryKey: ['get-recommended-books'],
-    queryFn: () => getRecommendedBooks(),
+    queryKey: ['get-recommended-books', limit],
+    queryFn: () => getRecommendedBooks(limit),
     refetchOnWindowFocus: false,
   })
 }
 
-export function useGetShortStoryBooks() {
+export function useGetShortStoryBooks(limit = 10) {
   return useQuery({
-    queryKey: ['get-short-story'],
-    queryFn: () => getShortStoryBooks(),
+    queryKey: ['get-short-story', limit],
+    queryFn: () => getShortStoryBooks(limit),
     refetchOnWindowFocus: false,
   })
 }
