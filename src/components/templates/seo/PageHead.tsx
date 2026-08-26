@@ -27,9 +27,43 @@ const PageHead = ({
   deepLinkPath,
 }: PageHeadProps) => {
   const ogImage = image || DEFAULT_OG_IMAGE
-  // Custom scheme untuk FB App Links — FB handle fallback ke Play Store via al:android:package
+
+  // Facebook App Links (al:* meta) dipakai oleh FB crawler untuk render
+  // smart banner / app preview. Di dalam FB IAB sendiri, FB membaca meta
+  // ini untuk menawarkan "Open in app". TIDAK melakukan redirect paksa.
   const androidUrl = deepLinkPath ? `klpkmobile://app/${deepLinkPath}` : undefined
   const iosUrl = deepLinkPath ? `klpkmobile://app/${deepLinkPath}` : undefined
+
+  // Untuk trigger intent:// di dalam FB IAB, kita suntik script ringan
+  // yang minta user "tap untuk buka di app". Tidak auto-redirect.
+  // Sebelumnya file ini punya script `setTimeout 2.5 detik -> Play Store`
+  // yang menyebabkan bug: app native tidak sempat terbuka, user dilempar
+  // ke Play Store walau app sudah terinstal.
+  const openAppScript = deepLinkPath
+    ? `
+      (function() {
+        // expose tombol "Buka di Aplikasi" supaya user bisa tap manual
+        // kalau FB IAB tidak otomatis membuka app.
+        var path = ${JSON.stringify(deepLinkPath)};
+        window.__openKlpkApp = function() {
+          var intentUrl =
+            'intent://komunitaspatrickkellan.com/' + path +
+            '#Intent;scheme=https;package=${APP_PACKAGE};' +
+            'S.browser_fallback_url=' + encodeURIComponent('${PLAY_STORE_URL}') + ';end';
+          var iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.src = intentUrl;
+          document.body.appendChild(iframe);
+          setTimeout(function() {
+            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+          }, 1500);
+          setTimeout(function() {
+            if (!document.hidden) window.location.href = '${PLAY_STORE_URL}';
+          }, 2500);
+        };
+      })();
+    `
+    : ''
 
   return (
     <Head>
@@ -57,7 +91,7 @@ const PageHead = ({
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={ogImage} />
 
-      {/* Facebook App Links — tells FB IAB to open native app instead of WebView */}
+      {/* Facebook App Links */}
       {androidUrl && (
         <>
           <meta property="al:android:url" content={androidUrl} />
@@ -76,31 +110,11 @@ const PageHead = ({
         <meta property="al:web:url" content={`${BASE_URL}/download-app`} />
       )}
 
-      {/* Script untuk handle deep link dari FB IAB */}
-      {(androidUrl || iosUrl) && (
+      {/* Script: expose window.__openKlpkApp() untuk dipanggil dari tombol.
+          TIDAK auto-redirect (perbaikan bug: dulu auto-redirect ke Play Store). */}
+      {deepLinkPath && (
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const ua = navigator.userAgent || '';
-                const isFBIAB = /FBAN|FBAV/.test(ua);
-                const isAndroid = /android/i.test(ua);
-                const isIOS = /iphone|ipad|ipod/i.test(ua);
-                
-                if (isFBIAB) {
-                  // Delay untuk beri waktu FB IAB handle deep link dulu
-                  setTimeout(function() {
-                    // Kalau masih di halaman ini (deep link fail), redirect ke store
-                    if (isAndroid) {
-                      window.top.location.href = '${PLAY_STORE_URL}';
-                    } else if (isIOS) {
-                      window.top.location.href = '${APP_STORE_URL}';
-                    }
-                  }, 2500);
-                }
-              })();
-            `,
-          }}
+          dangerouslySetInnerHTML={{ __html: openAppScript }}
         />
       )}
     </Head>
