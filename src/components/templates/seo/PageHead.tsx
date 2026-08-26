@@ -7,7 +7,7 @@ const BASE_URL = 'https://komunitaspatrickkellan.com'
 const DEFAULT_OG_IMAGE = 'https://komunitaspatrickkellan.com/assets/images/logo.png'
 const FB_APP_ID = '4071474173106193'
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.komunitaspatrickkellan.klpk'
-const APP_STORE_URL = 'https://apps.apple.com/fi/app/klpk/id6449801134'
+// const APP_STORE_URL = 'https://apps.apple.com/fi/app/klpk/id6449801134'
 
 type PageHeadProps = {
   title?: string

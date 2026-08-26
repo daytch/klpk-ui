@@ -1,26 +1,25 @@
 import React, { useState } from 'react'
-import { Control, Controller } from 'react-hook-form'
+import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 import Image from 'next/image'
-import { AssertsShape } from 'yup/lib/object'
 import { joinClass } from '@/utils/common'
 
-interface UploadCoverProps {
-  control: Control<AssertsShape<any>, any>
+interface UploadCoverProps<T extends FieldValues> {
+  control: Control<T>
   disable: boolean
-  name: string
+  name: Path<T>
   cover?: string
   className?: string
   errorMessage?: string
 }
 
-const UploadCover: React.FC<UploadCoverProps> = ({
+const UploadCover = <T extends FieldValues>({
   control,
   name,
   cover,
   className,
   disable,
   errorMessage = '',
-}) => {
+}: UploadCoverProps<T>) => {
   const [preview, setPreview] = useState<string>('')
   const hasError = errorMessage?.length > 0
 
