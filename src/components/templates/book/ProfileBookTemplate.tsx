@@ -20,6 +20,7 @@ import IconNoImage from '@/assets/icons/no-image.webp'
 import IconCoin from '@/components/icons/IconCoin'
 import { useChapter } from '@/store/useChapter'
 import { Chapter } from '@/interfaces/chapter'
+import { openInAppManually, autoOpenInAppIfEmbedded } from '@/utils/openInApp'
 
 type ProfileBookTemplateProps = {
   book?: PublicBookDataModel
@@ -38,6 +39,7 @@ export default function ProfileBookTemplate({
   onRefetchData,
 }: ProfileBookTemplateProps) {
   const [cleanSynopsis, setCleanSynopsis] = useState('')
+  const [showOpenAppBanner, setShowOpenAppBanner] = useState(false)
   const { query, push } = useRouter()
   const { token } = useAuth()
   useDisableCopy()
@@ -68,8 +70,37 @@ export default function ProfileBookTemplate({
     if (typeof window === undefined) return
     document.body.classList.add('bg-none')
 
+    // ============================================================
+    // Auto-redirect interstitial (Opsi B)
+    // ============================================================
+    // Saat user tap link dari FB/IG in-app browser ke halaman detail
+    // buku, kita coba buka app native dalam 800ms via intent:// (iframe
+    // trick). Kalau app sudah terinstal, user langsung masuk ke app
+    // dengan bookId benar. Kalau app belum terinstal, helper openInApp
+    // akan redirect ke Play Store setelah 2.5 detik.
+    //
+    // Di Chrome/Safari biasa, helper ini tidak auto-redirect (no-op),
+    // dan App Links autoVerify sudah handle deep link ke app native.
+    //
+    // Banner kuning "Buka di App" tetap ditampilkan sebagai fallback
+    // kalau auto-redirect gagal (mis. FB versi baru block iframe intent).
+    const ua = navigator.userAgent || ''
+    const inAppBrowser = /FBAN|FBAV|Instagram|Line\/|Twitter|Telegram/i.test(ua)
+    if (inAppBrowser) {
+      setShowOpenAppBanner(true)
+      // Delay singkat supaya halaman sempat render (FB IAB tidak
+      // freeze UI saat intent diload terlalu cepat).
+      setTimeout(() => {
+        autoOpenInAppIfEmbedded(`/book/detail/${query.bookId}`)
+      }, 800)
+    }
+
     return () => document.body.classList.remove('bg-none')
-  }, [])
+  }, [query.bookId])
+
+  const handleOpenInApp = () => {
+    openInAppManually(`/book/detail/${query.bookId}`)
+  }
 
   const handleStartReading = () => {
     if (!book?.chapters.length) return
@@ -88,7 +119,7 @@ export default function ProfileBookTemplate({
     type: 'synopsis' | 'chapter',
     chapterId?: string
   ) => {
-    
+
     if (type === 'synopsis') {
       push({
         pathname: '/book/detail/[bookId]',
@@ -145,6 +176,24 @@ export default function ProfileBookTemplate({
   return (
     <Fragment>
       <Header />
+
+      {showOpenAppBanner && (
+        <div
+          role="alert"
+          className="w-full bg-gold-300 text-dark-100 px-4 py-3 flex items-center justify-between font-gotham"
+        >
+          <span className="text-sm">
+            Buka di Aplikasi KLPK untuk pengalaman membaca yang lebih baik.
+          </span>
+          <button
+            onClick={handleOpenInApp}
+            className="ml-4 bg-dark-100 text-gold-300 px-3 py-1 rounded-md text-sm font-semibold"
+          >
+            Buka di App
+          </button>
+        </div>
+      )}
+
       {/* hero */}
       <section className="pb-10 pt-8 relative">
         <Image

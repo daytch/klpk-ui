@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import PageHead from '@/components/templates/seo/PageHead'
 import IconGooglePlay from '@/assets/icons/google-play.png'
@@ -7,30 +7,12 @@ import IconAppStore from '@/assets/icons/app-store.png'
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.komunitaspatrickkellan.klpk'
 const APP_STORE_URL = 'https://apps.apple.com/fi/app/klpk/id6449801134'
 
+// Sebelumnya file ini auto-redirect ke Play Store / App Store via window.top
+// location.href. Itu bug: user yang sudah punya aplikasi KLPK terinstal
+// dilempar ke store, dan kalau link dibuka dari FB IAB, app native tidak
+// pernah dapat URL halaman detail. Sekarang halaman statis saja; user yang
+// ingin download manual klik tombol di bawah.
 export default function DownloadAppPage() {
-  useEffect(() => {
-    const ua = navigator.userAgent || ''
-    const isAndroid = /android/i.test(ua)
-    const isIOS = /iphone|ipad|ipod/i.test(ua)
-    const isFBIAB = /FBAN|FBAV/.test(ua) // Detect Facebook IAB
-
-    if (isAndroid) {
-      if (isFBIAB) {
-        // Force redirect dari FB IAB dengan window.top
-        window.top!.location.href = PLAY_STORE_URL
-      } else {
-        window.location.href = PLAY_STORE_URL
-      }
-    } else if (isIOS) {
-      if (isFBIAB) {
-        // Force redirect dari FB IAB dengan window.top
-        window.top!.location.href = APP_STORE_URL
-      } else {
-        window.location.href = APP_STORE_URL
-      }
-    }
-  }, [])
-
   return (
     <>
       <PageHead

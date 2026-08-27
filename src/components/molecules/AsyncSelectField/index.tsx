@@ -32,7 +32,7 @@ const AsyncSelectField: React.FC<AsyncSelectFieldProps> = ({
           <ReactAsyncSelect
             defaultValue={field.value}
             value={field.value}
-            onChange={(value) => field.onChange(value)}
+            onChange={(value: unknown) => field.onChange(value)}
             styles={selectDefaultStyles}
             menuPortalTarget={
               typeof window === 'object' ? document?.body : null
