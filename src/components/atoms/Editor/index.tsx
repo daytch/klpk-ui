@@ -2,6 +2,7 @@ import React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import type { Editor } from '@ckeditor/ckeditor5-core'
 
 export type EditorProps = {
   name: 'content'
@@ -24,7 +25,7 @@ const Editor: React.FC<EditorProps> = ({ name, disabled }) => {
         toolbar: ['undo', 'redo', '|', 'bold', 'italic'],
       }}
       disabled={disabled}
-      editor={ClassicEditor}
+      editor={ClassicEditor as unknown as { create(...args: unknown[]): Promise<Editor> }}
       data={field.value}
       ref={field.ref}
       onChange={(_event, editor) => {
